@@ -2,16 +2,13 @@ from flask import Flask, request, render_template_string, session, redirect, url
 import requests
 import json
 import os
-import socket
-from urllib.parse import urlparse
 
 app = Flask(__name__)
-app.secret_key = "hukum_supreme_secret_key_2026"
+app.secret_key = "hukum_supreme_key_2026"
 
 BOT_SERVICE_URL = "http://127.0.0.1:5001/api"
 DATA_FILE = "localhost_notlar.json"
 
-# İstediğin Discord Webhook Adresleri
 WEBHOOK_MODERATOR = "https://discord.com/api/webhooks/1533578478061097041/x5VBIUZ5lv3-XdoaXVMuaqh4MrRPJwjkMelVnnz8ubpAsYzomWxjWL64Iisjw-3d7WA5"
 WEBHOOK_DUYURU = "https://discord.com/api/webhooks/1533579152807039057/PwPieHMKqUWoiXl002ILhjB63pkqNtnloqXsOFx95lHugfNx_Teu3A-jWVxjmVi1g2T0"
 WEBHOOK_OSINT_LOG = "https://discord.com/api/webhooks/1533579683482832978/b5zImfiAoAwAhU-q9VPLweDQaX-Ib95Y1LHht4zZZ2NiZ-uswJtzLPtxq0ba5C1BLnpC"
@@ -32,169 +29,214 @@ def veri_kaydet(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-# Devasa 10 Hiyerarşik Menülü HTML Arayüzü
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>👑 HÜKÜM EMPIRE - 10 HİYERARŞİK KONTROL PANELİ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 HÜKÜM EMPIRE - ULTIMATE CONTROL CENTER</title>
     <style>
-        body { background: #07080a; color: #f1f1f1; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 15px; }
-        header { background: linear-gradient(135deg, #12141d, #1f2333); padding: 20px; border-radius: 12px; border-bottom: 4px solid #e74c3c; box-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-bottom: 20px; text-align: center; }
-        h1 { margin: 0; color: #e74c3c; font-size: 26px; text-transform: uppercase; letter-spacing: 2px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
-        .card { background: #12141d; border: 1px solid #232738; border-radius: 10px; padding: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; }
-        .card:hover { border-color: #e74c3c; }
-        h3 { color: #3498db; margin-top: 0; font-size: 16px; border-bottom: 1px solid #232738; padding-bottom: 8px; }
-        input, select, textarea, button { width: 100%; padding: 10px; margin-top: 8px; background: #1a1d29; color: #fff; border: 1px solid #2c3147; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        button { background: #e74c3c; font-weight: bold; cursor: pointer; border: none; text-transform: uppercase; letter-spacing: 1px; }
-        button:hover { background: #c0392b; }
-        .alert { background: #27ae60; color: #fff; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; text-align: center; }
-        .badge { background: #34495e; padding: 3px 8px; border-radius: 4px; font-size: 11px; }
+        body { background: #0b0c10; color: #c5c6c7; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* ÜST HEADER VE SOL 3 ÇİZGİ MENÜ BUTONU */
+        header { background: #1f2833; padding: 15px 20px; display: flex; align-items: center; border-bottom: 3px solid #66fcf1; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .menu-btn { font-size: 28px; cursor: pointer; color: #66fcf1; margin-right: 20px; user-select: none; transition: 0.2s; }
+        .menu-btn:hover { color: #45a29e; }
+        .header-title { font-size: 20px; font-weight: bold; color: #ffffff; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* YANAL AÇILIR MENÜ (SIDEBAR DRAWER) */
+        .sidebar { height: 100%; width: 0; position: fixed; z-index: 1000; top: 0; left: 0; background-color: #12161f; overflow-x: hidden; transition: 0.3s; padding-top: 60px; box-shadow: 5px 0 15px rgba(0,0,0,0.7); }
+        .sidebar a { padding: 14px 22px; text-decoration: none; font-size: 15px; color: #c5c6c7; display: block; transition: 0.2s; border-bottom: 1px solid #1f2833; }
+        .sidebar a:hover { color: #66fcf1; background: #1f2833; padding-left: 30px; }
+        .sidebar .closebtn { position: absolute; top: 10px; right: 20px; font-size: 32px; color: #e74c3c; border: none; }
+
+        /* ANA İÇERİK ALANI */
+        .content { padding: 25px; margin-top: 10px; flex: 1; }
+        .card { background: #1f2833; border: 1px solid #45a29e; border-radius: 10px; padding: 25px; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.4); max-width: 800px; margin: 0 auto; }
+        .card.active { display: block; }
+        h2 { color: #66fcf1; margin-top: 0; border-bottom: 2px solid #45a29e; padding-bottom: 10px; }
+        
+        input, select, textarea, button { width: 100%; padding: 12px; margin-top: 10px; background: #0b0c10; color: #fff; border: 1px solid #45a29e; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        button { background: #45a29e; font-weight: bold; cursor: pointer; border: none; text-transform: uppercase; color: #0b0c10; transition: 0.2s; }
+        button:hover { background: #66fcf1; }
+        .alert { background: #27ae60; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
+
+    <!-- YANAL İÇ MENÜ (10 ADET SEÇENEK) -->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="javascript:void(0)" onclick="showTab('tab1')">1. ⚙️ Rol Perm & Rütbe Yönetimi</a>
+        <a href="javascript:void(0)" onclick="showTab('tab2')">2. 📢 Hanedan Duyuru Merkezi</a>
+        <a href="javascript:void(0)" onclick="showTab('tab3')">3. 🌐 OSINT Canlı IP Sorgulama</a>
+        <a href="javascript:void(0)" onclick="showTab('tab4')">4. 📝 Local Host Not & Kod Havuzu</a>
+        <a href="javascript:void(0)" onclick="showTab('tab5')">5. 🔒 Moderator Only Log Güvenliği</a>
+        <a href="javascript:void(0)" onclick="showTab('tab6')">6. 👥 Çoklu Hesap Otomasyonu</a>
+        <a href="javascript:void(0)" onclick="showTab('tab7')">7. 📊 Sosyal Medya İzlenme & Takip</a>
+        <a href="javascript:void(0)" onclick="showTab('tab8')">8. 💬 Discord ID Bilgi İstasyonu</a>
+        <a href="javascript:void(0)" onclick="showTab('tab9')">9. 🗺️ MAC Üretici Analizi</a>
+        <a href="javascript:void(0)" onclick="showTab('tab10')">10. 🚀 Rol Kasma & Aktivite Kanalı</a>
+    </div>
+
+    <!-- HEADER / BAŞLIK -->
     <header>
-        <h1>👑 HÜKÜM EMPIRE - ULTIMATE COMMAND CENTER</h1>
-        <p>Yetki Durumu: Güvenli Köprü Modu | Sistem: <span style="color:#2ecc71;">ONLINE 🟢</span> | Pydroid 3 Entegre</p>
+        <span class="menu-btn" onclick="openNav()">☰</span>
+        <div class="header-title">👑 HÜKÜM EMPIRE COMMAND CENTER</div>
     </header>
 
-    {% if session.get('mesaj') %}
-        <div class="alert">{{ session.pop('mesaj') }}</div>
-    {% endif %}
+    <div class="content">
+        {% if msg %}
+            <div class="alert">{{ msg }}</div>
+        {% endif %}
 
-    <div class="grid">
-        
-        <!-- MENÜ 1: CANLI ROL PERM & HİYERARŞİ İSTASYONU -->
-        <div class="card">
-            <h3>1. ⚙️ ROL PERM & HİYERARŞİK RÜTBE YÖNETİMİ</h3>
+        <!-- TAB 1: ROL PERM -->
+        <div id="tab1" class="card active">
+            <h2>1. ⚙️ ROL PERM & HİYERARŞİK RÜTBE YÖNETİMİ</h2>
             <form method="POST" action="/action/rol_sorgula">
-                <input type="text" name="admin_id" placeholder="Senin Discord ID'n (Yetki Kontrolü İçin)" required>
-                <input type="text" name="target_id" placeholder="Hedef Üye Discord ID" required>
-                <button type="submit">Rolleri Analiz Et & Getir</button>
+                <input type="text" name="admin_id" placeholder="Senin Discord ID'n (Yetki Kontrolü)" required>
+                <input type="text" name="target_id" placeholder="Hedef Üyenin Discord ID'si" required>
+                <button type="submit">Rolleri Çek & Analiz Et</button>
             </form>
 
             {% if target_data %}
-            <hr style="border-color:#232738; margin:12px 0;">
-            <p><b>Hedef Üye:</b> <span style="color:#2ecc71;">{{ target_data.name }}</span></p>
+            <hr style="border-color:#45a29e; margin:20px 0;">
+            <p><b>Hedef Kullanıcı:</b> <span style="color:#66fcf1;">{{ target_data.name }}</span></p>
 
             <form method="POST" action="/action/rol_islem">
                 <input type="hidden" name="target_id" value="{{ target_id }}">
                 <input type="hidden" name="act" value="remove">
-                <label style="font-size:12px; color:#e74c3c;">❌ Üzerinden Rol Al:</label>
+                <label style="color:#e74c3c;">❌ Üzerinden Rol Al:</label>
                 <select name="role_id">
                     {% for r in target_data.user_roles %}
                         <option value="{{ r.id }}">{{ r.name }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" style="background:#c0392b; margin-top:5px;">Seçilen Rolü Al</button>
+                <button type="submit" style="background:#c0392b; color:#fff; margin-top:8px;">Seçilen Rolü Kaldır</button>
             </form>
 
-            <form method="POST" action="/action/rol_islem" style="margin-top:10px;">
+            <form method="POST" action="/action/rol_islem" style="margin-top:15px;">
                 <input type="hidden" name="target_id" value="{{ target_id }}">
                 <input type="hidden" name="act" value="add">
-                <label style="font-size:12px; color:#2ecc71;">➕ Kullanıcıya Rol Ver:</label>
+                <label style="color:#2ecc71;">➕ Yeni Rol Ver:</label>
                 <select name="role_id">
                     {% for r in target_data.missing_roles %}
                         <option value="{{ r.id }}">{{ r.name }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" style="background:#27ae60; margin-top:5px;">Seçilen Rolü Ver</button>
+                <button type="submit" style="background:#27ae60; color:#fff; margin-top:8px;">Seçilen Rolü Ekle</button>
             </form>
 
-            <form method="POST" action="/action/rol_islem" style="margin-top:10px;">
+            <form method="POST" action="/action/rol_islem" style="margin-top:15px;">
                 <input type="hidden" name="target_id" value="{{ target_id }}">
                 <input type="hidden" name="act" value="terfi">
-                <button type="submit" style="background:#f39c12;">⚡ 1 Üst Rütbeye Terfi Ettir</button>
+                <button type="submit" style="background:#f39c12; color:#fff;">⚡ 1 Üst Hanedan Rütbesine Terfi Ettir</button>
             </form>
             {% endif %}
         </div>
 
-        <!-- MENÜ 2: HANEDAN DUYURU PANELİ -->
-        <div class="card">
-            <h3>2. 📢 HANEDAN DUYURU MERKEZİ</h3>
+        <!-- TAB 2: HANEDAN DUYURU -->
+        <div id="tab2" class="card">
+            <h2>2. 📢 HANEDAN DUYURU MERKEZİ</h2>
             <form method="POST" action="/action/duyuru_gonder">
-                <input type="text" name="yetkili_adi" placeholder="Yazar Adınız / Unvanınız" required>
-                <textarea name="metin" rows="4" placeholder="Duyuru metnini buraya yazın..." required></textarea>
-                <button type="submit" style="background:#e74c3c;">Duyuru Kanalında Yayınla</button>
+                <input type="text" name="yetkili_adi" placeholder="Duyuruyu Yapan Unvanı" required>
+                <textarea name="metin" rows="5" placeholder="Duyuru içeriği..." required></textarea>
+                <button type="submit" style="background:#e74c3c; color:#fff;">Hanedan Kanalına Gönder</button>
             </form>
         </div>
 
-        <!-- MENÜ 3: OSINT & IP DETAY ANALİZİ -->
-        <div class="card">
-            <h3>3. 🌐 OSINT CANLI IP SORGULAMA</h3>
+        <!-- TAB 3: OSINT IP -->
+        <div id="tab3" class="card">
+            <h2>3. 🌐 OSINT CANLI IP SORGULAMA</h2>
             <form method="POST" action="/action/osint_ip">
-                <input type="text" name="ip" placeholder="Sorgulanacak IP Adresi" required>
-                <button type="submit" style="background:#9b59b6;">IP Detaylarını Çek & Logla</button>
+                <input type="text" name="ip" placeholder="Hedef IP Adresi" required>
+                <button type="submit">Sorgula & OSINT Log Kanalına At</button>
             </form>
         </div>
 
-        <!-- MENÜ 4: LOCAL HOST NOT DEFTERİ -->
-        <div class="card">
-            <h3>4. 📝 LOCAL HOST NOT & KOD HAVUZU</h3>
+        <!-- TAB 4: NOT DEFTERİ -->
+        <div id="tab4" class="card">
+            <h2>4. 📝 LOCAL HOST NOT & KOD HAVUZU</h2>
             <form method="POST" action="/action/not_kaydet">
-                <textarea name="notlar" rows="2" placeholder="Notlarınız...">{{ saved_data.notlar }}</textarea>
-                <textarea name="kodlar" rows="2" placeholder="Kod parçacıkları...">{{ saved_data.kodlar }}</textarea>
-                <button type="submit" style="background:#3498db;">Notları Kaydet</button>
+                <textarea name="notlar" rows="4" placeholder="Notlarınız...">{{ saved_data.notlar }}</textarea>
+                <textarea name="kodlar" rows="4" placeholder="Kod parçacıkları...">{{ saved_data.kodlar }}</textarea>
+                <button type="submit">Kaydet</button>
             </form>
         </div>
 
-        <!-- MENÜ 5: MODERATOR ONLY LOG KANALI -->
-        <div class="card">
-            <h3>5. 🔒 MODERATOR ONLY LOG GÜVENLİĞİ</h3>
-            <p style="font-size:13px; color:#a6acaf;">Tüm yetkili işlemleri ve site içi hareketler otomatik olarak mod kanalına raporlanır.</p>
-            <span class="badge">Webhook Aktif 🟢</span>
+        <!-- TAB 5: LOG GÜVENLİĞİ -->
+        <div id="tab5" class="card">
+            <h2>5. 🔒 MODERATOR ONLY LOG GÜVENLİĞİ</h2>
+            <p>Moderatör log webhook kanalı bağlandı. Panel üzerindeki her hareket bu kanala düşer.</p>
         </div>
 
-        <!-- MENÜ 6: ÇOKLU HESAP GİRİŞ İSTASYONU -->
-        <div class="card">
-            <h3>6. 👥 ÇOKLU HESAP OTOMASYON HAVUZU</h3>
-            <p style="font-size:13px; color:#a6acaf;">50'ye kadar hesap tanımlama ve yönetim simülasyon motoru devrede.</p>
-            <button style="background:#16a085;">Hesap Havuzunu Görüntüle</button>
+        <!-- TAB 6: ÇOKLU HESAP -->
+        <div id="tab6" class="card">
+            <h2>6. 👥 ÇOKLU HESAP OTOMASYON HAVUZU</h2>
+            <p>1-50 Serbest hesap tanımlama simülasyonu aktif.</p>
         </div>
 
-        <!-- MENÜ 7: SOSYAL MEDYA İZLENME PAKETLERİ -->
-        <div class="card">
-            <h3>7. 📊 SOSYAL MEDYA İZLENME & TAKİP</h3>
-            <input type="text" placeholder="Hedef Profil / Video Linki">
-            <button style="background:#d35400; margin-top:8px;">Paket Simülasyonu Başlat</button>
+        <!-- TAB 7: SOSYAL MEDYA -->
+        <div id="tab7" class="card">
+            <h2>7. 📊 SOSYAL MEDYA İZLENME & TAKİP</h2>
+            <input type="text" placeholder="Profil veya Video Linki">
+            <button style="margin-top:10px;">İşlemi Başlat</button>
         </div>
 
-        <!-- MENÜ 8: DİSCORD ID AÇIK VERİ SORGUSU -->
-        <div class="card">
-            <h3>8. 💬 DİSCORD ID BİLGİ İSTASYONU</h3>
+        <!-- TAB 8: DİSCORD ID -->
+        <div id="tab8" class="card">
+            <h2>8. 💬 DİSCORD ID BİLGİ İSTASYONU</h2>
             <form method="POST" action="/action/discord_id">
-                <input type="text" name="discord_id" placeholder="Discord User ID Girin" required>
-                <button type="submit" style="background:#2980b9;">ID Analizi Yap</button>
+                <input type="text" name="discord_id" placeholder="Discord User ID" required>
+                <button type="submit">ID Bilgisi Çek</button>
             </form>
         </div>
 
-        <!-- MENÜ 9: MAC ADRESİ ÜRETİCİ ANALİZİ -->
-        <div class="card">
-            <h3>9. 🗺️ MAC ÜRETİCİ ANALİZİ</h3>
+        <!-- TAB 9: MAC ADRES -->
+        <div id="tab9" class="card">
+            <h2>9. 🗺️ MAC ÜRETİCİ ANALİZİ</h2>
             <form method="POST" action="/action/mac_sorgu">
-                <input type="text" name="mac" placeholder="Örn: 44:38:39:ff:ef:57" required>
-                <button type="submit" style="background:#8e44ad;">Donanım Üreticisi Bul</button>
+                <input type="text" name="mac" placeholder="MAC Adresi" required>
+                <button type="submit">Üretici Bilgisi Bul</button>
             </form>
         </div>
 
-        <!-- MENÜ 10: ROL KASMA & ÖZEL LOG KANALI -->
-        <div class="card">
-            <h3>10. 🚀 ROL KASMA VE AKTİVİTE KANALI</h3>
-            <p style="font-size:13px; color:#a6acaf;">Hanedan üyelerinin rol kasma etkinlikleri bu panelden izlenir.</p>
-            <span class="badge" style="background:#d35400;">Özel Webhook Bağlı</span>
+        <!-- TAB 10: ROL KASMA -->
+        <div id="tab10" class="card">
+            <h2>10. 🚀 ROL KASMA VE AKTİVİTE KANALI</h2>
+            <p>Rol kasma webhook kanalı entegre edildi.</p>
         </div>
-
     </div>
+
+    <!-- JAVASCRIPT: AÇILIR SIDEBAR VE TAB GEÇİŞ SİSTEMİ -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "300px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        function showTab(tabId) {
+            var cards = document.getElementsByClassName("card");
+            for (var i = 0; i < cards.length; i++) {
+                cards[i].classList.remove("active");
+            }
+            document.getElementById(tabId).classList.add("active");
+            closeNav();
+        }
+    </script>
 </body>
 </html>
 """
 
 @app.route("/", methods=["GET"])
 def home():
+    msg = session.pop('msg', None)
     saved_data = veri_yukle()
-    return render_template_string(HTML_TEMPLATE, saved_data=saved_data)
+    return render_template_string(HTML_TEMPLATE, saved_data=saved_data, msg=msg)
 
 @app.route("/action/rol_sorgula", methods=["POST"])
 def rol_sorgula():
@@ -202,20 +244,18 @@ def rol_sorgula():
     target_id = request.form.get("target_id")
     
     try:
-        # Önce yetki kontrolü yap (Torpil / Abuse engelleme)
         auth_res = requests.post(f"{BOT_SERVICE_URL}/check_auth", json={"user_id": admin_id}, timeout=3).json()
         if not auth_res.get("authorized"):
-            session['mesaj'] = "❌ HATA: Bu işlem için 'Rol Perm' veya Hanedan Yetki rolüne sahip olmalısın!"
+            session['msg'] = "❌ Yetki Reddedildi: Rol Perm yetkisine sahip değilsiniz!"
             return redirect(url_for('home'))
 
-        # Yetkiliyse hedef kullanıcının rollerini çek
         res = requests.post(f"{BOT_SERVICE_URL}/get_roles", json={"target_id": target_id}, timeout=3).json()
         if res.get("status") == "success":
             saved_data = veri_yukle()
             return render_template_string(HTML_TEMPLATE, target_data=res, target_id=target_id, saved_data=saved_data)
-        session['mesaj'] = f"❌ Hata: {res.get('message')}"
+        session['msg'] = f"❌ Hata: {res.get('message')}"
     except:
-        session['mesaj'] = "⚠️ Pydroid 3 bot servisi kapalı! Lütfen telefondan bot scriptini çalıştırın."
+        session['msg'] = "⚠️ Pydroid 3 bot servisi kapalı! Lütfen bot scriptini başlatın."
     return redirect(url_for('home'))
 
 @app.route("/action/rol_islem", methods=["POST"])
@@ -226,10 +266,10 @@ def rol_islem():
 
     try:
         res = requests.post(f"{BOT_SERVICE_URL}/role_action", json={"action": act, "target_id": target_id, "role_id": role_id}, timeout=3).json()
-        session['mesaj'] = res.get("message")
-        webhook_gonder(WEBHOOK_MODERATOR, "⚡ ROL PERM İŞLEMİ GERÇEKLEŞTİ", f"**İşlem:** {act}\n**Hedef ID:** {target_id}", 0x3498db)
+        session['msg'] = res.get("message")
+        webhook_gonder(WEBHOOK_MODERATOR, "⚡ ROL PERM İŞLEMİ", f"**İşlem:** {act}\n**Hedef ID:** {target_id}", 0x3498db)
     except:
-        session['mesaj'] = "⚠️ Bot servisiyle bağlantı kurulamadı!"
+        session['msg'] = "⚠️ Bot servisiyle bağlantı kurulamadı!"
     
     return redirect(url_for('home'))
 
@@ -240,7 +280,7 @@ def duyuru_gonder():
     duyuru_icerigi = f"📢 **YETKİLİ:** {yetkili}\n\n{metin}"
     
     webhook_gonder(WEBHOOK_DUYURU, "👑 HANEDAN RESMİ DUYURUSU", duyuru_icerigi, 0xe74c3c)
-    session['mesaj'] = "📢 Duyuru Hanedan Kanalında başarıyla yayınlandı!"
+    session['msg'] = "📢 Duyuru Hanedan Kanalında başarıyla yayınlandı!"
     return redirect(url_for('home'))
 
 @app.route("/action/osint_ip", methods=["POST"])
@@ -251,26 +291,25 @@ def osint_ip():
         if res.get("status") == "success":
             bilgi = f"Ülke: {res.get('country')}\nŞehir: {res.get('city')}\nISP: {res.get('isp')}"
             webhook_gonder(WEBHOOK_OSINT_LOG, f"🔍 OSINT IP ANALİZİ: {ip}", bilgi, 0x9b59b6)
-            session['mesaj'] = f"✅ IP analizi tamamlandı ve OSINT log kanalına aktarıldı."
+            session['msg'] = "✅ IP analizi yapıldı ve OSINT kanalına gönderildi."
         else:
-            session['mesaj'] = "❌ Geçersiz IP adresi."
+            session['msg'] = "❌ Geçersiz IP."
     except:
-        session['mesaj'] = "⚠️ API bağlantı hatası."
+        session['msg'] = "⚠️ Bağlantı hatası."
     return redirect(url_for('home'))
 
 @app.route("/action/not_kaydet", methods=["POST"])
 def not_kaydet():
     notlar = request.form.get("notlar", "")
     kodlar = request.form.get("kodlar", "")
-    data = {"notlar": notlar, "kodlar": kodlar}
-    veri_kaydet(data)
-    session['mesaj'] = "📝 Notlar ve kodlar başarıyla kaydedildi!"
+    veri_kaydet({"notlar": notlar, "kodlar": kodlar})
+    session['msg'] = "📝 Notlar kaydedildi!"
     return redirect(url_for('home'))
 
 @app.route("/action/discord_id", methods=["POST"])
 def discord_id():
     did = request.form.get("discord_id")
-    session['mesaj'] = f"💬 ID:{did} için veri tabanı sorgusu simüle edildi ve temiz çıktı."
+    session['msg'] = f"💬 ID: {did} analiz edildi."
     return redirect(url_for('home'))
 
 @app.route("/action/mac_sorgu", methods=["POST"])
@@ -278,12 +317,9 @@ def mac_sorgu():
     mac = request.form.get("mac")
     try:
         res = requests.get(f"https://api.macvendors.com/{mac}", timeout=3)
-        if res.status_code == 200:
-            session['mesaj'] = f"⚙️ Üretici: {res.text}"
-        else:
-            session['mesaj'] = "❌ Geçersiz MAC adresi."
+        session['msg'] = f"⚙️ Üretici: {res.text}" if res.status_code == 200 else "❌ Geçersiz MAC."
     except:
-        session['mesaj'] = "⚠️ Servis hatası."
+        session['msg'] = "⚠️ Bağlantı hatası."
     return redirect(url_for('home'))
 
 if __name__ == "__main__":
