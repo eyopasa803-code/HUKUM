@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HÜKÜM | Ultimate Empire Yönetim & OSINT Komuta Merkezi v5.0</title>
+    <title>HÜKÜM | Ultimate Empire Yönetim & OSINT Komuta Merkezi v5.1</title>
     <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome 6 Icons -->
@@ -108,11 +108,11 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar - Tam 15 Menü (Sınırları Zorlayan Devasa Altyapı) -->
+        <!-- Sidebar - Tam 15 Devasa Menü -->
         <div class="col-md-3 col-lg-2 sidebar p-3">
             <div class="text-center mb-4 pt-2">
                 <h4 class="text-primary fw-bold m-0"><i class="fa-solid fa-shield-halved"></i> HÜKÜM EMPIRE</h4>
-                <small class="text-muted">Komuta Merkezi v5.0</small>
+                <small class="text-muted">Komuta Merkezi v5.1</small>
             </div>
             <div class="card p-2 text-center mb-3 bg-dark border-secondary">
                 <small class="text-muted" style="font-size:0.7rem;">AKTİF OTURUM KİMLİĞİ</small>
@@ -137,7 +137,7 @@
             </ul>
         </div>
 
-        <!-- Ana İçerik Alanı (1500 Satırlık Güçlü Yapı) -->
+        <!-- Ana İçerik Alanı -->
         <div class="col-md-9 col-lg-10 p-4">
             <div id="alertContainer"></div>
 
@@ -167,7 +167,7 @@
                 </div>
             </div>
 
-            <!-- 2. Rol Perm & Hiyerarşi (Detaylı Rol Al / Rol Ver / Terfi Ver) -->
+            <!-- 2. Rol Perm & Hiyerarşi -->
             <div id="roles" class="panel-section">
                 <h2><i class="fa-solid fa-crown text-warning"></i> Rol Perm & Family Rütbe Yönetim İstasyonu</h2>
                 <p class="text-muted">Hedef Discord ID girerek kullanıcının mevcut rollerini listele; listeden dilediğin rolü al, dilediğin rolü ver veya hiyerarşik olarak 1 üst rütbeye terfi ettir.</p>
@@ -426,7 +426,7 @@
         rolKasma: "https://discord.com/api/webhooks/1533585945851465901/AVK2kWZ3YaMDOyA4mjV0dP-QZ98SDoWwj6zNnL8_TwpX2Z0TKTMqwSa-GF0ktgEzUfBd"
     };
 
-    // İstediğin Tam Hiyerarşik ve Family Rütbeleri (45+ Rol)
+    // Tam Hiyerarşik ve Family Rütbeleri (Görsellerdeki 45+ Rol)
     const HIERARCHY_ROLES = [
         "Owner", "Jaz CEO of HÜKÜM SY", "Sunucu Yöneticisi", "Dissgram", "Moderatör", "Rol Perm", "Duyuru Perm", "V.I.P", "Üye", "Kayıtsız",
         "CEO OF HÜKÜM", "JAZ J BOENIQUE", "DISSAGRAM", "V'est Unique", "Swentegral", "Die Spitze", "BOTLOADER", "GATEKAPPER", 
@@ -503,7 +503,7 @@
         let target = document.getElementById('targetId').value.trim();
         let act = document.getElementById('actionType').value;
 
-        // Yetki Kontrolü (Toripil / Abuse Engelleme: Rol Perm veya Yönetici yetkisi şart)
+        // Yetki Kontrolü (Toripil / Abuse Engelleme)
         let adminRoles = db.users[adminId]?.roles || [];
         let authorizedRoles = ["Owner", "Jaz CEO of HÜKÜM SY", "Sunucu Yöneticisi", "Rol Perm"];
         
@@ -523,7 +523,6 @@
             document.getElementById('analyzedRolesBadges').innerHTML = targetObj.roles.map(r => `<span class="badge bg-primary badge-role">${r}</span>`).join('');
             document.getElementById('targetAnalysisCard').style.display = 'block';
             
-            // Seçimleri güncelle
             let remSel = document.getElementById('userCurrentRolesSelect');
             remSel.innerHTML = targetObj.roles.map(r => `<option value="${r}">${r}</option>`).join('');
 
@@ -546,7 +545,6 @@
                 showAlert(`➕ Başarıyla Rol Verildi: ${roleToAdd}`, "success");
             }
         } else if (act === "promote") {
-            // 1 Üst rütbeye terfi ettir ve eskisini al
             let currentHighestIdx = HIERARCHY_ROLES.length - 1;
             targetObj.roles.forEach(r => {
                 let idx = HIERARCHY_ROLES.indexOf(r);
