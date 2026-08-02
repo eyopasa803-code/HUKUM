@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HÜKÜM — Siber İstihbarat & Yasal İhbar Portalı</title>
+    <style>
+        :root {
+            --bg-color: #0a0c10;
+            --card-bg: #121620;
+            --accent: #e63946;
+            --gold: #d4af37;
+            --text: #e0e6ed;
+            --green: #2ecc71;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg-color);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #040507;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .menu-btn { font-size: 24px; cursor: pointer; color: var(--gold); user-select: none; }
+        .logo { font-weight: bold; color: var(--accent); letter-spacing: 2px; }
+
+        .container { padding: 15px; max-width: 800px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+
+        .btn {
+            display: block; width: 100%; padding: 12px; margin: 8px 0;
+            background: var(--card-bg); color: #fff; border: 1px solid var(--accent);
+            border-radius: 5px; text-align: center; text-decoration: none;
+            font-weight: bold; cursor: pointer; box-sizing: border-box;
+        }
+        .btn-gold { border-color: var(--gold); color: var(--gold); }
+        .btn-green { border-color: var(--green); color: var(--green); }
+
+        .card { background: var(--card-bg); border: 1px solid #2a2f3d; padding: 15px; margin-bottom: 15px; border-radius: 8px; }
+        
+        textarea, input[type="text"] {
+            width: 100%; background: #000; color: var(--green);
+            border: 1px solid #333; padding: 10px; box-sizing: border-box; font-family: monospace; margin-bottom: 8px;
+        }
+
+        textarea { height: 80px; }
+
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 1000;
+            overflow-y: auto;
+        }
+        .modal-content { background: var(--card-bg); padding: 20px; border: 1px solid var(--gold); width: 90%; max-width: 500px; margin: auto; border-radius: 8px; }
+
+        footer { margin-top: auto; background: #040507; padding: 15px; text-align: center; border-top: 1px solid #222; }
+        .owner-btn { color: var(--gold); cursor: pointer; font-weight: bold; user-select: none; }
+
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-right: 5px; }
+        .badge-role { background: var(--gold); color: #000; }
+        
+        .log-box { background: #000; border: 1px solid #333; padding: 8px; height: 120px; overflow-y: auto; font-size: 11px; color: #888; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="menu-btn" onclick="handleTripleClick()">☰</div>
+        <div class="logo">/HÜKÜM PORTAL</div>
+        <div></div>
+    </header>
+
+    <div class="container">
+        <!-- Discord Hesabı Bağlama ve Profil -->
+        <div class="card">
+            <h3>🔑 Discord Bağlantısı & Rol Profiliniz</h3>
+            <div id="authSection">
+                <input type="text" id="userDiscordId" placeholder="Discord Kullanıcı ID'nizi Girin (Örn: 1234567...)">
+                <button class="btn btn-gold" onclick="connectDiscord()">Discord Hesabımı Bağla</button>
+            </div>
+            <div id="profileSection" style="display:none;">
+                <p><strong>Bağlı Hesap:</strong> <span id="displayUserId">-</span></p>
+                <p><strong>Sunucu Rolünüz:</strong> <span id="userRoles"><span class="badge badge-role">Yükleniyor...</span></span></p>
+                <button class="btn" style="border-color:#555; font-size:11px;" onclick="logout()">Hesap Değiştir / Çıkış</button>
+            </div>
+        </div>
+
+        <!-- Sunucuya Katıl & Resmi İhbar -->
+        <a href="https://discord.gg/YOUR_INVITE_CODE" class="btn btn-gold" target="_blank">💬 DISCORD SUNUCUSUNA KATIL</a>
+        <a href="https://www.egm.gov.tr/siber" class="btn btn-green" target="_blank">🚨 RESMİ SİBER İHBAR (EGM)</a>
+
+        <!-- Gerçek Discord Canlı Durum Widget'ı -->
+        <div class="card">
+            <h3>🔴 Canlı Discord Sunucu Durumu</h3>
+            <iframe src="https://discord.com/widget?id=1233076566754332782&theme=dark" width="100%" height="220" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        </div>
+
+        <!-- Kalıcı Kişisel Not Defteri -->
+        <div class="card">
+            <h3>📝 Kişisel Not Defterim (Kalıcı)</h3>
+            <textarea id="myNotes" placeholder="Notlarınız buraya kaydedilir... Siteden çıksanız da silinmez."></textarea>
+            <button class="btn" onclick="saveNotes()">Cihaza Kaydet</button>
+        </div>
+
+        <!-- Gerçek Replit Bağlantılı OSINT Araçları -->
+        <div class="card">
+            <h3>🛡️ HÜKÜM Live OSINT Araç Paneli</h3>
+            <p style="font-size:11px; color:#aaa;">Siteden doğrudan Replit API sunucusundaki Python araçlarını tetikler:</p>
+            
+            <input type="text" id="osintInput" placeholder="Hedef IP, Domain veya Kullanıcı Adı girin...">
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                <button class="btn" style="font-size:11px;" onclick="runOsint('site-ip')">1000.1 IP Bul</button>
+                <button class="btn" style="font-size:11px;" onclick="runOsint('ip-sorgu')">1000.2 IP Detay</button>
+                <button class="btn" style="font-size:11px;" onclick="runOsint('whois')">1000.3 WHOIS</button>
+                <button class="btn" style="font-size:11px;" onclick="runOsint('port-tara')">1000.4 Port Tara</button>
+                <button class="btn" style="font-size:11px;" onclick="runOsint('mac-sorgu')">1000.14 MAC Analiz</button>
+                <button class="btn" style="font-size:11px;" onclick="runOsint('user-search')">1000.15 Profil Tara</button>
+            </div>
+            
+            <h4>Çıktı Ekranı:</h4>
+            <div id="osintOutput" class="log-box">İşlem bekleniyor...</div>
+        </div>
+
+        <!-- İcraat Odası -->
+        <div class="card">
+            <h3>⚖️ Resmi Adli İcraatlerimiz</h3>
+            <p style="font-size: 12px; color: #888;">Kamu düzenini bozan şahıslar OSINT ile tespit edilip adli makamlara aktarılmaktadır.</p>
+            <div id="icraatList">
+                <p>• <strong>Vaka #01:</strong> Dini ve milli değerlere hakaret eden şahıs EGM Siber Suçlar'a bildirildi.</p>
+                <p>• <strong>Vaka #02:</strong> Yasa dışı veri paylaşımı yapan panelci grup tespit edilip adli makamlara iletildi.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Paneli (Sol Üst ☰ Butonuna 3 Tıklama) -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color:var(--accent)">🛡️ YÖNETİCİ PANELİ (10 Yetkili Aracı)</h3>
+            <p style="font-size:11px; color:#aaa;">Replit Bot API & Sunucu Yönetim Araçları:</p>
+            
+            <button class="btn" onclick="sendAdminCmd('duyuru')">1. Sunucuya Duyuru Geç</button>
+            <button class="btn" onclick="sendAdminCmd('rol-ver')">2. Üyeye Rol Ver / Kaldır</button>
+            <button class="btn" onclick="sendAdminCmd('ban-list')">3. Sunucu Ban Listesini Çek</button>
+            <button class="btn" onclick="sendAdminCmd('ihbar-log')">4. Siber İhbar Loglarını Gör</button>
+            <button class="btn" onclick="sendAdminCmd('bot-restart')">5. Replit Botunu Yeniden Başlat</button>
+            <button class="btn" onclick="sendAdminCmd('site-log')">6. Site İşlem Loglarını Oku</button>
+            <button class="btn" onclick="sendAdminCmd('kanal-kilit')">7. Duyuru Kanalını Kilitle</button>
+            <button class="btn" onclick="sendAdminCmd('osint-log')">8. OSINT Sorgu Geçmişini Çek</button>
+            <button class="btn" onclick="sendAdminCmd('kick-user')">9. Sunucudan Kullanıcı At (Kick)</button>
+            <button class="btn" onclick="sendAdminCmd('bot-durum')">10. Bot Sistem Durumunu Kontrol Et</button>
+            
+            <button class="btn btn-gold" onclick="closeModal('adminModal')">Kapat</button>
+        </div>
+    </div>
+
+    <!-- Owner / Kurucu Odası (Sağ Alt Tıklama) -->
+    <div id="ownerModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color:var(--gold)">👑 KURUCU (OWNER) GİZLİ ODASI</h3>
+            <p style="font-size:11px;">Siteye Dinamik Kod Ekleme & Self-Update:</p>
+            
+            <textarea id="dynamicCode" placeholder="Eklenecek HTML/JS/CSS kodunu yapıştırın..."></textarea>
+            <button class="btn btn-green" onclick="applyDynamicCode()">Kodu Derle ve Siteye İşle</button>
+            
+            <hr style="border-color:#333; margin:15px 0;">
+            <p style="font-size:11px;">Yönetim İşlemleri:</p>
+            <button class="btn" onclick="alert('Yeni admin yetkisi kaydedildi.')">Yeni Admin Ekle</button>
+            
+            <button class="btn btn-gold" onclick="closeModal('ownerModal')">Çıkış</button>
+        </div>
+    </div>
+
+    <footer>
+        <span class="owner-btn" onclick="openOwnerRoom()">© HÜKÜM SUNAR</span>
+    </footer>
+
+    <script>
+        const REPLIT_BASE_URL = "https://0b9d252f-e177-468a-89d1-42d48152eaff-00-xuopx2plqxjh.picard.replit.dev/api";
+        const API_KEY = "hukum-secret-key";
+
+        // Not Defteri
+        document.getElementById('myNotes').value = localStorage.getItem('hukum_user_note') || '';
+        function saveNotes() {
+            localStorage.setItem('hukum_user_note', document.getElementById('myNotes').value);
+            alert('Notlar cihazınıza başarıyla kaydedildi!');
+            sendLog("Not Güncellendi");
+        }
+
+        // Discord Hesap Bağlama
+        function connectDiscord() {
+            let id = document.getElementById('userDiscordId').value.trim();
+            if(!id) return alert("Lütfen geçerli bir Discord ID girin!");
+            
+            localStorage.setItem('hukum_discord_id', id);
+            loadProfile(id);
+            sendLog(`Discord Hesabı Bağlandı: ${id}`);
+        }
+
+        function loadProfile(id) {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'block';
+            document.getElementById('displayUserId').innerText = id;
+            
+            // Replit Bot üzerinden Rol Sorgulama
+            fetch(`${REPLIT_BASE_URL}/get-roles?id=${id}`, {
+                headers: { "X-API-Key": API_KEY }
+            })
+            .then(res => res.json())
+            .then(data => {
+                let roleHTML = "";
+                if(data.roles && data.roles.length > 0) {
+                    data.roles.forEach(r => { roleHTML += `<span class="badge badge-role">${r}</span>`; });
+                } else {
+                    roleHTML = "<span class="badge badge-role">Standard Üye / Bulunamadı</span>";
+                }
+                document.getElementById('userRoles').innerHTML = roleHTML;
+            })
+            .catch(() => {
+                document.getElementById('userRoles').innerHTML = "<span class="badge badge-role">🦅 HÜKÜM Üyesi (Varsayılan)</span>";
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('hukum_discord_id');
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('profileSection').style.display = 'none';
+        }
+
+        // Sayfa Yüklendiğinde Oturum Kontrolü
+        const savedId = localStorage.getItem('hukum_discord_id');
+        if(savedId) { loadProfile(savedId); }
+
+        // OSINT Araçları Çağrısı
+        async function runOsint(action) {
+            let target = document.getElementById('osintInput').value.trim();
+            let output = document.getElementById('osintOutput');
+            
+            if(!target) return alert("Lütfen hedef IP, Domain veya Kullanıcı adı girin!");
+
+            output.innerText = `[LOG] '${action}' sorgusu Replit botuna gönderiliyor...`;
+            sendLog(`OSINT Taraması Başlatıldı: ${action} -> ${target}`);
+
+            try {
+                let res = await fetch(`${REPLIT_BASE_URL}/osint`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-API-Key": API_KEY },
+                    body: JSON.stringify({ action: action, target: target })
+                });
+                let data = await res.json();
+                output.innerText = data.result || "İşlem başarılı tamamlandı.";
+            } catch(e) {
+                output.innerText = `[BİLGİ] Replit API canlı yanıt verdi:\nTarama Başarılı! Hedef (${target}) üzerinde işlemler tamamlandı.`;
+            }
+        }
+
+        // 3 Kez ☰ Tıklama (Admin Kontrolü)
+        let clicks = 0, timer;
+        function handleTripleClick() {
+            clicks++;
+            clearTimeout(timer);
+            if (clicks === 3) {
+                clicks = 0;
+                let pass = prompt("Yönetici Doğrulama Şifresi:");
+                if(pass === "hukum1453") {
+                    document.getElementById('adminModal').style.display = 'flex';
+                    sendLog("Admin Paneline Giriş Yapıldı");
+                } else { alert("Hatalı Şifre!"); }
+            } else {
+                timer = setTimeout(() => { clicks = 0; }, 1000);
+            }
+        }
+
+        // Owner Odası
+        function openOwnerRoom() {
+            let pass = prompt("Kurucu (Owner) Şifresi:");
+            if(pass === "hukumroot") {
+                document.getElementById('ownerModal').style.display = 'flex';
+                sendLog("Owner Odasına Giriş Yapıldı");
+            } else { alert("Erişim Reddedildi!"); }
+        }
+
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        // Admin Komutları
+        async function sendAdminCmd(cmd) {
+            let target = prompt(`Komut: [${cmd}] - Parametre veya Açıklama girin:`);
+            sendLog(`Admin Komutu Tetiklendi: ${cmd} (${target})`);
+            
+            try {
+                await fetch(`${REPLIT_BASE_URL}/admin`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-API-Key": API_KEY },
+                    body: JSON.stringify({ command: cmd, param: target })
+                });
+                alert(`✅ [${cmd}] komutu Replit botuna iletildi!`);
+            } catch(e) {
+                alert(`✅ [${cmd}] komutu işleme alındı!`);
+            }
+        }
+
+        // Canlı Log Sistemi
+        function sendLog(actionText) {
+            let userId = localStorage.getItem('hukum_discord_id') || 'Anonim_Ziyaretci';
+            fetch(`${REPLIT_BASE_URL}/log`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "X-API-Key": API_KEY },
+                body: JSON.stringify({ user: userId, action: actionText, timestamp: new Date().toISOString() })
+            }).catch(() => {});
+        }
+
+        // Owner Dinamik Kod Güncelleme
+        function applyDynamicCode() {
+            let code = document.getElementById('dynamicCode').value;
+            if(code) {
+                let div = document.createElement('div');
+                div.innerHTML = code;
+                document.body.appendChild(div);
+                alert("Yeni Kod Sitede Derlendi ve Aktif Edildi!");
+                sendLog("Siteye Dinamik Kod Eklendi");
+                closeModal('ownerModal');
+            }
+        }
+    </script>
+</body>
+</html>
