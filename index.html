@@ -21,7 +21,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
         
-        sidebar { width: 360px; background-color: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; height: 100%; z-index: 10; }
+        sidebar { width: 380px; background-color: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; height: 100%; z-index: 10; }
         .brand { padding: 18px; text-align: center; border-bottom: 1px solid var(--border-color); }
         .brand h1 { font-size: 1.25rem; color: var(--accent-color); font-weight: 800; letter-spacing: 1px; }
         .brand p { font-size: 0.70rem; color: var(--text-muted); margin-top: 3px; }
@@ -73,8 +73,8 @@
             <p>Komuta Merkezi v10.0 Ultimate Enterprise</p>
         </div>
         <div class="session-box">
-            <span style="font-size: 0.68rem; color: var(--text-muted);">SİSTEM KAPASİTE & KİMŞİK (D.ID)</span>
-            <input type="text" id="currentSessionId" value="1500000000" onchange="updateSessionId()">
+            <span style="font-size: 0.68rem; color: var(--text-muted);">SİSTEM KAPASİTE & KİMLİK (D.ID)</span>
+            <input type="text" id="currentSessionId" value="1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" onchange="updateSessionId()">
         </div>
         <div class="menu-list" id="menuList">
             <button class="menu-btn active" onclick="switchPanel(0, this)">📊 1. Ana Kontrol Paneli</button>
@@ -87,17 +87,13 @@
             <button class="menu-btn" onclick="switchPanel(7, this)">👥 8. Çoklu Hesap Havuzu (1-50)</button>
             <button class="menu-btn" onclick="switchPanel(8, this)">🛡️ 9. Moderator Only Kanalı</button>
             <button class="menu-btn" onclick="switchPanel(9, this)">🔥 10. Rol Kasma & Aktivite Paneli</button>
-            <button class="menu-btn" onclick="switchPanel(10, this)">🗺️ 11. DNS & Whois Analiz</button>
-            <button class="menu-btn" onclick="switchPanel(11, this)">⚙️ 12. MAC Üretici Analizi</button>
-            <button class="menu-btn" onclick="switchPanel(12, this)">💬 13. Discord ID İstasyonu</button>
-            <button class="menu-btn" onclick="switchPanel(13, this)">📊 14. Sosyal Medya İzlenme</button>
         </div>
     </sidebar>
 
     <main>
         <header>
             <h2 id="panelTitle">Ana Kontrol Paneli</h2>
-            <span id="systemStatus" style="font-size: 0.82rem; color: var(--success);">● Sistem Aktif (1,500,000,000 İşlem Gücü)</span>
+            <span id="systemStatus" style="font-size: 0.82rem; color: var(--success);">● Sistem Aktif (10^100 Devasa İşlem Gücü)</span>
         </header>
 
         <div class="content-area">
@@ -108,14 +104,14 @@
                     <div class="card">
                         <h3>📈 Devasa Sistem Kapasitesi</h3>
                         <p style="color: var(--text-muted); margin-bottom: 10px;">HÜKÜM Altyapı Maksimum Güç Verisi:</p>
-                        <div style="font-size: 1.8rem; font-weight: 800; color: var(--warning); margin-bottom: 5px;">1,500,000,000</div>
-                        <p style="font-size: 0.85rem;">Entegre Edilmiş İşlem Kapasitesi ve Satır Sınırı</p>
+                        <div style="font-size: 1.15rem; font-weight: 800; color: var(--warning); margin-bottom: 5px; word-break: break-all;">1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</div>
+                        <p style="font-size: 0.85rem;">Entegre Edilmiş İşlem Kapasitesi ve Sonsuz Satır Sınırı</p>
                     </div>
                     <div class="card">
                         <h3>⚡ Hiyerarşik Güvenlik Matrisi</h3>
                         <p>Rol Perm Koruması: <b>Aktif (Yetkili Denetimli)</b></p>
                         <p>Webhook Entegrasyonları: <b>4 Özel Kanal Aktif</b></p>
-                        <p>E-Posta / OAuth2: <b>Güvenli Manuel Doğrulama Modu</b></p>
+                        <p>OAuth2 Sınırlandırması: <b>Manuel ID Tabanlı Doğrulama Modu</b></p>
                     </div>
                 </div>
             </div>
@@ -235,46 +231,6 @@
                 </div>
             </div>
 
-            <!-- 11. DNS & WHOIS -->
-            <div class="panel-section" id="panel-10">
-                <div class="card">
-                    <h3>🗺️ DNS & Whois Analiz İstasyonu</h3>
-                    <input type="text" id="whoisTarget" placeholder="Domain Girin (Örn: ornek.com)">
-                    <button class="action-btn" onclick="runWhoisQuery()">WHOIS & DNS Sorgula</button>
-                    <div class="log-box" id="whoisLog">WHOIS sonuçları bekleniyor...</div>
-                </div>
-            </div>
-
-            <!-- 12. MAC ÜRETİCİ -->
-            <div class="panel-section" id="panel-11">
-                <div class="card">
-                    <h3>⚙️ MAC Adresinden Üretici Analizi</h3>
-                    <input type="text" id="macInput" placeholder="MAC Adresi (Örn: 44:38:39:ff:ef:57)">
-                    <button class="action-btn" onclick="runMacQuery()">Üretici Firmayı Sorgula</button>
-                    <div class="log-box" id="macLog">MAC analiz sonuçları bekleniyor...</div>
-                </div>
-            </div>
-
-            <!-- 13. DISCORD ID İSTASYONU -->
-            <div class="panel-section" id="panel-12">
-                <div class="card">
-                    <h3>💬 Discord ID Bilgi & Bot Entegrasyon Sorgusu</h3>
-                    <input type="text" id="dcIdInput" placeholder="Discord Kullanıcı ID (Örn: 123456789012345678)">
-                    <button class="action-btn" onclick="runDcIdQuery()">ID Analizini Başlat</button>
-                    <div class="log-box" id="dcIdLog">Discord ID verileri bekleniyor...</div>
-                </div>
-            </div>
-
-            <!-- 14. SOSYAL MEDYA İZLENME -->
-            <div class="panel-section" id="panel-13">
-                <div class="card">
-                    <h3>📊 Sosyal Medya İzlenme ve Takip Otomasyon Paneli</h3>
-                    <input type="text" id="socialLinkInput" placeholder="Hedef Profil veya Video Linki">
-                    <button class="action-btn" onclick="runSocialAutomation()">Otomasyon Simülasyonunu Çalıştır</button>
-                    <div class="log-box" id="socialLog">İzlenme otomasyon logları bekleniyor...</div>
-                </div>
-            </div>
-
         </div>
     </main>
 
@@ -288,7 +244,7 @@
             roleFarm: "https://discord.com/api/webhooks/1533585945851465901/AVK2kWZ3YaMDOyA4mjV0dP-QZ98SDoWwj6zNnL8_TwpX2Z0TKTMqwSa-GF0ktgEzUfBd"
         };
 
-        let currentUserId = "1500000000";
+        let currentUserId = "1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
 
         function switchPanel(index, btn) {
             document.querySelectorAll('.panel-section').forEach(el => el.classList.remove('active'));
@@ -395,34 +351,6 @@
             let count = document.getElementById('accountCount').value;
             document.getElementById('accountLog').innerText = `✅ Toplam ${count} adet test hesabı simülasyon havuzuna eklendi.`;
             showAlert("Hesap Havuzu Oluşturuldu!");
-        }
-
-        function runWhoisQuery() {
-            let d = document.getElementById('whoisTarget').value;
-            if(!d) return;
-            document.getElementById('whoisLog').innerText = `🔍 ${d} WHOIS Verisi:\nKayıt Tarihi: 2023-05-12\nDurum: clientTransferProhibited\nNameserver: ns1.cloudflare.com`;
-            showAlert("WHOIS Sorgulandı!");
-        }
-
-        function runMacQuery() {
-            let m = document.getElementById('macInput').value;
-            if(!m) return;
-            document.getElementById('macLog').innerText = `⚙️ MAC: ${m}\nÜretici Firma: Apple, Inc. / Intel Corporate`;
-            showAlert("MAC Analizi Tamamlandı!");
-        }
-
-        function runDcIdQuery() {
-            let id = document.getElementById('dcIdInput').value;
-            if(!id) return;
-            document.getElementById('dcIdLog').innerText = `💬 Discord ID: ${id}\nDurum: Geçerli Snowflake ID\nHesap Oluşturma: 2024\nBot Yetkisi: Temiz`;
-            showAlert("Discord ID Sorgulandı!");
-        }
-
-        function runSocialAutomation() {
-            let l = document.getElementById('socialLinkInput').value;
-            if(!l) return;
-            document.getElementById('socialLog').innerText = `📊 Bağlantı işleniyor: ${l}\nİzlenme ve Etkileşim Otomasyonu Simülasyonu Başarılı!`;
-            showAlert("Sosyal Otomasyon Başlatıldı!");
         }
     </script>
 </body>
