@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HÜKÜM — Siber İstihbarat & Portal</title>
+    <title>HÜKÜM — Siber Portal</title>
     <style>
         :root {
             --bg-color: #080b10;
@@ -30,7 +30,6 @@
             flex-direction: column;
         }
 
-        /* Üst Header Bar */
         header {
             background: #020617;
             padding: 15px 20px;
@@ -48,7 +47,7 @@
             cursor: pointer; 
             color: var(--gold); 
             user-select: none;
-            padding: 5px 10px;
+            padding: 2px 8px;
         }
 
         .logo { 
@@ -58,7 +57,6 @@
             font-size: 16px; 
         }
 
-        /* Sol Açılır Menü */
         .sidebar {
             height: 100%;
             width: 0;
@@ -105,7 +103,6 @@
             width: 100%; 
         }
 
-        /* Sekmeler */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
@@ -143,7 +140,7 @@
         .btn-gold { border-color: var(--gold); color: var(--gold); }
         .btn-green { border-color: var(--green); color: var(--green); }
 
-        textarea, input[type="text"] {
+        textarea, input[type="text"], select {
             width: 100%; 
             background: #020617; 
             color: var(--green);
@@ -156,7 +153,6 @@
 
         textarea { height: 120px; resize: vertical; }
 
-        /* Modallar */
         .modal {
             display: none; 
             position: fixed; 
@@ -214,78 +210,102 @@
 </head>
 <body>
 
-    <!-- Üst Bar -->
+    <!-- Header -->
     <header>
         <div class="menu-btn" onclick="toggleSidebar()">☰</div>
         <div class="logo">🦅 /HÜKÜM PORTAL</div>
         <div></div>
     </header>
 
-    <!-- Sol Açılır Menü -->
+    <!-- Sol Menü -->
     <div id="mySidebar" class="sidebar">
         <span class="closebtn" onclick="toggleSidebar()">&times;</span>
-        <a href="javascript:void(0)" onclick="switchTab('tab-auth')">🔑 Discord Hesabı & Profil</a>
+        <a href="javascript:void(0)" onclick="switchTab('tab-auth')">🔑 Profil & Discord Rolü</a>
         <a href="javascript:void(0)" onclick="switchTab('tab-osint')">🛡️ OSINT Araç Paneli</a>
         <a href="javascript:void(0)" onclick="switchTab('tab-notes')">📝 Kişisel Not Defterim</a>
         <a href="javascript:void(0)" onclick="switchTab('tab-icraat')">⚖️ Adli İcraatlarımız</a>
-        <a href="javascript:void(0)" onclick="switchTab('tab-links')">🔗 Bağlantılar & İhbar</a>
+        <a href="javascript:void(0)" onclick="switchTab('tab-links')">🔗 Discord & İhbar Portalı</a>
     </div>
 
     <div class="container">
 
-        <!-- KANAL 1: DISCORD PROFİL -->
+        <!-- KANAL 1: DISCORD PROFİL VE ROL SEÇİMİ -->
         <div id="tab-auth" class="tab-content active">
             <div class="card">
-                <h3>🔑 Discord Rol Entegrasyonu</h3>
-                <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">Giriş serbesttir. ID girerek sunucu rollerinizi çektirebilirsiniz:</p>
+                <h3>🔑 Discord Rütbeni & Rolünü Seç</h3>
+                <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">Discord kullanıcı adınızı girin ve sunucudaki rütbenizi seçin:</p>
                 
                 <div id="authSection">
-                    <input type="text" id="userDiscordId" placeholder="Discord ID (Örn: 1233076566754332782)">
-                    <button class="btn btn-gold" onclick="connectDiscord()">Rollerimi Getir ve Bağla</button>
+                    <input type="text" id="userDiscordName" placeholder="Discord Kullanıcı Adınız (Örn: hukum_pasa)">
+                    
+                    <label style="font-size:11px; color:var(--gold);">👑 FAMILY RÜTBELERİ:</label>
+                    <select id="userRoleSelect">
+                        <option value="👑 CEO OF HÜKÜM">👑 CEO OF HÜKÜM</option>
+                        <option value="💎 JAZ J BOENIQUE">💎 JAZ J BOENIQUE</option>
+                        <option value="⚔️ DISSAGRAM">⚔️ DISSAGRAM</option>
+                        <option value="⚜️ V'est Unique">⚜️ V'est Unique</option>
+                        <option value="🔮 Swentegral">🔮 Swentegral</option>
+                        <option value="⚡ Die Spitze">⚡ Die Spitze</option>
+                        <option value="🤖 BOTLOADER">🤖 BOTLOADER</option>
+                        <option value="🚧 GATEKAPPER">🚧 GATEKAPPER</option>
+                        <option value="🩸 V45 TILL İ DIE">🩸 V45 TILL İ DIE</option>
+                        <option value="🦅 FUR DIE FAM">🦅 FUR DIE FAM</option>
+                        <option value="🚀 HIZLIYSAN YAKALA">🚀 HIZLIYSAN YAKALA</option>
+                        <option value="🍷 Cest La Vie">🍷 Cest La Vie</option>
+                        <option value="📺 TV19">📺 TV19</option>
+                        <option value="🏔️ ZİR/VE">🏔️ ZİR/VE</option>
+                        <option value="🔥 La Vida Loca">🔥 La Vida Loca</option>
+                        <option value="⚡ HIZIMA YETİŞ">⚡ HIZIMA YETİŞ</option>
+                        <option value="--- Ozel Roller ---" disabled>--- ÖZEL HAVALI ROLLER ---</option>
+                        <option value="✨ EMPIRE OF HÜKÜM">✨ EMPIRE OF HÜKÜM</option>
+                        <option value="🔥 EMPIRE ALL EYES ON ME">🔥 EMPIRE ALL EYES ON ME</option>
+                        <option value="💜 NO LOVE ONLY EMPIRE">💜 NO LOVE ONLY EMPIRE</option>
+                        <option value="🖤 BIG FUCK OF EMPIRE">🖤 BIG FUCK OF EMPIRE</option>
+                        <option value="⚙️ NEED FOR EMPIRE">⚙️ NEED FOR EMPIRE</option>
+                        <option value="🌸 Senorita Sinyale">🌸 Senorita Sinyale</option>
+                        <option value="🟢 STABIL YAŞAM">🟢 STABIL YAŞAM</option>
+                        <option value="🟠 D R I P">🟠 D R I P</option>
+                        <option value="🕶️ KARABASAN">🕶️ KARABASAN</option>
+                        <option value="🔮 Kayıp Şehrin Eski">🔮 Kayıp Şehrin Eski</option>
+                        <option value="💸 FLOW MONEY">💸 FLOW MONEY</option>
+                        <option value="💀 ASOSYAL">💀 ASOSYAL</option>
+                    </select>
+                    
+                    <button class="btn btn-gold" onclick="saveProfile()">Profil & Rolü Kaydet</button>
                 </div>
 
                 <div id="profileSection" style="display:none; margin-top:10px;">
-                    <p style="margin-bottom:5px;"><strong>Aktif ID:</strong> <span id="displayUserId">-</span></p>
-                    <p style="margin-bottom:10px;"><strong>Rolünüz:</strong> <span id="userRoles"><span class="badge badge-role">🦅 HÜKÜM Üyesi</span></span></p>
-                    <button class="btn" style="border-color:#475569; font-size:11px;" onclick="logout()">ID Değiştir</button>
+                    <p style="margin-bottom:5px;"><strong>Kullanıcı:</strong> <span id="displayUserName">-</span></p>
+                    <p style="margin-bottom:10px;"><strong>Sitedeki Rolünüz:</strong> <span id="displayUserRole" class="badge badge-role">-</span></p>
+                    <button class="btn" style="border-color:#475569; font-size:11px;" onclick="resetProfile()">Bilgileri Güncelle</button>
                 </div>
             </div>
         </div>
 
-        <!-- KANAL 2: OSINT PANENLİ -->
+        <!-- KANAL 2: OSINT ARAÇ PANENLİ -->
         <div id="tab-osint" class="tab-content">
             <div class="card">
-                <h3>🛡️ OSINT Araç Paneli</h3>
-                <input type="text" id="osintInput" placeholder="IP, Domain, Kullanıcı Adı veya MAC girin...">
+                <h3>🛡️ OSINT İnceleme Paneli</h3>
+                <input type="text" id="osintInput" placeholder="IP, Domain veya Kullanıcı Adı girin...">
                 
                 <div class="grid-btns">
-                    <button class="btn" onclick="runOsint('1000.1')">1000.1 IP Bul</button>
-                    <button class="btn" onclick="runOsint('1000.2')">1000.2 IP Detay</button>
-                    <button class="btn" onclick="runOsint('1000.3')">1000.3 WHOIS</button>
-                    <button class="btn" onclick="runOsint('1000.4')">1000.4 Port Tara</button>
-                    <button class="btn" onclick="runOsint('1000.5')">1000.5 DNS Çöz</button>
-                    <button class="btn" onclick="runOsint('1000.6')">1000.6 Header Analiz</button>
-                    <button class="btn" onclick="runOsint('1000.7')">1000.7 Robots.txt</button>
-                    <button class="btn" onclick="runOsint('1000.8')">1000.8 Şifre Testi</button>
-                    <button class="btn" onclick="runOsint('1000.9')">1000.9 Dış IP</button>
-                    <button class="btn" onclick="runOsint('1000.11')">1000.11 Çoklu Hesap</button>
-                    <button class="btn" onclick="runOsint('1000.12')">1000.12 İzlenme</button>
-                    <button class="btn" onclick="runOsint('1000.13')">1000.13 Discord ID</button>
-                    <button class="btn" onclick="runOsint('1000.14')">1000.14 MAC Analiz</button>
-                    <button class="btn" onclick="runOsint('1000.15')">1000.15 Profil OSINT</button>
+                    <button class="btn" onclick="runClientOsint('1000.1')">1000.1 IP Çözümle</button>
+                    <button class="btn" onclick="runClientOsint('1000.2')">1000.2 IP Detay</button>
+                    <button class="btn" onclick="runClientOsint('1000.8')">1000.8 Şifre Testi</button>
+                    <button class="btn" onclick="runClientOsint('1000.15')">1000.15 Profil Tara</button>
                 </div>
                 
-                <h4 style="margin-top:10px; color:var(--gold); font-size:12px;">📊 İşlem Çıktısı:</h4>
-                <div id="osintOutput" class="log-box">İşlem bekleniyor... Bir buton seçin.</div>
+                <h4 style="margin-top:10px; color:var(--gold); font-size:12px;">📊 İnceleme Çıktısı:</h4>
+                <div id="osintOutput" class="log-box">Arama yapmak için bir araç butonuna tıklayın.</div>
             </div>
         </div>
 
-        <!-- KANAL 3: KIŞISEL NOT DEFTERİ -->
+        <!-- KANAL 3: NOT DEFTERİ -->
         <div id="tab-notes" class="tab-content">
             <div class="card">
                 <h3>📝 Kişisel Not Defterim (Kalıcı)</h3>
-                <textarea id="myNotes" placeholder="Notlarınızı buraya yazın..."></textarea>
-                <button class="btn btn-gold" onclick="saveNotes()">Cihaza Kaydet</button>
+                <textarea id="myNotes" placeholder="Buraya yazacağınız notlar sadece sizin cihazınızda saklanır..."></textarea>
+                <button class="btn btn-gold" onclick="saveNotes()">Notları Cihaza Kaydet</button>
             </div>
         </div>
 
@@ -294,69 +314,63 @@
             <div class="card">
                 <h3>⚖️ Adli İcraatlarımız</h3>
                 <div style="line-height:1.6; font-size:12px; color:#cbd5e1;">
-                    <p>• <strong>Vaka #01:</strong> Kamu Düzenine Zararlı Veriler Tespiti ve Siber Suçlar İhbarı.</p>
-                    <p>• <strong>Vaka #02:</strong> Dolandırıcılık Tespiti Yapılan IP/Domain İletimi.</p>
+                    <p>• <strong>Vaka #01:</strong> Siber Suçlarla Mücadele Daire Başkanlığına iletilen adli veriler.</p>
+                    <p>• <strong>Vaka #02:</strong> Yasa dışı bahis ve dolandırıcılık tespiti yapılan IP engellemeleri.</p>
                 </div>
             </div>
         </div>
 
-        <!-- KANAL 5: BAĞLANTILAR -->
+        <!-- KANAL 5: DISCORD VE İHBAR -->
         <div id="tab-links" class="tab-content">
-            <a href="https://discord.gg/ZDHU5wReya" class="btn btn-gold" target="_blank">💬 DISCORD SUNUCUMUZA KATIL</a>
+            <a href="https://discord.gg/ZDHU5wReya" class="btn btn-gold" target="_blank">💬 HÜKÜM DISCORD SUNUCUSUNA KATIL</a>
             <a href="https://www.egm.gov.tr/siber" class="btn btn-green" target="_blank">🚨 RESMİ SİBER İHBAR (EGM)</a>
-        </div>
-
-    </div>
-
-    <!-- Admin Modal -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <h3 style="color:var(--accent); margin-bottom:10px;">🛡️ YÖNETİCİ PANELİ (10 Araç)</h3>
-            <button class="btn" onclick="sendAdminCmd('duyuru')">1. Sunucuya Duyuru Geç</button>
-            <button class="btn" onclick="sendAdminCmd('rol-esitle')">2. Üyeye Rol Ver/Kaldır</button>
-            <button class="btn" onclick="sendAdminCmd('ban-list')">3. Ban Listesi Çek</button>
-            <button class="btn" onclick="sendAdminCmd('ihbar-log')">4. Siber İhbar Logları</button>
-            <button class="btn" onclick="sendAdminCmd('bot-restart')">5. Botu Yeniden Başlat</button>
-            <button class="btn" onclick="sendAdminCmd('site-log')">6. Site Loglarını Oku</button>
-            <button class="btn" onclick="sendAdminCmd('kanal-kilit')">7. Duyuru Kanalını Kilitle</button>
-            <button class="btn" onclick="sendAdminCmd('osint-log')">8. OSINT Geçmişi</button>
-            <button class="btn" onclick="sendAdminCmd('kick-user')">9. Kullanıcı Kickle</button>
-            <button class="btn" onclick="sendAdminCmd('bot-durum')">10. Sistem Durumu</button>
             
-            <button class="btn btn-gold" style="margin-top:10px;" onclick="closeModal('adminModal')">Kapat</button>
+            <div class="card" style="margin-top:15px;">
+                <h3>🔴 Canlı Discord Sunucu Kadrosu</h3>
+                <iframe src="https://discord.com/widget?id=1233076566754332782&theme=dark" width="100%" height="250" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Webhook Modalı (Duyuru Gönderimi) -->
+    <div id="webhookModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color:var(--gold); margin-bottom:10px;">📢 Hanedan Duyuru Kanalına Gönder</h3>
+            <input type="text" id="webhookTitle" placeholder="Duyuru Başlığı">
+            <textarea id="webhookMsg" placeholder="Duyuru metnini girin..."></textarea>
+            <button class="btn btn-green" onclick="sendDiscordWebhook(WEBHOOK_DUYURU)">Duyuru Kanalına At</button>
+            <button class="btn btn-gold" style="margin-top:8px;" onclick="closeModal('webhookModal')">Kapat</button>
         </div>
     </div>
 
-    <!-- Owner Modal -->
+    <!-- Owner / Mod Modal -->
     <div id="ownerModal" class="modal">
         <div class="modal-content">
-            <h3 style="color:var(--gold); margin-bottom:10px;">👑 GİZLİ KURUCU ODASI</h3>
-            <textarea id="dynamicCode" placeholder="Eklenecek HTML/JS kodunu yazın..."></textarea>
-            <button class="btn btn-green" onclick="applyDynamicCode()">Siteye Ekle ve Derle</button>
-            <button class="btn btn-gold" style="margin-top:10px;" onclick="closeModal('ownerModal')">Çıkış</button>
+            <h3 style="color:var(--gold); margin-bottom:10px;">👑 GİZLİ YÖNETİCİ ODASI</h3>
+            <button class="btn btn-green" onclick="openWebhookForm()">📢 Hanedan Duyurusu Yap</button>
+            <textarea id="adminLogMsg" placeholder="Moderatör kanalına iletilecek adli/yönetim notu..." style="margin-top:10px;"></textarea>
+            <button class="btn btn-gold" onclick="sendAdminLog()">Moderatör Kanalına Bildir</button>
+            <button class="btn" style="margin-top:10px;" onclick="closeModal('ownerModal')">Kapat</button>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <span class="owner-btn" onclick="openOwnerRoom()">© HÜKÜM SUNAR</span>
     </footer>
 
     <script>
-        const REPLIT_BASE_URL = "https://0b9d252f-e177-468a-89d1-42d48152eaff-00-xuopx2plqxjh.picard.replit.dev/api";
-        const API_KEY = "hukum-secret-key";
+        // WEBHOOK KANALLARI (TAMAMEN ENTEGRE EDİLDİ)
+        const WEBHOOK_MOD_ONLY = "https://discord.com/api/webhooks/1533578478061097041/x5VBIUZ5lv3-XdoaXVMuaqh4MrRPJwjkMelVnnz8ubpAsYzomWxjWL64Iisjw-3d7WA5";
+        const WEBHOOK_DUYURU   = "https://discord.com/api/webhooks/1533579152807039057/PwPieHMKqUWoiXl002ILhjB63pkqNtnloqXsOFx95lHugfNx_Teu3A-jWVxjmVi1g2T0";
+        const WEBHOOK_OSINT    = "https://discord.com/api/webhooks/1533579683482832978/b5zImfiAoAwAhU-q9VPLweDQaX-Ib95Y1LHht4zZZ2NiZ-uswJtzLPtxq0ba5C1BLnpC";
+        const WEBHOOK_ROL_KASMA = "https://discord.com/api/webhooks/1533580290046558219/kHnl_xE2HyNMp4JbhTezpQtUoaAzFUalXhv3r3BRQL5AkdtQwmxLTv2lV6HX5DarL6JO";
 
-        // Menü Aç/Kapat
         function toggleSidebar() {
             const sidebar = document.getElementById("mySidebar");
-            if (sidebar.style.width === "250px") {
-                sidebar.style.width = "0";
-            } else {
-                sidebar.style.width = "250px";
-            }
+            sidebar.style.width = (sidebar.style.width === "250px") ? "0" : "250px";
         }
 
-        // Sekme Değiştirme
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             const target = document.getElementById(tabId);
@@ -364,94 +378,164 @@
             document.getElementById("mySidebar").style.width = "0";
         }
 
-        // Not Defteri
         document.getElementById('myNotes').value = localStorage.getItem('hukum_note') || '';
         function saveNotes() {
             localStorage.setItem('hukum_note', document.getElementById('myNotes').value);
-            alert('Notlar cihaza kaydedildi.');
+            alert('Notlar cihazınıza kaydedildi.');
         }
 
-        // Discord ID Bağlantısı
-        function connectDiscord() {
-            let id = document.getElementById('userDiscordId').value.trim();
-            if(!id) return alert("Discord ID girin!");
-            localStorage.setItem('hukum_discord_id', id);
-            loadProfile(id);
-        }
+        // Profil Kaydetme & Rol Bildirimi
+        async function saveProfile() {
+            let name = document.getElementById('userDiscordName').value.trim();
+            let role = document.getElementById('userRoleSelect').value;
+            if(!name) return alert("Lütfen kullanıcı adınızı girin!");
 
-        function loadProfile(id) {
-            document.getElementById('authSection').style.display = 'none';
-            document.getElementById('profileSection').style.display = 'block';
-            document.getElementById('displayUserId').innerText = id;
-        }
+            localStorage.setItem('hukum_username', name);
+            localStorage.setItem('hukum_userrole', role);
+            loadProfile();
 
-        function logout() {
-            localStorage.removeItem('hukum_discord_id');
-            document.getElementById('authSection').style.display = 'block';
-            document.getElementById('profileSection').style.display = 'none';
-        }
-
-        const savedId = localStorage.getItem('hukum_discord_id');
-        if(savedId) loadProfile(savedId);
-
-        // OSINT Tetikleyici
-        async function runOsint(code) {
-            let target = document.getElementById('osintInput').value.trim();
-            let output = document.getElementById('osintOutput');
-            output.innerText = `[İŞLEM] '${code}' çalıştırılıyor...\nHedef: ${target || 'Belirtilmedi'}`;
-
+            // Rol Kasma Kanalına Bildirim Atar
             try {
-                let res = await fetch(`${REPLIT_BASE_URL}/osint`, {
+                await fetch(WEBHOOK_ROL_KASMA, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json", "X-API-Key": API_KEY },
-                    body: JSON.stringify({ code: code, target: target })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: "🦅 Yeni Sitede Rol Kaydı Yapıldı",
+                            description: `**Kullanıcı:** ${name}\n**Seçilen Rol/Rütbe:** ${role}`,
+                            color: 15105570
+                        }]
+                    })
                 });
-                let data = await res.json();
-                output.innerText = data.result || "İşlem tamamlandı.";
-            } catch(e) {
-                output.innerText = `[SONUÇ]\nKod: ${code}\nHedef: ${target || 'Yok'}\nReplit API isteği gönderildi.`;
+            } catch(e){}
+        }
+
+        function loadProfile() {
+            let name = localStorage.getItem('hukum_username');
+            let role = localStorage.getItem('hukum_userrole');
+
+            if(name && role) {
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('profileSection').style.display = 'block';
+                document.getElementById('displayUserName').innerText = name;
+                document.getElementById('displayUserRole').innerText = role;
             }
         }
 
-        // Admin & Owner Panelleri
+        function resetProfile() {
+            localStorage.removeItem('hukum_username');
+            localStorage.removeItem('hukum_userrole');
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('profileSection').style.display = 'none';
+        }
+        loadProfile();
+
+        // OSINT Aramalarını Sessizce Log Kanalına Atar
+        async function runClientOsint(code) {
+            let target = document.getElementById('osintInput').value.trim();
+            let output = document.getElementById('osintOutput');
+            
+            if(!target && code !== '1000.8') return alert("Lütfen hedef veri girin!");
+
+            if(code === '1000.1' || code === '1000.2') {
+                output.innerText = "🔄 IP detayları çekiliyor...";
+                try {
+                    let res = await fetch(`https://ipapi.co/${target}/json/`);
+                    let data = await res.json();
+                    output.innerText = `📍 --- IP BİLGİLERİ ---\nÜlke: ${data.country_name}\nŞehir: ${data.city}\nISP: ${data.org}\nIP: ${data.ip}`;
+                } catch(e) {
+                    output.innerText = "❌ Hata: IP bilgisi alınamadı.";
+                }
+            } else if(code === '1000.8') {
+                output.innerText = target.length >= 8 ? "💪 Güvenli Şifre Kriterine Uygun." : "⚠️ Zayıf Şifre (En az 8 karakter olmalı).";
+            } else if(code === '1000.15') {
+                output.innerText = `🔍 Aranan Profil: ${target}\n• GitHub: https://github.com/${target}\n• Instagram: https://instagram.com/${target}`;
+            }
+
+            // OSINT Log Kanalına Webhook At
+            try {
+                let user = localStorage.getItem('hukum_username') || "Anonim Siteden";
+                await fetch(WEBHOOK_OSINT, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: "🛡️ OSINT Araması Yapıldı",
+                            description: `**Aratan:** ${user}\n**Kod:** ${code}\n**Hedef:** ${target || 'Yok'}`,
+                            color: 3447003
+                        }]
+                    })
+                });
+            } catch(e){}
+        }
+
+        // Genel Webhook Gönderimi (Duyuru için)
+        async function sendDiscordWebhook(url) {
+            let title = document.getElementById('webhookTitle').value.trim();
+            let msg = document.getElementById('webhookMsg').value.trim();
+            let sender = localStorage.getItem('hukum_username') || "HÜKÜM Yönetim";
+
+            if(!msg) return alert("Lütfen mesajı doldurun!");
+
+            try {
+                await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: title || "📢 HÜKÜM Duyuru",
+                            description: msg,
+                            color: 15105570,
+                            footer: { text: `Yayınlayan: ${sender}` }
+                        }]
+                    })
+                });
+                alert("✅ Duyuru Discord kanalına iletildi!");
+                closeModal('webhookModal');
+            } catch(e) {
+                alert("❌ Hata oluştu.");
+            }
+        }
+
+        // Moderatör Kanalına Özel Log Gönderimi
+        async function sendAdminLog() {
+            let msg = document.getElementById('adminLogMsg').value.trim();
+            let sender = localStorage.getItem('hukum_username') || "Kurucu/Yönetici";
+            if(!msg) return alert("Notu yazın!");
+
+            try {
+                await fetch(WEBHOOK_MOD_ONLY, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: "🔒 MODERATÖR / YÖNETİCİ NOTU",
+                            description: msg,
+                            color: 10038562,
+                            footer: { text: `Gönderen: ${sender}` }
+                        }]
+                    })
+                });
+                alert("✅ Moderatör kanalına iletildi!");
+                closeModal('ownerModal');
+            } catch(e){ alert("❌ Hata oluştu."); }
+        }
+
         function openOwnerRoom() {
-            let pass = prompt("Gizli Şifre:");
-            if(pass === "hukumroot") {
+            let pass = prompt("Yönetici Şifresi:");
+            if(pass === "hukumroot" || pass === "hukum1453") {
                 document.getElementById('ownerModal').style.display = 'flex';
-            } else if(pass === "hukum1453") {
-                document.getElementById('adminModal').style.display = 'flex';
             } else if(pass !== null) {
                 alert("Hatalı Şifre!");
             }
         }
 
+        function openWebhookForm() {
+            closeModal('ownerModal');
+            document.getElementById('webhookModal').style.display = 'flex';
+        }
+
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        async function sendAdminCmd(cmd) {
-            let param = prompt(`[${cmd}] Parametre/Mesaj:`);
-            if(!param) return;
-            try {
-                await fetch(`${REPLIT_BASE_URL}/${cmd}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", "X-API-Key": API_KEY },
-                    body: JSON.stringify({ mesaj: param, guild_id: "1233076566754332782" })
-                });
-                alert(`✅ Komut (${cmd}) iletildi!`);
-            } catch(e) {
-                alert(`✅ Komut gönderildi.`);
-            }
-        }
-
-        function applyDynamicCode() {
-            let code = document.getElementById('dynamicCode').value;
-            if(code) {
-                let div = document.createElement('div');
-                div.innerHTML = code;
-                document.body.appendChild(div);
-                alert("Kod işlendi!");
-                closeModal('ownerModal');
-            }
-        }
     </script>
 </body>
 </html>
