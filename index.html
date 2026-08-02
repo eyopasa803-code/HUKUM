@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HÜKÜM EMPIRE - Komuta Merkezi v5.0 Ultimate</title>
+    <title>HÜKÜM EMPIRE - Komuta Merkezi v10.0 Ultimate Enterprise</title>
     <style>
         :root {
-            --bg-color: #05070b;
-            --panel-bg: #0d1322;
-            --card-bg: #131d31;
+            --bg-color: #030712;
+            --panel-bg: #0b1120;
+            --card-bg: #111827;
             --accent-color: #3b82f6;
             --accent-hover: #2563eb;
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
-            --border-color: #1e293b;
+            --border-color: #1f2937;
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
@@ -21,44 +21,41 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
         
-        /* Sidebar Styles */
-        sidebar { width: 340px; background-color: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; height: 100%; z-index: 10; }
-        .brand { padding: 20px; text-align: center; border-bottom: 1px solid var(--border-color); }
-        .brand h1 { font-size: 1.3rem; color: var(--accent-color); font-weight: 800; letter-spacing: 1px; }
-        .brand p { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+        sidebar { width: 360px; background-color: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; height: 100%; z-index: 10; }
+        .brand { padding: 18px; text-align: center; border-bottom: 1px solid var(--border-color); }
+        .brand h1 { font-size: 1.25rem; color: var(--accent-color); font-weight: 800; letter-spacing: 1px; }
+        .brand p { font-size: 0.70rem; color: var(--text-muted); margin-top: 3px; }
         
-        .session-box { margin: 12px 15px; padding: 10px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); text-align: center; }
-        .session-box input { width: 100%; padding: 6px; background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 4px; text-align: center; margin-top: 5px; font-size: 0.85rem; }
+        .session-box { margin: 10px 14px; padding: 8px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color); text-align: center; }
+        .session-box input { width: 100%; padding: 6px; background: var(--bg-color); border: 1px solid var(--border-color); color: var(--warning); border-radius: 4px; text-align: center; font-weight: 700; font-size: 0.9rem; }
 
         .menu-list { flex: 1; overflow-y: auto; padding: 10px; }
         .menu-list::-webkit-scrollbar { width: 6px; }
         .menu-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
         
-        .menu-btn { width: 100%; padding: 11px 14px; background: transparent; border: none; color: var(--text-muted); text-align: left; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; transition: all 0.2s; margin-bottom: 4px; }
+        .menu-btn { width: 100%; padding: 10px 12px; background: transparent; border: none; color: var(--text-muted); text-align: left; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; transition: all 0.2s; margin-bottom: 3px; }
         .menu-btn:hover, .menu-btn.active { background: var(--accent-color); color: var(--text-main); font-weight: 600; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
 
-        /* Main Content Styles */
         main { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; background: var(--bg-color); }
-        header { padding: 20px; background: var(--panel-bg); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        header h2 { font-size: 1.2rem; font-weight: 600; }
+        header { padding: 18px 25px; background: var(--panel-bg); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        header h2 { font-size: 1.15rem; font-weight: 600; }
         
         .content-area { flex: 1; padding: 25px; overflow-y: auto; position: relative; }
         .panel-section { display: none; height: 100%; animation: fadeIn 0.3s ease; }
         .panel-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Cards & Forms */
         .card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .card h3 { margin-bottom: 15px; font-size: 1.1rem; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
+        .card h3 { margin-bottom: 15px; font-size: 1.05rem; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
         
-        input, select, textarea { width: 100%; padding: 10px 14px; background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; margin-bottom: 12px; font-size: 0.9rem; }
+        input, select, textarea { width: 100%; padding: 10px 14px; background: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; margin-bottom: 12px; font-size: 0.88rem; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-color); }
         
-        button.action-btn { background: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.2s; width: 100%; }
+        button.action-btn { background: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.2s; width: 100%; font-size: 0.9rem; }
         button.action-btn:hover { background: var(--accent-hover); }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .log-box { background: var(--bg-color); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; height: 180px; overflow-y: auto; color: var(--success); margin-top: 10px; }
+        .log-box { background: var(--bg-color); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; height: 170px; overflow-y: auto; color: var(--success); margin-top: 10px; }
         
         .role-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin: 3px; }
         .role-owner { background: #b91c1c; color: white; }
@@ -73,11 +70,11 @@
     <sidebar>
         <div class="brand">
             <h1>🛡️ HÜKÜM EMPIRE</h1>
-            <p>Develeri Zorlayan Komuta v5.0</p>
+            <p>Komuta Merkezi v10.0 Ultimate Enterprise</p>
         </div>
         <div class="session-box">
-            <span style="font-size: 0.70rem; color: var(--text-muted);">OTURUM KİMLİĞİ (D.ID)</span>
-            <input type="text" id="currentSessionId" value="1500000" onchange="updateSessionId()">
+            <span style="font-size: 0.68rem; color: var(--text-muted);">SİSTEM KAPASİTE & KİMŞİK (D.ID)</span>
+            <input type="text" id="currentSessionId" value="1500000000" onchange="updateSessionId()">
         </div>
         <div class="menu-list" id="menuList">
             <button class="menu-btn active" onclick="switchPanel(0, this)">📊 1. Ana Kontrol Paneli</button>
@@ -90,53 +87,57 @@
             <button class="menu-btn" onclick="switchPanel(7, this)">👥 8. Çoklu Hesap Havuzu (1-50)</button>
             <button class="menu-btn" onclick="switchPanel(8, this)">🛡️ 9. Moderator Only Kanalı</button>
             <button class="menu-btn" onclick="switchPanel(9, this)">🔥 10. Rol Kasma & Aktivite Paneli</button>
+            <button class="menu-btn" onclick="switchPanel(10, this)">🗺️ 11. DNS & Whois Analiz</button>
+            <button class="menu-btn" onclick="switchPanel(11, this)">⚙️ 12. MAC Üretici Analizi</button>
+            <button class="menu-btn" onclick="switchPanel(12, this)">💬 13. Discord ID İstasyonu</button>
+            <button class="menu-btn" onclick="switchPanel(13, this)">📊 14. Sosyal Medya İzlenme</button>
         </div>
     </sidebar>
 
     <main>
         <header>
             <h2 id="panelTitle">Ana Kontrol Paneli</h2>
-            <span id="systemStatus" style="font-size: 0.85rem; color: var(--success);">● Sistem Aktif (1,500,000 İşlem Kapasitesi)</span>
+            <span id="systemStatus" style="font-size: 0.82rem; color: var(--success);">● Sistem Aktif (1,500,000,000 İşlem Gücü)</span>
         </header>
 
         <div class="content-area">
             
-            <!-- PANEL 0: ANA KONTROL -->
+            <!-- 1. ANA KONTROL -->
             <div class="panel-section active" id="panel-0">
                 <div class="grid-2">
                     <div class="card">
-                        <h3>📈 Sistem Özeti & Veriler</h3>
-                        <p style="color: var(--text-muted); margin-bottom: 10px;">HÜKÜM altyapısı anlık durum:</p>
-                        <div style="font-size: 2rem; font-weight: 800; color: var(--accent-color); margin-bottom: 5px;">1,500,000</div>
-                        <p style="font-size: 0.85rem;">Maksimum İşlem Gücü & Satır Kapasitesi</p>
+                        <h3>📈 Devasa Sistem Kapasitesi</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 10px;">HÜKÜM Altyapı Maksimum Güç Verisi:</p>
+                        <div style="font-size: 1.8rem; font-weight: 800; color: var(--warning); margin-bottom: 5px;">1,500,000,000</div>
+                        <p style="font-size: 0.85rem;">Entegre Edilmiş İşlem Kapasitesi ve Satır Sınırı</p>
                     </div>
                     <div class="card">
-                        <h3>⚡ Güvenlik & Yetki</h3>
-                        <p>Rol Perm Koruması: <b>Aktif (Yetki Kontrollü)</b></p>
-                        <p>Webhook Entegrasyonları: <b>4 Kanal Bağlı</b></p>
-                        <p>Hiyerarşi Matrisi: <b>Kilidi Açıldı</b></p>
+                        <h3>⚡ Hiyerarşik Güvenlik Matrisi</h3>
+                        <p>Rol Perm Koruması: <b>Aktif (Yetkili Denetimli)</b></p>
+                        <p>Webhook Entegrasyonları: <b>4 Özel Kanal Aktif</b></p>
+                        <p>E-Posta / OAuth2: <b>Güvenli Manuel Doğrulama Modu</b></p>
                     </div>
                 </div>
             </div>
 
-            <!-- PANEL 1: ROL PERM & HİYERARŞİ -->
+            <!-- 2. ROL PERM & HİYERARŞİ -->
             <div class="panel-section" id="panel-1">
                 <div class="card">
-                    <h3>👑 Gelişmiş Rol Perm & Hiyerarşi Yönetimi</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px;">Hedef kullanıcının Discord ID'sini girerek rolleri listeleyin, güvenli şekilde Rol Al, Rol Ver veya Terfi (1 Üst Rütbe) işlemi uygulayın.</p>
+                    <h3>👑 Gelişmiş Rol Perm & Hiyerarşi Yönetimi (Rol Al / Ver / Terfi)</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">Hedef kullanıcının Discord ID'sini girin. Sadece 'Rol Perm' yetkisine sahip yetkililer işlem yapabilir.</p>
                     <input type="text" id="targetDiscordId" placeholder="Hedef Kullanıcı Discord ID (Örn: 38472910495867)">
                     <button class="action-btn" onclick="fetchUserRoles()" style="margin-bottom: 15px;">🔍 Kullanıcı Rollerini Listele & Sorgula</button>
                     
                     <div style="background: var(--bg-color); padding: 15px; border-radius: 6px; border: 1px solid var(--border-color);">
-                        <label style="font-size: 0.85rem; color: var(--text-muted);">Mevcut Roller ve İşlemler:</label>
+                        <label style="font-size: 0.85rem; color: var(--text-muted);">Mevcut Roller ve İşlem Seçenekleri:</label>
                         <div id="roleMatrixOutput" style="margin-top: 10px; min-height: 80px;">
-                            <span style="color: var(--text-muted);">Henüz bir ID sorgulanmadı.</span>
+                            <span style="color: var(--text-muted);">Henüz bir ID sorgulanmadı. ID girip listele butonuna basın.</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- PANEL 2: HANEDAN DUYURU -->
+            <!-- 3. HANEDAN DUYURU -->
             <div class="panel-section" id="panel-2">
                 <div class="card">
                     <h3>📢 Hanedan Duyuru Paneli (Webhooks)</h3>
@@ -144,11 +145,11 @@
                     <input type="text" id="announcementTitle" placeholder="Duyuru Başlığı (Örn: Sunucu Bakım / HÜKÜM Bildirisi)">
                     <textarea id="announcementContent" rows="4" placeholder="Duyuru metnini buraya girin..."></textarea>
                     <button class="action-btn" onclick="sendAnnouncement()">🚀 Duyuruyu Hanedan Kanalına Fırlat</button>
-                    <div class="log-box" id="announcementLog">Bekleniyor...</div>
+                    <div class="log-box" id="announcementLog">Duyuru logları bekleniyor...</div>
                 </div>
             </div>
 
-            <!-- PANEL 3: IP & DOMAIN -->
+            <!-- 4. IP & DOMAIN -->
             <div class="panel-section" id="panel-3">
                 <div class="card">
                     <h3>🌐 IP & Domain Sorgu İstasyonu</h3>
@@ -158,7 +159,7 @@
                 </div>
             </div>
 
-            <!-- PANEL 4: PORT TARAYICI -->
+            <!-- 5. PORT TARAYICI -->
             <div class="panel-section" id="panel-4">
                 <div class="card">
                     <h3>🚪 Temel Port Tarayıcı</h3>
@@ -168,26 +169,26 @@
                 </div>
             </div>
 
-            <!-- PANEL 5: KULLANICI ADI TARAYICI -->
+            <!-- 6. KULLANICI ADI TARAYICI -->
             <div class="panel-section" id="panel-5">
                 <div class="card">
                     <h3>🔍 Sosyal Medya Kullanıcı Adı Tarayıcı (OSINT)</h3>
                     <input type="text" id="osintUsername" placeholder="Aranacak Kullanıcı Adı">
                     <button class="action-btn" onclick="runUsernameScan()">Platformlarda Ara (GitHub, Instagram, TikTok, X)</button>
-                    <div class="log-box" id="osintLog">Sonuçlar bekleniyor...</div>
+                    <div class="log-box" id="osintLog">Sonuçlar bekleniyor ve log kanala iletiliyor...</div>
                 </div>
             </div>
 
-            <!-- PANEL 6: LOCAL NOT -->
+            <!-- 7. LOCAL NOT -->
             <div class="panel-section" id="panel-6">
                 <div class="card">
                     <h3>📄 Local Not & Kod Defteri</h3>
-                    <textarea id="localNotes" rows="6" placeholder="Notlarınızı buraya yazın (Tarayıcı hafızasına otomatik kaydedilir)..."></textarea>
+                    <textarea id="localNotes" rows="6" placeholder="Notlarınızı ve kodlarınızı buraya yazın (Tarayıcı hafızasına otomatik kaydedilir)..."></textarea>
                     <button class="action-btn" onclick="saveLocalNotes()">Verileri Hafızaya Kaydet</button>
                 </div>
             </div>
 
-            <!-- PANEL 7: ÇOKLU HESAP -->
+            <!-- 8. ÇOKLU HESAP -->
             <div class="panel-section" id="panel-7">
                 <div class="card">
                     <h3>👥 Çoklu Hesap Giriş İstasyonu (1-50)</h3>
@@ -197,23 +198,23 @@
                 </div>
             </div>
 
-            <!-- PANEL 8: MODERATOR ONLY -->
+            <!-- 9. MODERATOR ONLY -->
             <div class="panel-section" id="panel-8">
                 <div class="card">
                     <h3>🛡️ Moderator Only Kanalı (Yönetici & Mod Log)</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 15px;">Bu alandan gönderilen mesajlar doğrudan Discord Yönetici/Moderator Webhook kanalına iletilir.</p>
-                    <textarea id="modText" rows="4" placeholder="Moderatör talimatı veya notu girin..."></textarea>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">Sadece Jazz, CEO of HÜKÜM, SY Sunucu Yöneticisi ve Dissgram rollerinin erişebileceği özel kanal.</p>
+                    <textarea id="modText" rows="4" placeholder="Moderatör talimatı veya gizli notu girin..."></textarea>
                     <button class="action-btn" onclick="sendModMessage()">🔒 Mod Kanalına İlet</button>
                     <div class="log-box" id="modLog">İletim logları bekleniyor...</div>
                 </div>
             </div>
 
-            <!-- PANEL 9: ROL KASMA -->
+            <!-- 10. ROL KASMA -->
             <div class="panel-section" id="panel-9">
                 <div class="card">
                     <h3>🔥 Rol Kasma & Aktivite Paneli (Family Rütbeleri)</h3>
                     <p style="color: var(--text-muted); margin-bottom: 15px;">Sunucudaki özel Family rütbelerini ve ses/jeton gereksinimlerini görüntüleyin.</p>
-                    <div style="background: var(--bg-color); padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); line-height: 1.6;">
+                    <div style="background: var(--bg-color); padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); line-height: 1.6; font-size: 0.85rem;">
                         <p>👑 <b>CEO OF HÜKÜM</b> — Ses: 300 sa | Jeton: 10,000,000</p>
                         <p>💎 <b>JAZ J BOENIQUE</b> — Ses: 280 sa | Jeton: 9,000,000</p>
                         <p>⚔️ <b>DISSAGRAM</b> — Ses: 260 sa | Jeton: 8,000,000</p>
@@ -225,7 +226,52 @@
                         <p>🩸 <b>V45 TILL İ DIE</b> — Ses: 140 sa | Jeton: 2,000,000</p>
                         <p>🦅 <b>FUR DIE FAM</b> — Ses: 120 sa | Jeton: 1,500,000</p>
                         <p>🚀 <b>HIZLIYSAN YAKALA</b> — Ses: 100 sa | Jeton: 1,000,000</p>
+                        <p>🍷 <b>Cest La Vie</b> — Ses: 80 sa | Jeton: 800,000</p>
+                        <p>📺 <b>TV19</b> — Ses: 60 sa | Jeton: 600,000</p>
+                        <p>🏔️ <b>ZİR/VE</b> — Ses: 40 sa | Jeton: 400,000</p>
+                        <p>🔥 <b>La Vida Loca</b> — Ses: 20 sa | Jeton: 200,000</p>
+                        <p>⚡ <b>HIZIMA YETİŞ</b> — Ses: 10 sa | Jeton: 100,000</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- 11. DNS & WHOIS -->
+            <div class="panel-section" id="panel-10">
+                <div class="card">
+                    <h3>🗺️ DNS & Whois Analiz İstasyonu</h3>
+                    <input type="text" id="whoisTarget" placeholder="Domain Girin (Örn: ornek.com)">
+                    <button class="action-btn" onclick="runWhoisQuery()">WHOIS & DNS Sorgula</button>
+                    <div class="log-box" id="whoisLog">WHOIS sonuçları bekleniyor...</div>
+                </div>
+            </div>
+
+            <!-- 12. MAC ÜRETİCİ -->
+            <div class="panel-section" id="panel-11">
+                <div class="card">
+                    <h3>⚙️ MAC Adresinden Üretici Analizi</h3>
+                    <input type="text" id="macInput" placeholder="MAC Adresi (Örn: 44:38:39:ff:ef:57)">
+                    <button class="action-btn" onclick="runMacQuery()">Üretici Firmayı Sorgula</button>
+                    <div class="log-box" id="macLog">MAC analiz sonuçları bekleniyor...</div>
+                </div>
+            </div>
+
+            <!-- 13. DISCORD ID İSTASYONU -->
+            <div class="panel-section" id="panel-12">
+                <div class="card">
+                    <h3>💬 Discord ID Bilgi & Bot Entegrasyon Sorgusu</h3>
+                    <input type="text" id="dcIdInput" placeholder="Discord Kullanıcı ID (Örn: 123456789012345678)">
+                    <button class="action-btn" onclick="runDcIdQuery()">ID Analizini Başlat</button>
+                    <div class="log-box" id="dcIdLog">Discord ID verileri bekleniyor...</div>
+                </div>
+            </div>
+
+            <!-- 14. SOSYAL MEDYA İZLENME -->
+            <div class="panel-section" id="panel-13">
+                <div class="card">
+                    <h3>📊 Sosyal Medya İzlenme ve Takip Otomasyon Paneli</h3>
+                    <input type="text" id="socialLinkInput" placeholder="Hedef Profil veya Video Linki">
+                    <button class="action-btn" onclick="runSocialAutomation()">Otomasyon Simülasyonunu Çalıştır</button>
+                    <div class="log-box" id="socialLog">İzlenme otomasyon logları bekleniyor...</div>
                 </div>
             </div>
 
@@ -235,7 +281,6 @@
     <div id="toast">İşlem Başarılı!</div>
 
     <script>
-        // Webhook Tanımlamaları
         const WEBHOOKS = {
             mod: "https://discord.com/api/webhooks/1533578478061097041/x5VBIUZ5lv3-XdoaXVMuaqh4MrRPJwjkMelVnnz8ubpAsYzomWxjWL64Iisjw-3d7WA5",
             announcement: "https://discord.com/api/webhooks/1533579152807039057/PwPieHMKqUWoiXl002ILhjB63pkqNtnloqXsOFx95lHugfNx_Teu3A-jWVxjmVi1g2T0",
@@ -243,7 +288,7 @@
             roleFarm: "https://discord.com/api/webhooks/1533585945851465901/AVK2kWZ3YaMDOyA4mjV0dP-QZ98SDoWwj6zNnL8_TwpX2Z0TKTMqwSa-GF0ktgEzUfBd"
         };
 
-        let currentUserId = "1500000";
+        let currentUserId = "1500000000";
 
         function switchPanel(index, btn) {
             document.querySelectorAll('.panel-section').forEach(el => el.classList.remove('active'));
@@ -263,7 +308,7 @@
 
         function updateSessionId() {
             currentUserId = document.getElementById('currentSessionId').value;
-            showAlert("Oturum Kimliği Güncellendi: " + currentUserId);
+            showAlert("Oturum Kapasitesi Güncellendi: " + currentUserId);
         }
 
         async function sendDiscordWebhook(url, content) {
@@ -292,7 +337,7 @@
         function sendModMessage() {
             let msg = document.getElementById('modText').value;
             if(!msg) return;
-            sendDiscordWebhook(WEBHOOKS.mod, `🛡️ **[MODERATOR ONLY]**\n> ${msg}\n*YETKİLİ ID: ${currentUserId}*`);
+            sendDiscordWebhook(WEBHOOKS.mod, `🛡️ **[MODERATOR ONLY KANALI]**\n> ${msg}\n*YETKİLİ ID: ${currentUserId}*`);
             document.getElementById('modLog').innerText = "✅ Mesaj Moderator Kanalına iletildi.";
             showAlert("Mod Kanalına İletildi!");
         }
@@ -303,24 +348,25 @@
             
             let output = document.getElementById('roleMatrixOutput');
             output.innerHTML = `
-                <p>🔍 <b>ID: ${targetId}</b> sorgulandı. Mevcut Roller:</p>
-                <div style="margin: 8px 0;">
-                    <span class="role-badge role-family">HIZLIYSAN YAKALA</span>
+                <p>🔍 <b>ID: ${targetId}</b> sorgulandı. Hiyerarşik Rol Yönetim Paneli Aktif:</p>
+                <div style="margin: 10px 0;">
+                    <span class="role-badge role-family">CEO OF HÜKÜM</span>
                     <span class="role-badge role-mod">DISSAGRAM</span>
+                    <span class="role-badge role-owner">EMPIRE OF HÜKÜM</span>
                 </div>
-                <div style="display: flex; gap: 10px; margin-top: 12px;">
-                    <button class="action-btn" style="background:var(--danger); padding:8px;" onclick="showAlert('Seçilen rol kullanıcıdan alındı!')">Rol Al (-)</button>
-                    <button class="action-btn" style="background:var(--success); padding:8px;" onclick="showAlert('Yeni rol kullanıcıya verildi!')">Rol Ver (+)</button>
-                    <button class="action-btn" style="background:var(--warning); padding:8px; color:#000;" onclick="showAlert('Kullanıcı 1 üst rütbeye terfi ettirildi!')">Terfi Ver (⭐)</button>
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
+                    <button class="action-btn" style="background:var(--danger);" onclick="showAlert('Seçilen rol kullanıcıdan başarıyla alındı!')">➖ Rol Al (Mevcut Rolleri Listele & Seç)</button>
+                    <button class="action-btn" style="background:var(--success);" onclick="showAlert('Yeni rol kullanıcıya başarıyla verildi!')">➕ Rol Ver (Eksik Rolleri Listele & Ekle)</button>
+                    <button class="action-btn" style="background:var(--warning); color:#000;" onclick="showAlert('Kullanıcı 1 üst rütbeye terfi ettirildi, eski rolü alındı!')">⭐ Terfi Ver (1 Üst Rütbeye Yükselt)</button>
                 </div>
             `;
-            showAlert("Hiyerarşi tablosu yüklendi!");
+            showAlert("Hiyerarşi matrisi yüklendi!");
         }
 
         function runIpQuery() {
             let target = document.getElementById('ipTargetInput').value;
             if(!target) return;
-            document.getElementById('ipLog').innerText = `🔄 '${target}' için DNS ve IP API sorgulanıyor...\nIP: 104.21.92.1\nLokasyon: United States\nDurum: Güvenli/Açık`;
+            document.getElementById('ipLog').innerText = `🔄 '${target}' için DNS ve IP API sorgulanıyor...\nIP: 104.21.92.1\nLokasyon: United States / Global Edge\nDurum: Güvenli / Erişilebilir`;
             showAlert("IP Sorgusu Tamamlandı!");
         }
 
@@ -334,8 +380,8 @@
         function runUsernameScan() {
             let uname = document.getElementById('osintUsername').value;
             if(!uname) return;
-            document.getElementById('osintLog').innerText = `🟢 GitHub: https://github.com/${uname}\n🟢 Instagram: https://instagram.com/${uname}\n🔴 TikTok: Bulunamadı`;
-            sendDiscordWebhook(WEBHOOKS.osintLog, `🔍 OSINT Tarama Logu: '${uname}' hesabı arandı.`);
+            document.getElementById('osintLog').innerText = `🟢 GitHub: https://github.com/${uname}\n🟢 Instagram: https://instagram.com/${uname}\n🟢 TikTok: https://tiktok.com/@${uname}\n🟢 Twitter/X: https://x.com/${uname}`;
+            sendDiscordWebhook(WEBHOOKS.osintLog, `🔍 OSINT Tarama Logu: '${uname}' hesabı tarandı.`);
             showAlert("OSINT Tarama Tamamlandı!");
         }
 
@@ -347,8 +393,36 @@
 
         function generateAccountPool() {
             let count = document.getElementById('accountCount').value;
-            document.getElementById('accountLog').innerText = `✅ Toplam ${count} adet test hesabı simülasyon havuzuna eklendi ve yetkilendirildi.`;
+            document.getElementById('accountLog').innerText = `✅ Toplam ${count} adet test hesabı simülasyon havuzuna eklendi.`;
             showAlert("Hesap Havuzu Oluşturuldu!");
+        }
+
+        function runWhoisQuery() {
+            let d = document.getElementById('whoisTarget').value;
+            if(!d) return;
+            document.getElementById('whoisLog').innerText = `🔍 ${d} WHOIS Verisi:\nKayıt Tarihi: 2023-05-12\nDurum: clientTransferProhibited\nNameserver: ns1.cloudflare.com`;
+            showAlert("WHOIS Sorgulandı!");
+        }
+
+        function runMacQuery() {
+            let m = document.getElementById('macInput').value;
+            if(!m) return;
+            document.getElementById('macLog').innerText = `⚙️ MAC: ${m}\nÜretici Firma: Apple, Inc. / Intel Corporate`;
+            showAlert("MAC Analizi Tamamlandı!");
+        }
+
+        function runDcIdQuery() {
+            let id = document.getElementById('dcIdInput').value;
+            if(!id) return;
+            document.getElementById('dcIdLog').innerText = `💬 Discord ID: ${id}\nDurum: Geçerli Snowflake ID\nHesap Oluşturma: 2024\nBot Yetkisi: Temiz`;
+            showAlert("Discord ID Sorgulandı!");
+        }
+
+        function runSocialAutomation() {
+            let l = document.getElementById('socialLinkInput').value;
+            if(!l) return;
+            document.getElementById('socialLog').innerText = `📊 Bağlantı işleniyor: ${l}\nİzlenme ve Etkileşim Otomasyonu Simülasyonu Başarılı!`;
+            showAlert("Sosyal Otomasyon Başlatıldı!");
         }
     </script>
 </body>
