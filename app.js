@@ -1,6 +1,3 @@
-// ⚠️ Burada TOKEN yok. Sadece backend'in (Replit) adresi var.
-// Replit'te "Run" bastıktan sonra üstte çıkan adresi buraya yapıştır.
-// Örnek: https://hukum-studio-backend.senin-kullaniciadin.repl.co
 const API_BASE = "https://discord-role-manager--eyopasa803.replit.app";
 
 // ---------- Sol menü ----------
@@ -30,7 +27,7 @@ overlay.addEventListener("click", () => {
   overlay.classList.add("hidden");
 });
 
-// ---------- Şifreli giriş ----------
+// ---------- Şifreli giriş (Site Kontrol) ----------
 async function checkSession() {
   try {
     const res = await fetch(`${API_BASE}/api/me`, { credentials: "include" });
@@ -40,7 +37,7 @@ async function checkSession() {
       document.getElementById("rolControlPanel").classList.remove("hidden");
     }
   } catch {
-    // backend henüz ayakta değil / adres yanlış — sessiz geç
+    // Bağlantı hatası durumunda sessiz kal
   }
 }
 checkSession();
@@ -64,12 +61,12 @@ async function login() {
       resultEl.className = "rk-result err";
     }
   } catch {
-    resultEl.textContent = "Sunucuya ulaşılamadı. Backend açık mı ve adres doğru mu kontrol et.";
+    resultEl.textContent = "Sunucuya ulaşılamadı. Backend adresini kontrol edin.";
     resultEl.className = "rk-result err";
   }
 }
 
-// ---------- Rol Kontrol sekmeleri ----------
+// ---------- Site Kontrol sekmeleri ----------
 document.querySelectorAll(".rk-tab").forEach(tab => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".rk-tab").forEach(t => t.classList.remove("active"));
@@ -112,7 +109,7 @@ async function loadUserRoles(mode) {
       : data.allServerRoles.filter(r => !data.memberRoles.some(m => m.id === r.id));
 
     if (source.length === 0) {
-      listEl.innerHTML = `<p class="panel-note">${mode === "al" ? "Kullanıcının rütbe rolü yok." : "Kullanıcıda eksik rol yok, zaten hepsine sahip."}</p>`;
+      listEl.innerHTML = `<p class="panel-note">${mode === "al" ? "Kullanıcının rolü yok." : "Kullanıcıda eksik rol yok."}</p>`;
       return;
     }
 
@@ -177,7 +174,7 @@ async function loadCurrentRank(mode) {
     const box = document.getElementById("terfiCurrent");
     box.innerHTML = `
       <div>Mevcut rütbe: <strong>${data.currentRank ? data.currentRank.name : "Yok"}</strong></div>
-      <div>Bir üst rütbe: <strong>${data.nextRank ? data.nextRank.name : "En üst rütbede / tanımsız"}</strong></div>
+      <div>Bir üst rütbe: <strong>${data.nextRank ? data.nextRank.name : "En üst rütbede"}</strong></div>
     `;
     document.getElementById("terfiConfirmBtn").classList.toggle("hidden", !data.nextRank);
   } catch {
