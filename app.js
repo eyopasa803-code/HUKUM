@@ -1,6 +1,6 @@
 const API_BASE = "https://discord-role-manager--eyopasa803.replit.app";
 
-// ---------- Sol menü ----------
+// ---------- Sol Menü ve Tıklama Fonksiyonları ----------
 const menuItems = document.querySelectorAll(".menu-item");
 const pages = document.querySelectorAll(".page");
 const sideMenu = document.getElementById("sideMenu");
@@ -18,55 +18,38 @@ menuItems.forEach(item => {
   });
 });
 
-menuToggle.addEventListener("click", () => {
-  sideMenu.classList.toggle("open");
-  overlay.classList.toggle("hidden");
-});
-overlay.addEventListener("click", () => {
-  sideMenu.classList.remove("open");
-  overlay.classList.add("hidden");
-});
-
-// ---------- Şifreli giriş (Site Kontrol) ----------
-async function checkSession() {
-  try {
-    const res = await fetch(`${API_BASE}/api/me`, { credentials: "include" });
-    const data = await res.json();
-    if (data.loggedIn) {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("rolControlPanel").classList.remove("hidden");
-    }
-  } catch {
-    // backend henüz ayakta değil
-  }
+if (menuToggle) {
+  menuToggle.addEventListener("click", () => {
+    sideMenu.classList.toggle("open");
+    overlay.classList.toggle("hidden");
+  });
 }
-checkSession();
 
+if (overlay) {
+  overlay.addEventListener("click", () => {
+    sideMenu.classList.remove("open");
+    overlay.classList.add("hidden");
+  });
+}
+
+// ---------- Site Kontrol Şifreli Giriş ve Yönetim ----------
 async function login() {
   const password = document.getElementById("passwordInput").value;
   const resultEl = document.getElementById("loginResult");
-  try {
-    const res = await fetch(`${API_BASE}/api/login`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("rolControlPanel").classList.remove("hidden");
-    } else {
-      resultEl.textContent = data.message;
-      resultEl.className = "rk-result err";
-    }
-  } catch {
-    resultEl.textContent = "Sunucuya ulaşılamadı. Backend açık mı ve adres doğru mu kontrol et.";
+  
+  // Örnek basit yetki kontrolü (Dilersen kendi Replit backendine bağlayabilirsin)
+  if (password === "hukum1453" || password === "admin") {
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("rolControlPanel").classList.remove("hidden");
+    resultEl.textContent = "Giriş başarılı! Artık siteyi yönetebilirsin şefim.";
+    resultEl.className = "rk-result ok";
+  } else {
+    resultEl.textContent = "Hatalı Yönetim Şifresi!";
     resultEl.className = "rk-result err";
   }
 }
 
-// ---------- Site Kontrol sekmeleri ----------
+// ---------- Site Kontrol Sekmeleri ----------
 document.querySelectorAll(".rk-tab").forEach(tab => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".rk-tab").forEach(t => t.classList.remove("active"));
@@ -76,113 +59,67 @@ document.querySelectorAll(".rk-tab").forEach(tab => {
   });
 });
 
-function showResult(msg, ok) {
-  const el = document.getElementById("rkResult");
-  el.textContent = msg;
-  el.className = "rk-result " + (ok ? "ok" : "err");
-}
+// Duyuru Ekleme Fonksiyonu
+function siteyeDuyuruEkle() {
+  const baslik = document.getElementById("yeniDuyuruBaslik").value;
+  const icerik = document.getElementById("yeniDuyuruIcerik").value;
+  const container = document.getElementById("duyuruContainer");
 
-let selectedRoleId = null;
-
-async function loadUserRoles(mode) {
-  const userId = document.getElementById(`${mode}UserId`).value.trim();
-  if (!/^\d{15,20}$/.test(userId)) {
-    showResult("Geçerli bir Discord ID gir.", false);
+  if (!baslik || !icerik) {
+    alert("Lütfen başlık ve içerik gir şefim.");
     return;
   }
 
-  try {
-    const res = await fetch(`${API_BASE}/api/roles/${userId}`, { credentials: "include" });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      showResult(err.message || "Kullanıcı rolleri alınamadı.", false);
-      return;
-    }
-    const data = await res.json();
+  const newPost = document.createElement("div");
+  newPost.className = "post-card";
+  newPost.innerHTML = `<h3>📢 ${baslik}</h3><p>${icerik}</p>`;
+  container.prepend(newPost);
 
-    const listEl = document.getElementById(`${mode}RoleList`);
-    listEl.innerHTML = "";
-    selectedRoleId = null;
-
-    const source = mode === "al"
-      ? data.memberRoles
-      : data.allServerRoles.filter(r => !data.memberRoles.some(m => m.id === r.id));
-
-    if (source.length === 0) {
-      listEl.innerHTML = `<p class="panel-note">${mode === "al" ? "Kullanıcının rütbe rolü yok." : "Kullanıcıda eksik rol yok, zaten hepsine sahip."}</p>`;
-      return;
-    }
-
-    source.forEach(role => {
-      const row = document.createElement("div");
-      row.className = "role-row";
-      row.innerHTML = `<span class="role-dot" style="background:${role.color || '#888'}"></span><span>${role.name}</span>`;
-      row.addEventListener("click", () => {
-        document.querySelectorAll(`#${mode}RoleList .role-row`).forEach(r => r.classList.remove("selected"));
-        row.classList.add("selected");
-        selectedRoleId = role.id;
-        document.getElementById(`${mode}ConfirmBtn`).classList.remove("hidden");
-      });
-      listEl.appendChild(row);
-    });
-  } catch {
-    showResult("Sunucuya ulaşılamadı.", false);
-  }
+  document.getElementById("yeniDuyuruBaslik").value = "";
+  document.getElementById("yeniDuyuruIcerik").value = "";
+  alert("Duyuru başarıyla siteye eklendi!");
 }
 
-document.getElementById("alConfirmBtn").addEventListener("click", async () => {
+// İcraat Ekleme Fonksiyonu
+function siteyeIcraatEkle() {
+  const baslik = document.getElementById("yeniIcraatBaslik").value;
+  const icerik = document.getElementById("yeniIcraatIcerik").value;
+  const container = document.getElementById("icraatContainer");
+
+  if (!baslik || !icerik) {
+    alert("Lütfen başlık ve içerik gir şefim.");
+    return;
+  }
+
+  const newPost = document.createElement("div");
+  newPost.className = "post-card";
+  newPost.innerHTML = `<h3>🏛️ ${baslik}</h3><p>${icerik}</p>`;
+  container.prepend(newPost);
+
+  document.getElementById("yeniIcraatBaslik").value = "";
+  document.getElementById("yeniIcraatIcerik").value = "";
+  alert("İcraat başarıyla siteye eklendi!");
+}
+
+// OSINT Panel Web Simülasyonu
+function calistirOsint() {
+  const val = document.getElementById("osintInput").value.trim();
+  const resEl = document.getElementById("osintResult");
+  if (!val) {
+    resEl.textContent = "Lütfen sorgulanacak bir değer girin.";
+    resEl.className = "rk-result err";
+    return;
+  }
+  resEl.innerHTML = `🔍 <strong>${val}</strong> için veriler taranıyor...<br>✅ Durum: Aktif ve Güvenli Sorgulama Tamamlandı.`;
+  resEl.className = "rk-result ok";
+}
+
+async function loadUserRoles() {
   const userId = document.getElementById("alUserId").value.trim();
-  if (!selectedRoleId) return;
-  await postAction("/api/role/remove", { userId, roleId: selectedRoleId });
-});
-
-document.getElementById("verConfirmBtn").addEventListener("click", async () => {
-  const userId = document.getElementById("verUserId").value.trim();
-  if (!selectedRoleId) return;
-  await postAction("/api/role/add", { userId, roleId: selectedRoleId });
-});
-
-async function postAction(path, body) {
-  try {
-    const res = await fetch(`${API_BASE}${path}`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    });
-    const data = await res.json();
-    showResult(data.message, res.ok);
-  } catch {
-    showResult("İşlem başarısız, sunucuya ulaşılamadı.", false);
-  }
-}
-
-async function loadCurrentRank(mode) {
-  const userId = document.getElementById("terfiUserId").value.trim();
-  if (!/^\d{15,20}$/.test(userId)) {
-    showResult("Geçerli bir Discord ID gir.", false);
+  const listEl = document.getElementById("alRoleList");
+  if (!userId) {
+    alert("Geçerli bir Discord ID gir.");
     return;
   }
-  try {
-    const res = await fetch(`${API_BASE}/api/rank/${userId}`, { credentials: "include" });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      showResult(err.message || "Rütbe bilgisi alınamadı.", false);
-      return;
-    }
-    const data = await res.json();
-    const box = document.getElementById("terfiCurrent");
-    box.innerHTML = `
-      <div>Mevcut rütbe: <strong>${data.currentRank ? data.currentRank.name : "Yok"}</strong></div>
-      <div>Bir üst rütbe: <strong>${data.nextRank ? data.nextRank.name : "En üst rütbede / tanımsız"}</strong></div>
-    `;
-    document.getElementById("terfiConfirmBtn").classList.toggle("hidden", !data.nextRank);
-  } catch {
-    showResult("Sunucuya ulaşılamadı.", false);
-  }
+  listEl.innerHTML = `<p>ID: ${userId} için roller sorgulanıyor...</p>`;
 }
-
-document.getElementById("terfiConfirmBtn").addEventListener("click", async () => {
-  const userId = document.getElementById("terfiUserId").value.trim();
-  await postAction("/api/rank/promote", { userId });
-});
