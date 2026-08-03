@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Kontrol - HÜKÜM Studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="kilit-ekrani">
+  <div class="kutu">
+    <h2>🔒 Site Kontrol</h2>
+    <input type="password" id="sifre-giris" placeholder="Şifre">
+    <button onclick="girisYap()" style="width:100%">Giriş</button>
+    <p id="hata-mesaj" style="color:#e5534b;font-size:13px"></p>
+  </div>
+</div>
+
+<div class="sidebar gizli" id="panel-govde">
+  <h1>⚙️ Site Kontrol</h1>
+  <div class="grup">BÖLÜMLER</div>
+  <a onclick="sekmeAc('t-duyuru', this)" class="active">📢 Duyurular</a>
+  <a onclick="sekmeAc('t-icraat', this)">⚡ İcraatlar</a>
+  <a onclick="sekmeAc('t-yonetim', this)">👑 Yönetim Ekibi</a>
+  <a onclick="sekmeAc('t-proje', this)">🚀 Projeler</a>
+  <a onclick="sekmeAc('t-disaAktar', this)">💾 Kaydet / Yükle</a>
+  <div class="grup"></div>
+  <a href="index.html">⬅ Siteye Dön</a>
+</div>
+
+<div class="content gizli" id="panel-icerik">
+
+  <div id="t-duyuru" class="tab-icerik aktif">
+    <h2>📢 Duyuru Ekle</h2>
+    <label>Duyuru Başlığı</label>
+    <input id="d-baslik">
+    <label>Duyuru Metni</label>
+    <textarea id="d-metin" rows="4"></textarea>
+    <button onclick="duyuruEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Duyurular</h3>
+    <div id="d-liste"></div>
+  </div>
+
+  <div id="t-icraat" class="tab-icerik">
+    <h2>⚡ İcraat Ekle</h2>
+    <label>Başlık</label>
+    <input id="i-baslik">
+    <label>Açıklama</label>
+    <textarea id="i-aciklama" rows="4"></textarea>
+    <button onclick="icraatEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut İcraatlar</h3>
+    <div id="i-liste"></div>
+  </div>
+
+  <div id="t-yonetim" class="tab-icerik">
+    <h2>👑 Yönetim Ekibi</h2>
+    <label>İsim</label>
+    <input id="y-isim">
+    <label>Rol</label>
+    <input id="y-rol">
+    <label>Profil Resmi URL (opsiyonel)</label>
+    <input id="y-resim">
+    <button onclick="yonetimEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Yönetim</h3>
+    <div id="y-liste"></div>
+  </div>
+
+  <div id="t-proje" class="tab-icerik">
+    <h2>🚀 Proje Ekle</h2>
+    <label>Proje İsmi</label>
+    <input id="p-isim">
+    <label>Proje Tanıtımı</label>
+    <textarea id="p-tanitim" rows="3"></textarea>
+    <label>Proje Amacı</label>
+    <textarea id="p-amac" rows="2"></textarea>
+    <label>Görsel URL (opsiyonel)</label>
+    <input id="p-resim">
+    <button onclick="projeEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Projeler</h3>
+    <div id="p-liste"></div>
+  </div>
+
+  <div id="t-disaAktar" class="tab-icerik">
+    <h2>💾 Değişiklikleri Siteye Yansıt</h2>
+    <p>Yaptığın değişikliklerin sitede görünmesi için:</p>
+    <ol>
+      <li><b>"content.json İndir"</b> butonuna bas.</li>
+      <li>İndirilen dosyayı GitHub'daki mevcut <b>content.json</b>'un üzerine yükle (dosyaya gir → kalem ikonu → içeriği değiştir → Commit changes).</li>
+      <li>1-2 dakika içinde site güncellenir.</li>
+    </ol>
+    <button onclick="jsonIndir()">📥 content.json İndir</button>
+    <hr style="border-color:#30363d;margin:24px 0">
+    <p>Mevcut content.json'u panele geri yüklemek için:</p>
+    <input type="file" id="json-yukle" accept="application/json" onchange="jsonYukle(event)">
+  </div>
+
+</div>
+
+<script>
+const SIFRE = "HÜKÜM_SUNAR";
+let veri = { duyurular: [], icraatlar: [], yonetim: [], projeler: [] };
+
+function girisYap(){
+  const g = document.getElementById('sifre-giris').value;
+  if(g === SIFRE){
+    document.getElementById('kilit-ekrani').style.display='none';
+    document.getElementById('panel-govde').classList.remove('gizli');
+    document.getElementById('panel-icerik').classList.remove('gizli');
+    document.body.style.display='flex';
+    verileriYukle();
+  } else {
+    document.getElementById('hata-mesaj').innerText = 'Şifre yanlış.';
+  }
+}
+
+function sekmeAc(id, el){
+  document.querySelectorAll('.tab-icerik').forEach(e=>e.classList.remove('aktif'));
+  document.getElementById(id).classList.add('aktif');
+  document.querySelectorAll('#panel-govde a').forEach(a=>a.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+function verileriYukle(){
+  const kayitli = localStorage.getItem('hukum_veri');
+  if(kayitli){
+    veri = JSON.parse(kayitli);
+    listeleriCiz();
+  } else {
+    fetch('content.json?_=' + Date.now())
+      .then(r => r.json())
+      .then(d => { veri = d; if(!veri.icraatlar) veri.icraatlar = []; listeleriCiz(); })
+      .catch(() => listeleriCiz());
+  }
+}
+
+function kaydet(){
+  localStorage.setItem('hukum_veri', JSON.stringify(veri));
+  listeleriCiz();
+}
+
+function yeniId(dizi){
+  return dizi.length ? Math.max(...dizi.map(x=>x.id)) + 1 : 1;
+}
+
+function bugun(){
+  return new Date().toISOString().slice(0,10);
+}
+
+// --- DUYURU ---
+function duyuruEkle(){
+  const baslik = document.getElementById('d-baslik').value.trim();
+  const metin = document.getElementById('d-metin').value.trim();
+  if(!baslik || !metin){ alert('Başlık ve metin boş olamaz.'); return; }
+  veri.duyurular.push({ id: yeniId(veri.duyurular), baslik, metin, tarih: bugun() });
+  document.getElementById('d-baslik').value='';
+  document.getElementById('d-metin').value='';
+  kaydet();
+}
+function duyuruSil(id){
+  veri.duyurular = veri.duyurular.filter(d => d.id !== id);
+  kaydet();
+}
+
+// --- İCRAAT ---
+function icraatEkle(){
+  const baslik = document.getElementById('i-baslik').value.trim();
+  const aciklama = document.getElementById('i-aciklama').value.trim();
+  if(!baslik || !aciklama){ alert('Başlık ve açıklama boş olamaz.'); return; }
+  veri.icraatlar.push({ id: yeniId(veri.icraatlar), baslik, aciklama, tarih: bugun() });
+  document.getElementById('i-baslik').value='';
+  document.getElementById('i-aciklama').value='';
+  kaydet();
+}
+function icraatSil(id){
+  veri.icraatlar = veri.icraatlar.filter(i => i.id !== id);
+  kaydet();
+}
+
+// --- YÖNETİM ---
+function yonetimEkle(){
+  const isim = document.getElementById('y-isim').value.trim();
+  const rol = document.getElementById('y-rol').value.trim();
+  if(!isim || !rol){ alert('İsim ve rol boş olamaz.'); return; }
+  veri.yonetim.push({
+    id: yeniId(veri.yonetim), isim, rol,
+    resim: document.getElementById('y-resim').value.trim()
+  });
+  document.getElementById('y-isim').value='';
+  document.getElementById('y-rol').value='';
+  document.getElementById('y-resim').value='';
+  kaydet();
+}
+function yonetimSil(id){
+  veri.yonetim = veri.yonetim.filter(y => y.id !== id);
+  kaydet();
+}
+
+// --- PROJE ---
+function projeEkle(){
+  const isim = document.getElementById('p-isim').value.trim();
+  if(!isim){ alert('Proje ismi boş olamaz.'); return; }
+  veri.projeler.push({
+    id: yeniId(veri.projeler), isim,
+    tanitim: document.getElementById('p-tanitim').value.trim(),
+    amac: document.getElementById('p-amac').value.trim(),
+    resim: document.getElementById('p-resim').value.trim()
+  });
+  document.getElementById('p-isim').value='';
+  document.getElementById('p-tanitim').value='';
+  document.getElementById('p-amac').value='';
+  document.getElementById('p-resim').value='';
+  kaydet();
+}
+function projeSil(id){
+  veri.projeler = veri.projeler.filter(p => p.id !== id);
+  kaydet();
+}
+
+// --- LİSTELERİ ÇİZ ---
+function listeleriCiz(){
+  document.getElementById('d-liste').innerHTML = veri.duyurular.map(d => `
+    <div class="kart">
+      <div class="baslik">${d.baslik}</div>
+      <div>${d.metin}</div>
+      <div class="tarih">${d.tarih}</div>
+      <button class="sil" onclick="duyuruSil(${d.id})">Sil</button>
+    </div>`).join('') || '<p>Duyuru yok.</p>';
+
+  document.getElementById('i-liste').innerHTML = veri.icraatlar.map(i => `
+    <div class="kart">
+      <div class="baslik">${i.baslik}</div>
+      <div>${i.aciklama}</div>
+      <div class="tarih">${i.tarih}</div>
+      <button class="sil" onclick="icraatSil(${i.id})">Sil</button>
+    </div>`).join('') || '<p>İcraat yok.</p>';
+
+  document.getElementById('y-liste').innerHTML = veri.yonetim.map(y => `
+    <div class="kart">
+      <div class="baslik">${y.isim}</div>
+      <span class="rozet">${y.rol}</span>
+      <br><button class="sil" onclick="yonetimSil(${y.id})">Sil</button>
+    </div>`).join('') || '<p>Yönetim üyesi yok.</p>';
+
+  document.getElementById('p-liste').innerHTML = veri.projeler.map(p => `
+    <div class="kart">
+      <div class="baslik">${p.isim}</div>
+      <div>${p.tanitim}</div>
+      <div class="tarih">Amaç: ${p.amac}</div>
+      <button class="sil" onclick="projeSil(${p.id})">Sil</button>
+    </div>`).join('') || '<p>Proje yok.</p>';
+}
+
+// --- İNDİR / YÜKLE ---
+function jsonIndir(){
+  const blob = new Blob([JSON.stringify(veri, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'content.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function jsonYukle(e){
+  const dosya = e.target.files[0];
+  if(!dosya) return;
+  const okuyucu = new FileReader();
+  okuyucu.onload = function(evt){
+    try{
+      veri = JSON.parse(evt.target.result);
+      if(!veri.icraatlar) veri.icraatlar = [];
+      kaydet();
+      alert('Yüklendi.');
+    }catch(err){
+      alert('Geçersiz JSON dosyası.');
+    }
+  };
+  okuyucu.readAsText(dosya);
+}
+</script>
+
+</body>
+</html>
