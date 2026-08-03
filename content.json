@@ -1,8 +1,6 @@
 {
-  "duyurular": "",
-  "icraatlerimiz": "",
-  "kurallar": "",
-  "yonetimEkibiRaw": "",
-  "projelerimizRaw": "",
-  "uyelerRaw": ""
+    "duyurular": [],
+    "yonetim": [],
+    "projeler": [],
+    "uyeler": []
 }
