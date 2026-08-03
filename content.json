@@ -1,6 +1,16 @@
 {
-    "duyurular": [],
-    "yonetim": [],
-    "projeler": [],
-    "uyeler": []
+  "duyurular": [
+    {
+      "id": 1,
+      "baslik": "HÜKÜM Studio'ya Hoş Geldiniz",
+      "metin": "Yeni sitemiz yayında!",
+      "tarih": "2026-08-04"
+    }
+  ],
+  "icraatlar": [],
+  "yonetim": [
+    { "id": 1, "isim": "Jaz", "rol": "CEO of HÜKÜM", "resim": "" },
+    { "id": 2, "isim": "SY", "rol": "Sunucu Yöneticisi", "resim": "" }
+  ],
+  "projeler": []
 }
