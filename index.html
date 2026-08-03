@@ -13,6 +13,11 @@
       <span></span><span></span><span></span>
     </button>
     <div class="brand">HÜKÜM <strong>STUDIO</strong></div>
+    <div class="auth-area">
+      <div class="user-chip">
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80" alt="Hüküm Logo">
+      </div>
+    </div>
   </header>
 
   <div class="layout">
@@ -21,6 +26,7 @@
         <div class="menu-group-label">Genel</div>
         <a class="menu-item active" data-target="anasayfa">🏠 Ana Sayfa</a>
         <a class="menu-item" data-target="duyurular">📢 Duyurular</a>
+        <a class="menu-item" data-target="yeniler-ittifaki">📜 Yeniler İttifakı</a>
         <a class="menu-item" data-target="icraatlerimiz">🏛️ İcraatlerimiz</a>
         <a class="menu-item" data-target="projelerimiz">🧩 Projelerimiz</a>
         <a class="menu-item" data-target="sunucumuz">💬 Sunucumuz</a>
@@ -32,7 +38,7 @@
 
         <div class="menu-group-label">Sistemler</div>
         <a class="menu-item" data-target="osint-panel">🔎 OSINT Panel</a>
-        <a class="menu-item" data-target="site-kontrol">🛡️ Site Kontrol</a>
+        <a class="menu-item" data-target="rol-kontrol">🛡️ Site Kontrol</a>
         <a class="menu-item" data-target="rutbeler">🎖️ Rütbe Sistemi</a>
         <a class="menu-item" data-target="istatistikler">📊 İstatistikler</a>
 
@@ -47,105 +53,133 @@
 
     <main class="content">
 
+      <!-- ANA SAYFA -->
       <section id="anasayfa" class="page active">
         <h1>HÜKÜM Studio</h1>
         <p class="subtitle">Sunucumuzun resmi vitrini — icraatlerimiz, projelerimiz ve ekibimiz burada.</p>
-        <div class="home-banner" style="margin-top: 20px; text-align: center;">
-          <img src="1000023091_3.png" alt="Yeniler İttifakı Logosu" style="max-width: 200px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px;">
-          <h3 style="color: var(--gold);">Yeniler İttifakı & HÜKÜM Güvencesiyle</h3>
+        <div class="hero-banner">
+          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80" alt="Hüküm Banner" class="banner-img">
         </div>
       </section>
 
+      <!-- DUYURULAR -->
       <section id="duyurular" class="page">
         <h2>📢 Duyurular</h2>
-        <div class="announcement-box" style="background: var(--panel); padding: 16px; border-radius: var(--radius); border: 1px solid var(--border); margin-top: 15px;">
-          <h3 style="color: var(--gold);">ÖNEMLİ DUYURU: Yeniler İttifakı Yapısı ve Sistemi Hakkında</h3>
-          <p><strong>Değerli Dostlar ve İttifak Üyeleri;</strong></p>
-          <p>Grubumuzun temelini oluşturan "Yeniler İttifakı" ve bu yapının dayandığı çalışma sistemi hakkında bilgilendirmedir:</p>
-          <ul>
-            <li><strong>1. Yeniler İttifakı Nedir?</strong> Eski ve hantal yöntemlerin aksine; daha dinamik, disiplinli ve kararlı adımlarla hareket eden yeni bir oluşumdur. Amacımız; ortak bir vizyonla birleşip hiyerarşik bir düzen kurmaktır.</li>
-            <li><strong>2. İttifakın Sistemi Nasıl İşler?</strong> Komuta zinciri stratejik akılla alınır. Dışarıdan gelecek her türlü haksızlığa karşı tek yumruk olucaz. Dersler, eğitim, ahlak ve başarıya odaklanırız. Planlarımız içeride kalır.</li>
-          </ul>
-          <p style="text-align: center;"><img src="1000023091_3.png" alt="Yeniler İttifakı" style="max-width: 120px; border-radius: 10px; margin-top: 10px;"></p>
+        <div id="duyuruContainer" class="dynamic-container">
+          <div class="post-card">
+            <h3>Hoş Geldiniz Şefler!</h3>
+            <p>Hüküm Studio yeni yüzüyle yayında. Site kontrol paneli üzerinden artık duyuru ve icraat ekleyebilirsiniz.</p>
+          </div>
         </div>
       </section>
 
-      <section id="icraatlerimiz" class="page"><h2>🏛️ İcraatlerimiz</h2><p>Ekip olarak tamamladığımız projeler, güvenlik ve OSINT altyapı çalışmaları burada listelenmektedir.</p></section>
-      
+      <!-- YENİLER İTTİFAKI -->
+      <section id="yeniler-ittifaki" class="page">
+        <h2>📜 Yeniler İttifakı Yapısı ve Sistemi</h2>
+        <div class="post-card">
+          <p><strong>Değerli Dostlar ve İttifak Üyeleri;</strong><br>Grubumuzun temelini oluşturan "Yeniler İttifakı" ve bu yapının dayandığı çalışma sistemi hakkında, sürece tam hakim olmayan tüm üyelerimizi bilgilendirmek adına bu açıklama yapılmıştır:</p>
+          
+          <h3>1. Yeniler İttifakı Nedir?</h3>
+          <p>Eski ve hantal yöntemlerin aksine; daha dinamik, disiplinli ve kararlı adımlarla hareket eden yeni bir oluşumdur. Amacımız; ortak bir vizyonla birleşip hiyerarşik bir düzen kurmak ve her engele karşı tek bir yumruk olmaktır. Adaleti, dürüstlüğü ve mertliği esas alır.</p>
+
+          <h3>2. İttifakın "Sistemi" Nasıl İşler?</h3>
+          <ul>
+            <li><strong>Komuta Zinciri:</strong> Kararlar başıboş değil; disiplin, hiyerarşi ve stratejik akılla alınır. Herkesin rolü bellidir.</li>
+            <li><strong>Tek Yumruk İlkesi:</strong> Dışarıdan gelecek her türlü haksızlığa ve serseriliğe karşı üyeler birbirini kollar. Birimize yapılan, hepimize yapılmıştır.</li>
+            <li><strong>Gelişim ve Doğruluk:</strong> Boş işlerle vakit kaybetmeyiz. Üyelerimizi her zaman en doğru yola; derslerine, eğitimine, ahlaka ve başarıya yönlendiririz.</li>
+            <li><strong>Sadakat ve Gizlilik:</strong> Planlarımız ve stratejilerimiz içeride kalır. Dışarıya bilgi sızdırmamak ve şerefli bir duruş sergilemek temel kuralımızdır.</li>
+          </ul>
+          <p>Yeniler İttifakı sistemiyle geleceğe sağlam adımlar atıyoruz. Her üyenin bu şerefli sorumluluğa uygun hareket etmesi gerekmektedir. Bilgilerinize.</p>
+        </div>
+      </section>
+
+      <!-- İCRAATLERİMİZ -->
+      <section id="icraatlerimiz" class="page">
+        <h2>🏛️ İcraatlerimiz</h2>
+        <div id="icraatContainer" class="dynamic-container">
+          <div class="post-card">
+            <h3>İlk Büyük Harekat</h3>
+            <p>Hüküm Studio altyapısı tamamen yenilendi ve aktif edildi.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJELERİMİZ -->
       <section id="projelerimiz" class="page">
         <h2>🧩 Projelerimiz</h2>
-        <p>HÜKÜM Studio bünyesinde geliştirilen aktif projeler ve araçlar:</p>
-        <div style="background: var(--panel); padding: 15px; border-radius: 8px; border: 1px solid var(--border); margin-top: 10px;">
-          <h3 style="color: var(--gold);">HÜKÜM OSINT & Local Host Not Paneli</h3>
-          <p>Python tabanlı, yerel ağda çalışan ve çoklu işlev sunan kapsamlı beyaz şapkalı eğitim ve yönetim aracı.</p>
+        <div class="post-card">
+          <h3>Hüküm OSINT Tool v1.0</h3>
+          <p>Beyaz şapkalı eğitim aracı ve yerel yönetim paneli aktif edildi.</p>
+        </div>
+        <div class="post-card">
+          <h3>Discord Rol ve Yetki Otomasyonu</h3>
+          <p>Sunucu içi rollerin ve rütbelerin otomatik yönetildiği sistem.</p>
         </div>
       </section>
 
+      <!-- SUNUCUMUZ -->
       <section id="sunucumuz" class="page">
         <h2>💬 Sunucumuz</h2>
-        <p>Resmi Discord sunucularımıza katılmak için aşağıdaki bağlantıları kullanabilirsiniz:</p>
-        <ul>
-          <li><a href="https://discord.gg/ZDHU5wReya" target="_blank" style="color: var(--gold);">HÜKÜM Discord Sunucusu 1</a></li>
-          <li><a href="https://discord.gg/DFEmZYS33U" target="_blank" style="color: var(--gold);">HÜKÜM Discord Sunucusu 2</a></li>
-        </ul>
+        <div class="post-card discord-box">
+          <p>Discord sunucularımıza katılmak için aşağıdaki davet linklerini kullanabilirsiniz:</p>
+          <a href="https://discord.gg/ZDHU5wReya" target="_blank" class="btn-primary" style="display:inline-block; margin-bottom:10px;">🚀 Hüküm Discord 1 (Davet Linki)</a><br>
+          <a href="https://discord.gg/DFEmZYS33U" target="_blank" class="btn-primary" style="display:inline-block;">⚡ Hüküm Discord 2 (Davet Linki)</a>
+        </div>
       </section>
 
+      <!-- YÖNETİM EKİBİ -->
       <section id="yonetim-ekibi" class="page">
         <h2>👑 Yönetim Ekibi</h2>
-        <p>HÜKÜM & Yeniler İttifakı Lider Kadrosu:</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
-          <div style="background: var(--panel); padding: 15px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-            <img src="1000023092_3.png" alt="Wexy Montéz" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover;">
-            <h4>Wexy Montéz</h4>
-            <p style="color: var(--gold); font-size: 13px;">👑 CEO OF HÜKÜM</p>
+        <div class="team-grid">
+          <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Yönetim">
+            <h3>JAZ J BOENIQUE</h3>
+            <p>Kurucu / Lider</p>
           </div>
-          <div style="background: var(--panel); padding: 15px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-            <img src="1000023093_3.png" alt="Lord" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover;">
-            <h4>Lord (masum_00._.)</h4>
-            <p style="color: var(--gold); font-size: 13px;">💎 JAZ J BOENIQUE / SY Sunucu Yöneticisi</p>
+          <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80" alt="CEO">
+            <h3>CEO OF HÜKÜM</h3>
+            <p>Üst Yönetim</p>
           </div>
-          <div style="background: var(--panel); padding: 15px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-            <img src="1000023094_3.png" alt="Eyo Paşa" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover;">
-            <h4>EYO PAŞA!</h4>
-            <p style="color: var(--gold); font-size: 13px;">⚔️ EGEC / Kurucu</p>
-          </div>
-          <div style="background: var(--panel); padding: 15px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-            <img src="1000023095_3.png" alt="!404 Varlo" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover;">
-            <h4>!404 Varlo</h4>
-            <p style="color: var(--gold); font-size: 13px;">HÜKÜMV45 Kurucusu</p>
-          </div>
-          <div style="background: var(--panel); padding: 15px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-            <img src="1000023096_3.png" alt="GökoFriztche" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover;">
-            <h4>GökoFriztche</h4>
-            <p style="color: var(--gold); font-size: 13px;">🚧 GATEKAPPER</p>
+          <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80" alt="Yönetici">
+            <h3>SY Sunucu Yöneticisi</h3>
+            <p>Yönetim Ekibi</p>
           </div>
         </div>
       </section>
 
-      <section id="uyelerimiz" class="page"><h2>🫂 Üyelerimiz</h2><p>HÜKÜM ailesinin değerli neferleri ve rütbe sahipleri.</p></section>
-      <section id="basvurular" class="page"><h2>📝 Başvurular</h2><p>Ekibe katılım ve yetkili başvuru formu için Discord sunucumuza gelebilirsiniz.</p></section>
-      
+      <!-- ÜYELERİMİZ -->
+      <section id="uyelerimiz" class="page">
+        <h2>🫂 Üyelerimiz</h2>
+        <p class="subtitle">Hüküm Ailesi neferleri ve rütbe sahipleri.</p>
+        <div class="post-card"><p>Tüm aktif üyeler ve rütbeleri sistemde kayıtlıdır.</p></div>
+      </section>
+
+      <!-- BAŞVURULAR -->
+      <section id="basvurular" class="page">
+        <h2>📝 Başvurular</h2>
+        <div class="post-card">
+          <p>Ekibe katılım ve rütbe başvuruları için Discord sunucumuzdaki <span style="color:var(--gold);">YETKİLİ ALIM DM</span> kanalını kullanabilirsiniz.</p>
+        </div>
+      </section>
+
+      <!-- OSINT PANEL -->
       <section id="osint-panel" class="page">
-        <h2>🔎 OSINT Panel</h2>
-        <p class="panel-note">Sunucumuzdaki üyelerin eğitim ve analiz amaçlı kullanabileceği araç arayüzü:</p>
+        <h2>🔎 OSINT Panel (Web Entegrasyonu)</h2>
+        <p class="panel-note">Sunucumuzda bulunan yetkililer ve üyeler için yasal OSINT araç simülasyonu.</p>
         <div class="rk-panel">
-          <h3 style="color: var(--gold);">HÜKÜM OSINT Araç Listesi (v1.0)</h3>
-          <p>Aşağıdaki araçlar yerel Python altyapısı ile çalışmaktadır:</p>
-          <ul style="line-height: 1.8;">
-            <li>🌐 Site IP Bulma & IP Detaylı Sorgu</li>
-            <li>🔍 Domain WHOIS ve DNS Kayıtları Sorgulama</li>
-            <li>🚪 Temel Port Tarayıcı & HTTP Header Analizi</li>
-            <li>📄 Robots.txt Kontrolü & Şifre Güvenlik Testi</li>
-            <li>💬 Discord ID Bilgi ve Bot Entegrasyon Sorgusu</li>
-            <li>🗺️ MAC Adresinden Üretici Analizi & Kullanıcı Adı Tarayıcı</li>
-          </ul>
+          <label>Hedef IP / Site / Discord ID</label>
+          <input type="text" id="osintInput" placeholder="Örn: 813245678901234567 veya google.com">
+          <button class="btn-primary" onclick="calistirOsint()">Sorgula</button>
+          <div id="osintResult" class="rk-result"></div>
         </div>
       </section>
 
-      <!-- SİTE KONTROL PANELİ -->
-      <section id="site-kontrol" class="page">
+      <!-- SİTE KONTROL PANELİ (Önceden Rol Kontrol idi, güncellendi) -->
+      <section id="rol-kontrol" class="page">
         <h2>🛡️ Site Kontrol Paneli</h2>
-        <p class="panel-note">Bu panel sadece yönetim şifresini bilen yetkililer tarafından kullanılabilir.</p>
+        <p class="panel-note">Bu panel sadece yönetim şifresini bilenler tarafından kullanılabilir. Şifreyi girerek siteye duyuru ve icraat ekleyebilirsin!</p>
 
         <!-- ŞİFRE EKRANI -->
         <div id="loginBox" class="rk-panel">
@@ -155,116 +189,126 @@
           <div id="loginResult" class="rk-result"></div>
         </div>
 
-        <!-- PANEL (giriş yapınca görünür) -->
+        <!-- PANEL (Giriş yapınca açılır ve siteyi yönetmeni sağlar) -->
         <div id="rolControlPanel" class="rk-panel hidden">
           <div class="rk-tabs">
-            <button class="rk-tab active" data-tab="al">Rol Al</button>
-            <button class="rk-tab" data-tab="ver">Rol Ver</button>
-            <button class="rk-tab" data-tab="terfi">Terfi Ver</button>
+            <button class="rk-tab active" data-tab="duyuru-ekle">📢 Duyuru Ekle</button>
+            <button class="rk-tab" data-tab="icraat-ekle">🏛️ İcraat Ekle</button>
+            <button class="rk-tab" data-tab="rol-islemleri">🛡️ Rol Yönetimi</button>
           </div>
 
-          <div class="rk-tabpanel active" id="tab-al">
+          <div class="rk-tabpanel active" id="tab-duyuru-ekle">
+            <label>Duyuru Başlığı</label>
+            <input type="text" id="yeniDuyuruBaslik" placeholder="Duyuru başlığı yazın">
+            <label>Duyuru İçeriği</label>
+            <input type="text" id="yeniDuyuruIcerik" placeholder="Duyuru detayını yazın">
+            <button class="btn-confirm" onclick="siteyeDuyuruEkle()">Duyuruyu Yayınla</button>
+          </div>
+
+          <div class="rk-tabpanel" id="tab-icraat-ekle">
+            <label>İcraat Başlığı</label>
+            <input type="text" id="yeniIcraatBaslik" placeholder="İcraat başlığı yazın">
+            <label>İcraat Açıklaması</label>
+            <input type="text" id="yeniIcraatIcerik" placeholder="İcraat detayını yazın">
+            <button class="btn-confirm" onclick="siteyeIcraatEkle()">İcraati Yayınla</button>
+          </div>
+
+          <div class="rk-tabpanel" id="tab-rol-islemleri">
             <label>Discord ID</label>
             <input type="text" id="alUserId" placeholder="Örn: 813245678901234567">
-            <button class="btn-primary" onclick="loadUserRoles('al')">Kullanıcının Rollerini Getir</button>
+            <button class="btn-primary" onclick="loadUserRoles()">Kullanıcı Rollerini Kontrol Et</button>
             <div id="alRoleList" class="role-list"></div>
-            <button class="btn-confirm hidden" id="alConfirmBtn">Seçili Rolü Al</button>
-          </div>
-
-          <div class="rk-tabpanel" id="tab-ver">
-            <label>Hedef Discord ID</label>
-            <input type="text" id="verUserId" placeholder="Örn: 813245678901234567">
-            <button class="btn-primary" onclick="loadUserRoles('ver')">Eksik Rolleri Getir</button>
-            <div id="verRoleList" class="role-list"></div>
-            <button class="btn-confirm hidden" id="verConfirmBtn">Seçili Rolü Ver</button>
-          </div>
-
-          <div class="rk-tabpanel" id="tab-terfi">
-            <label>Hedef Discord ID</label>
-            <input type="text" id="terfiUserId" placeholder="Örn: 813245678901234567">
-            <button class="btn-primary" onclick="loadCurrentRank('terfi')">Mevcut Rütbeyi Getir</button>
-            <div id="terfiCurrent" class="rk-current"></div>
-            <button class="btn-confirm hidden" id="terfiConfirmBtn">Bir Üst Rütbeye Terfi Ettir</button>
           </div>
 
           <div id="rkResult" class="rk-result"></div>
         </div>
       </section>
 
+      <!-- RÜTBE SİSTEMİ -->
       <section id="rutbeler" class="page">
-        <h2>🎖️ Rütbe Sistemi ve ID'ler</h2>
-        <p>HÜKÜM Sunucusu Resmi Rol Listesi ve Hiyerarşisi:</p>
-        <div style="background: var(--panel); padding: 15px; border-radius: 8px; border: 1px solid var(--border); max-height: 400px; overflow-y: auto;">
-          <ul style="line-height: 1.6; font-size: 14px;">
-            <li>💎 JAZ J BOENIQUE: 1532758958295613451</li>
-            <li>👑 CEO OF HÜKÜM: 1532758956647121098</li>
-            <li>👑 SY Sunucu Yöneticisi: 1532758981544644640</li>
-            <li>⚔️ DISSAGRAM: 1532758959801503985</li>
-            <li>⚜️ V’est Unique: 1532758961499934820</li>
-            <li>🔮 Swentegral: 1532758962724802743</li>
-            <li>⚡ Die Spitze: 1532758963773509702</li>
-            <li>🤖 BOTLOADER: 1532758964973076540</li>
-            <li>🚧 GATEKAPPER: 1532758966537551972</li>
-            <li>👑 Mod Lideri: 1532758982928634047</li>
-            <li>📋 Mod Lider Yardımcısı: 1532758984199503974</li>
-            <li>⚙️ Kıdemli Moderatör: 1532758985516781601</li>
-            <li>⚔️ Üstün Moderatör: 1532758987580248236</li>
-            <li>📋 Moderatör: 1532758989098717265</li>
-            <li>⭐ Stajyer Moderatör: 1532758990969372672</li>
-            <li>🎖️ Esat Oktay Yıldıran: 1532759038188720229</li>
+        <h2>🎖️ Rütbe Sistemi ve Rol Listesi</h2>
+        <p class="subtitle">Hüküm sunucusunun resmi rol ve rütbe id listesi.</p>
+        <div class="post-card" style="max-height: 400px; overflow-y: auto;">
+          <ul style="list-style: none; padding:0; line-height: 2;">
+            <li>💎 JAZ J BOENIQUE (15327589582h95613451)</li>
+            <li>👑 CEO OF HÜKÜM (1532758956647121098)</li>
+            <li>👑 SY Sunucu Yöneticisi (1532758981544644640)</li>
+            <li>⚔️ DISSAGRAM (1532758959801503985)</li>
+            <li>⚜️ V’est Unique (1532758961499934820)</li>
+            <li>🔮 Swentegral (1532758962724802743)</li>
+            <li>⚡ Die Spitze (1532758963773509702)</li>
+            <li>🤖 BOTLOADER (1532758964973076540)</li>
+            <li>🚧 GATEKAPPER (1532758966537551972)</li>
+            <li>👑 Mod Lideri (1532758982928634047)</li>
+            <li>🛡️ Koruma Görevlisi (1532758993724903589)</li>
+            <li>💻 Geliştirici (1532758995062751362)</li>
+            <li>🎖️ Esat Oktay Yıldıran (1532759038188720229)</li>
+            <li>🏅 Üstün başarı madalyası (1533476980379353172)</li>
           </ul>
         </div>
       </section>
 
-      <section id="istatistikler" class="page"><h2>📊 İstatistikler</h2><p>Sunucu aktiflik ve üye istatistikleri.</p></section>
-      
-      <section id="kurallar" class="page">
-        <h2>📜 Kurallar</h2>
-        <p><em>Bu familye katılan herkes, aşağıdaki kuralları kabul etmiş sayılır. Kurallara uymayanlar men edilir.</em></p>
-        
-        <h3>⚖️ 1. GENEL ADAP VE SAYGI</h3>
-        <ul>
-          <li><strong>Ağırbaşlılık Esastır:</strong> Sunucu içerisinde lakayıt tavırlardan kaçınılmalıdır. Üyelere karşı saygılı ve mesafeli bir tutum sergilenecektir.</li>
-          <li><strong>Kişisel Haklar:</strong> Hiçbir üye; dini, milli veya şahsi değerleri üzerinden hedef alınamaz, küçümsenemez.</li>
-          <li><strong>Tartışma Kültürü:</strong> Fikir ayrılıkları medeni bir şekilde tartışılmalı, olay kişisel kavgaya dönüştürülmemelidir.</li>
-          <li><strong>Küfür:</strong> Ufak küfürlerin cezası yoktur, abartılı küfür (ADK, DDK, MDK vb.) doğrudan ban sebebidir.</li>
-        </ul>
-
-        <h3>🛡️ 2. DÜZEN VE İŞLEYİŞ</h3>
-        <ul>
-          <li><strong>Gereksiz Etiketleme (Ping):</strong> Yönetim ekibi ve üyeler, acil bir durum olmadıkça sebepsiz yere rahatsız edilmemelidir.</li>
-          <li><strong>Kanal Kullanımı:</strong> Her içerik kendi özel kanalında paylaşılmalıdır.</li>
-          <li><strong>Spam ve Flood:</strong> Arka arkaya mesaj göndererek kanalları meşgul etmek yasaktır.</li>
-        </ul>
-
-        <h3>⛔ 3. KESİN YASAKLAR</h3>
-        <ul>
-          <li><strong>Reklam:</strong> Sunucu içindeki herhangi bir mecrada (DM dahil) başka platformların reklamını yapmak kalıcı uzaklaştırma sebebidir.</li>
-          <li><strong>Yasadışı İçerik:</strong> İllegal faaliyetler, zararlı yazılımlar veya topluluk kurallarına aykırı dosyaların paylaşımı yasaktır.</li>
-          <li><strong>Siyasi ve Dini Provokasyon:</strong> Toplumu kutuplaştıracak sert siyasi tartışmalar bu sofrada yer bulamaz.</li>
-        </ul>
-
-        <h3>👑 4. YÖNETİM VE OTORİTE</h3>
-        <ul>
-          <li><strong>Kararlara İtaat:</strong> Moderatörlerin ve yöneticilerin verdiği kararlar sorgulanabilir ancak son söz her zaman Yönetim'e aittir.</li>
-        </ul>
+      <!-- İSTATİSTİKLER -->
+      <section id="istatistikler" class="page">
+        <h2>📊 İstatistikler</h2>
+        <div class="post-card">
+          <p>Sunucu Aktif Üye: <strong>Çevrim içi</strong></p>
+          <p>Toplam İcraat: <strong>Güncelleniyor</strong></p>
+        </div>
       </section>
 
-      <section id="sss" class="page"><h2>❓ SSS</h2><p>Sık sorulan sorular ve yanıtları.</p></section>
-      
+      <!-- KURALLAR -->
+      <section id="kurallar" class="page">
+        <h2>📜 Sunucu Kuralları</h2>
+        <div class="post-card">
+          <p><em>Bu familye katılan herkes, aşağıdaki kuralları kabul etmiş sayılır. Kurallara uymayanlar men edilir.</em></p>
+          
+          <h3>⚖️ 1. GENEL ADAP VE SAYGI</h3>
+          <p><strong>Ağırbaşlılık Esastır:</strong> Sunucu içerisinde lakayıt tavırlardan kaçınılmalıdır. Üyelere karşı saygılı ve mesafeli bir tutum sergilenecektir.<br>
+          <strong>Kişisel Haklar:</strong> Hiçbir üye; dini, milli veya şahsi değerleri üzerinden hedef alınamaz, küçümsenemez.<br>
+          <strong>Tartışma Kültürü:</strong> Fikir ayrılıkları medeni bir şekilde tartışılmalı, olay kişisel kavgaya dönüştürülmemelidir.<br>
+          <strong>Küfür:</strong> Ufak küfürlerin cezası yoktur, abartılı küfür (ADK, DDK, MDK vs.) ban sebebidir.</p>
+
+          <h3>🛡️ 2. DÜZEN VE İŞLEYİŞ</h3>
+          <p><strong>Gereksiz Etiketleme (Ping):</strong> Yönetim ekibi ve üyeler, acil bir durum olmadıkça sebepsiz yere rahatsız edilmemelidir.<br>
+          <strong>Kanal Kullanımı:</strong> Her içerik kendi özel kanalında paylaşılmalıdır.<br>
+          <strong>Spam ve Flood:</strong> Arka arkaya mesaj göndererek kanalları meşgul etmek kesinlikle yasaktır.</p>
+
+          <h3>⛔ 3. KESİN YASAKLAR</h3>
+          <p><strong>Reklam:</strong> Başka platformların reklamını yapmak kalıcı uzaklaştırma sebebidir.<br>
+          <strong>Yasadışı İçerik:</strong> İllegal faaliyetler veya zararlı yazılımlar yasaktır.<br>
+          <strong>Siyasi ve Dini Provokasyon:</strong> Toplumu kutuplaştıracak tartışmaların bu sofrada yeri yoktur.</p>
+
+          <h3>👑 4. YÖNETİM VE OTORİTE</h3>
+          <p><strong>Kararlara İtaat:</strong> Moderatörlerin ve yöneticilerin verdiği kararlar sorgulanabilir ancak son söz her zaman Yönetim'e aittir.</p>
+        </div>
+      </section>
+
+      <!-- SSS -->
+      <section id="sss" class="page">
+        <h2>❓ SSS (Sık Sorulan Sorular)</h2>
+        <div class="post-card">
+          <p><strong>S: Hüküm Studio nedir?</strong><br>C: Discord sunucumuzun projelerini ve ekibini tanıtan resmi platformudur.</p>
+        </div>
+      </section>
+
+      <!-- DESTEK -->
       <section id="destek" class="page">
         <h2>🎫 Destek</h2>
-        <p>Destek talebi oluşturmak için Discord sunucumuzdaki ticket kanallarını kullanabilirsiniz.</p>
+        <div class="post-card">
+          <p>Destek talebi oluşturmak için Discord sunucumuzdaki bilet sistemini kullanabilirsiniz.</p>
+        </div>
       </section>
 
+      <!-- İLETİŞİM -->
       <section id="iletisim" class="page">
         <h2>✉️ İletişim</h2>
-        <p><strong>Discord Sunucularımız:</strong></p>
-        <ul>
-          <li><a href="https://discord.gg/ZDHU5wReya" target="_blank" style="color: var(--gold);">HÜKÜM Sunucu 1</a></li>
-          <li><a href="https://discord.gg/DFEmZYS33U" target="_blank" style="color: var(--gold);">HÜKÜM Sunucu 2</a></li>
-        </ul>
-        <p><strong>Yönetim Ekibi Discord İsimleri:</strong> Wexy Montéz, Lord, Eyo Paşa, !404 Varlo, GökoFriztche</p>
+        <div class="post-card">
+          <p><strong>Yönetim Ekibi Discord İsimleri:</strong> JAZ J BOENIQUE, CEO OF HÜKÜM, SY Sunucu Yöneticisi</p>
+          <p><strong>Discord Sunucularımız:</strong><br>
+          - <a href="https://discord.gg/ZDHU5wReya" target="_blank">Sunucu 1 Davet Linki</a><br>
+          - <a href="https://discord.gg/DFEmZYS33U" target="_blank">Sunucu 2 Davet Linki</a></p>
+        </div>
       </section>
 
     </main>
