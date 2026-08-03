@@ -32,7 +32,7 @@
 
         <div class="menu-group-label">Sistemler</div>
         <a class="menu-item" data-target="osint-panel">🔎 OSINT Panel</a>
-        <a class="menu-item" data-target="rol-kontrol">🛡️ Rol Kontrol</a>
+        <a class="menu-item" data-target="rol-kontrol">🛡️ Site Kontrol</a>
         <a class="menu-item" data-target="rutbeler">🎖️ Rütbe Sistemi</a>
         <a class="menu-item" data-target="istatistikler">📊 İstatistikler</a>
 
@@ -52,19 +52,78 @@
         <p class="subtitle">Sunucumuzun resmi vitrini — icraatlerimiz, projelerimiz ve ekibimiz burada.</p>
       </section>
 
-      <section id="duyurular" class="page"><h2>📢 Duyurular</h2><p>Buraya sunucu duyuruları eklenecek.</p></section>
-      <section id="icraatlerimiz" class="page"><h2>🏛️ İcraatlerimiz</h2><p>Ekip olarak tamamladığımız işler burada listelenecek.</p></section>
-      <section id="projelerimiz" class="page"><h2>🧩 Projelerimiz</h2><p>Aktif ve tamamlanan projeler burada gösterilecek.</p></section>
-      <section id="sunucumuz" class="page"><h2>💬 Sunucumuz</h2><p>Discord sunucumuza katılmak için: <a href="#">davet linki</a></p></section>
-      <section id="yonetim-ekibi" class="page"><h2>👑 Yönetim Ekibi</h2><p>Yönetim ekibi kartları burada listelenecek.</p></section>
-      <section id="uyelerimiz" class="page"><h2>🫂 Üyelerimiz</h2><p>Üye listesi ve rütbeleri.</p></section>
-      <section id="basvurular" class="page"><h2>📝 Başvurular</h2><p>Ekibe katılım / rütbe başvuru formu.</p></section>
-      <section id="osint-panel" class="page"><h2>🔎 OSINT Panel</h2><p>Yasal OSINT araçlarınız için ayrı bir alan.</p></section>
+      <section id="duyurular" class="page">
+        <h2>📢 Duyurular</h2>
+        <p>Sunucumuzla ilgili en güncel duyurular ve haberler burada paylaşılacaktır.</p>
+      </section>
 
-      <!-- ROL KONTROL PANELİ -->
+      <section id="icraatlerimiz" class="page">
+        <h2>🏛️ İcraatlerimiz</h2>
+        <p>Ekip olarak tamamladığımız projeler ve operasyonel faaliyetlerimiz.</p>
+      </section>
+
+      <section id="projelerimiz" class="page">
+        <h2>🧩 Projelerimiz</h2>
+        <div class="project-card" style="background:var(--panel); border:1px solid var(--border); padding:16px; border-radius:var(--radius); margin-top:10px;">
+          <img src="yeniler_ittifaki_logo.png" alt="Yeniler İttifakı Logo" style="width:80px; height:80px; border-radius:50%; object-fit:cover; margin-bottom:10px;">
+          <h3>Yeniler İttifakı & Botu</h3>
+          <p>Topluluk entegrasyonu ve otomasyon için geliştirilen Yeniler İttifakı projemiz ve özel bot sistemimiz aktif edilmiştir.</p>
+        </div>
+      </section>
+
+      <section id="sunucumuz" class="page">
+        <h2>💬 Sunucumuz</h2>
+        <p>HÜKÜM Discord sunucularımıza katılmak için aşağıdaki davet bağlantılarını kullanabilirsiniz:</p>
+        <ul style="list-style:none; padding:0; margin-top:10px;">
+          <li style="margin-bottom:8px;"><a href="https://discord.gg/ZDHU5wReya" target="_blank" style="color:var(--gold); text-decoration:none;">🔗 HÜKÜM Discord Sunucusu 1</a></li>
+          <li><a href="https://discord.gg/DFEmZYS33U" target="_blank" style="color:var(--gold); text-decoration:none;">🔗 HÜKÜM Discord Sunucusu 2</a></li>
+        </ul>
+      </section>
+
+      <section id="yonetim-ekibi" class="page">
+        <h2>👑 Yönetim Ekibi</h2>
+        <div class="team-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-top:12px;">
+          <div style="background:var(--panel); border:1px solid var(--border); padding:14px; border-radius:var(--radius);">
+            <strong>Wexy Montéz</strong><br><span style="color:var(--gold); font-size:13px;">CEO OF HÜKÜM</span>
+          </div>
+          <div style="background:var(--panel); border:1px solid var(--border); padding:14px; border-radius:var(--radius);">
+            <strong>Lord (masum_00._.)</strong><br><span style="color:var(--gold); font-size:13px;">SY Sunucu Yöneticisi</span>
+          </div>
+          <div style="background:var(--panel); border:1px solid var(--border); padding:14px; border-radius:var(--radius);">
+            <strong>EYO PAŞA!</strong><br><span style="color:var(--gold); font-size:13px;">Kurucu / Geliştirici</span>
+          </div>
+          <div style="background:var(--panel); border:1px solid var(--border); padding:14px; border-radius:var(--radius);">
+            <strong>!404 Varlo</strong><br><span style="color:var(--gold); font-size:13px;">HÜKÜMV45 Kurucusu</span>
+          </div>
+          <div style="background:var(--panel); border:1px solid var(--border); padding:14px; border-radius:var(--radius);">
+            <strong>GökoFriztche</strong><br><span style="color:var(--gold); font-size:13px;">Yönetim Ekibi</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="uyelerimiz" class="page">
+        <h2>🫂 Üyelerimiz</h2>
+        <p>HÜKÜM ailesinin değerli üyelerinin listesi.</p>
+      </section>
+
+      <section id="basvurular" class="page">
+        <h2>📝 Başvurular</h2>
+        <p>Ekibe katılım ve rütbe başvuru formu alanıdır.</p>
+      </section>
+
+      <!-- OSİNT PANEL (Sadece Sunucu Üyeleri / Şifreli veya Erişim Alanı) -->
+      <section id="osint-panel" class="page">
+        <h2>🔎 OSINT Panel</h2>
+        <p class="panel-note">Yasal OSINT ve analiz araçları alanı. (Sunucu üyelerimizin kullanımına uygundur).</p>
+        <div class="rk-panel">
+          <p>Python tabanlı OSINT araç seti arka uç entegrasyonu ile çalışmaktadır. Araç listesi: Site IP Bulma, IP Detaylı Sorgu, WHOIS, Port Tarayıcı, DNS Sorgu ve Sosyal Medya Analiz araçları aktif.</p>
+        </div>
+      </section>
+
+      <!-- SİTE KONTROL PANELİ -->
       <section id="rol-kontrol" class="page">
-        <h2>🛡️ Rol Kontrol Paneli</h2>
-        <p class="panel-note">Bu panel sadece yönetim şifresini bilenler tarafından kullanılabilir.</p>
+        <h2>🛡️ Site Kontrol Paneli</h2>
+        <p class="panel-note">Bu panel sadece yönetim şifresini bilen yetkililer tarafından siteyi yönetmek (roller, rütbeler, içerikler) için kullanılabilir.</p>
 
         <!-- ŞİFRE EKRANI -->
         <div id="loginBox" class="rk-panel">
@@ -110,12 +169,62 @@
         </div>
       </section>
 
-      <section id="rutbeler" class="page"><h2>🎖️ Rütbe Sistemi</h2><p>Ses kasma rütbeleri ve gereksinimleri.</p></section>
-      <section id="istatistikler" class="page"><h2>📊 İstatistikler</h2><p>Üye sayısı, aktiflik, ses saatleri.</p></section>
-      <section id="kurallar" class="page"><h2>📜 Kurallar</h2><p>Sunucu kuralları.</p></section>
-      <section id="sss" class="page"><h2>❓ SSS</h2><p>Sık sorulan sorular.</p></section>
-      <section id="destek" class="page"><h2>🎫 Destek</h2><p>Destek talebi oluşturma alanı.</p></section>
-      <section id="iletisim" class="page"><h2>✉️ İletişim</h2><p>Bize ulaşın.</p></section>
+      <section id="rutbeler" class="page">
+        <h2>🎖️ Rütbe Sistemi</h2>
+        <p>Ses kasma rütbeleri ve gerekli aktiflik süreleri.</p>
+      </section>
+
+      <section id="istatistikler" class="page">
+        <h2>📊 İstatistikler</h2>
+        <p>Sunucu üye sayısı, genel aktiflik ve ses istatistikleri.</p>
+      </section>
+
+      <section id="kurallar" class="page">
+        <h2>📜 Kurallar</h2>
+        <p><em><strong>Bu familye katılan herkes, aşağıdaki kuralları kabul etmiş sayılır. Kurallara uymayanlar men edilir.</strong></em></p>
+        
+        <h3>⚖️ 1. GENEL ADAP VE SAYGI</h3>
+        <p><strong>Ağırbaşlılık Esastır:</strong> Sunucu içerisinde lakayıt tavırlardan kaçınılmalıdır. Üyelere karşı saygılı ve mesafeli bir tutum sergilenecektir.</p>
+        <p><strong>Kişisel Haklar:</strong> Hiçbir üye; dini, milli veya şahsi değerleri üzerinden hedef alınamaz, küçümsenemez.</p>
+        <p><strong>Tartışma Kültürü:</strong> Fikir ayrılıkları medeni bir şekilde tartışılmalı, olay kişisel kavgaya dönüştürülmemelidir.</p>
+        <p><strong>Küfür:</strong> Ufak küfürler cezası yoktur, abartılı küfür (ADK, DDK, MDK vs.) ban.</p>
+
+        <h3>🛡️ 2. DÜZEN VE İŞLEYİŞ</h3>
+        <p><strong>Gereksiz Etiketleme (Ping):</strong> Yönetim ekibi ve üyeler, acil bir durum olmadıkça sebepsiz yere rahatsız edilmemelidir.</p>
+        <p><strong>Kanal Kullanımı:</strong> Her içerik (sohbet, ticaret, oyun vb.) kendi özel kanalında paylaşılmalıdır. Yanlış kanal kullanımı kirliliğe yol açar.</p>
+        <p><strong>Spam ve Flood:</strong> Arka arkaya mesaj göndererek kanalları meşgul etmek, anlamsız karakterler paylaşmak kesinlikle yasaktır.</p>
+
+        <h3>⛔ 3. KESİN YASAKLAR</h3>
+        <p><strong>Reklam:</strong> Sunucu içindeki herhangi bir mecrada (DM dahil) başka platformların reklamını yapmak kalıcı uzaklaştırma sebebidir.</p>
+        <p><strong>Yasadışı İçerik:</strong> İllegal faaliyetler, zararlı yazılımlar veya topluluk kurallarına aykırı dosyaların paylaşımı yasaktır.</p>
+        <p><strong>Siyasi ve Dini Provokasyon:</strong> Toplumu kutuplaştıracak, sert siyasi tartışmaların bu sofrada yeri yoktur.</p>
+
+        <h3>👑 4. YÖNETİM VE OTORİTE</h3>
+        <p><strong>Kararlara İtaat:</strong> Moderatörlerin ve yöneticilerin verdiği kararlar sorgulanabilir ancak son söz her zaman Yönetim'e aittir.</p>
+        <p><strong>Kural Boşlukları:</strong> Yazılı olmayan ancak sunucu huzurunu bozan durumlarda inisiyatif yönetimdedir.</p>
+        <p style="margin-top:15px; color:var(--gold);">|| @here ||</p>
+      </section>
+
+      <section id="sss" class="page">
+        <h2>❓ SSS</h2>
+        <p>Sık sorulan sorular ve yanıtları.</p>
+      </section>
+
+      <section id="destek" class="page">
+        <h2>🎫 Destek</h2>
+        <p>Destek talebi oluşturma alanı.</p>
+      </section>
+
+      <section id="iletisim" class="page">
+        <h2>✉️ İletişim</h2>
+        <p>Bize ulaşın:</p>
+        <p><strong>Discord Sunucularımız:</strong></p>
+        <ul>
+          <li><a href="https://discord.gg/ZDHU5wReya" target="_blank" style="color:var(--gold);">HÜKÜM Sunucu 1</a></li>
+          <li><a href="https://discord.gg/DFEmZYS33U" target="_blank" style="color:var(--gold);">HÜKÜM Sunucu 2</a></li>
+        </ul>
+        <p><strong>Yönetim Ekibi Discord İletisim:</strong> Wexy Montéz, Lord, Eyo Paşa, !404 Varlo, GökoFriztche</p>
+      </section>
 
     </main>
   </div>
