@@ -3,52 +3,502 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HÜKÜM Studio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>HÜKÜM STUDIO</title>
+    <style>
+        :root {
+            --bg-main: #0d1117;
+            --bg-sidebar: #161b22;
+            --bg-card: #21262d;
+            --border-color: #30363d;
+            --accent-gold: #f0b429;
+            --text-color: #c9d1d9;
+            --text-white: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sol Menü Tasarımı (Fotoğraftaki Gibi) */
+        sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .logo-alani {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border-color);
+            letter-spacing: 1px;
+        }
+
+        .menu-grup {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .menu-baslik {
+            padding: 5px 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #8b949e;
+            font-weight: bold;
+        }
+
+        .menu-item {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 14px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .menu-item:hover, .menu-item.aktif {
+            background-color: rgba(240, 180, 41, 0.1);
+            color: var(--accent-gold);
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        /* İçerik Alanı */
+        main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .bolum {
+            display: none;
+        }
+
+        .bolum.aktif-bolum {
+            display: block;
+        }
+
+        h2 {
+            color: var(--text-white);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .kart {
+            background-color: var(--bg-sidebar);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .kart img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold);
+            object-fit: cover;
+        }
+
+        /* Form Elemanları ve Kontrol Paneli */
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-white);
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        button:hover { background: #2ea043; }
+
+        .sifre-kutu {
+            max-width: 400px;
+            background: var(--bg-sidebar);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin: 20px auto;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <h1>HÜKÜM Studio</h1>
-        <p>Resmi Discord ve Yönetim Paneli</p>
-    </header>
+    <!-- SOL MENÜ (25 Bölüm/Seçenek) -->
+    <sidebar>
+        <div class="logo-alani">👑 HÜKÜM STUDIO</div>
 
+        <div class="menu-grup">
+            <div class="menu-baslik">GENEL</div>
+            <div class="menu-item aktif" onclick="sayfaDegis('anasayfa', this)">🏠 Ana Sayfa</div>
+            <div class="menu-item" onclick="sayfaDegis('duyurular', this)">📢 Duyurular</div>
+            <div class="menu-item" onclick="sayfaDegis('icraatlarimiz', this)">⚡ İcraatlarimiz</div>
+            <div class="menu-item" onclick="sayfaDegis('projelerimiz', this)">🚀 Projelerimiz</div>
+            <div class="menu-item" onclick="sayfaDegis('sunucumuz', this)">🌐 Sunucumuz</div>
+        </div>
+
+        <div class="menu-grup">
+            <div class="menu-baslik">EKİP</div>
+            <div class="menu-item" onclick="sayfaDegis('yonetim', this)">👑 Yönetim Ekibi</div>
+            <div class="menu-item" onclick="sayfaDegis('uyelerimiz', this)">👥 Üyelerimiz</div>
+            <div class="menu-item" onclick="sayfaDegis('basvurular', this)">📝 Başvurular</div>
+            <div class="menu-item" onclick="sayfaDegis('yetkiler', this)">🛡️ Yetki Dağılımı</div>
+            <div class="menu-item" onclick="sayfaDegis('roller', this)">🎖️ Aile Rolleri</div>
+        </div>
+
+        <div class="menu-grup">
+            <div class="menu-baslik">SİSTEMLER</div>
+            <div class="menu-item" onclick="sayfaDegis('osint', this)">🔍 OSINT Panel</div>
+            <div class="menu-item" onclick="sayfaDegis('sitekontrol', this)">⚙️ Site Kontrol (Şifreli)</div>
+            <div class="menu-item" onclick="sayfaDegis('rutbe', this)">⭐ Rütbe Sistemi</div>
+            <div class="menu-item" onclick="sayfaDegis('istatistik', this)">📊 İstatistikler</div>
+            <div class="menu-item" onclick="sayfaDegis('owo', this)">🦉 OWO Otomasyon</div>
+            <div class="menu-item" onclick="sayfaDegis('kopyala', this)">🔄 Sunucu Kopyalama</div>
+            <div class="menu-item" onclick="sayfaDegis('token', this)">💎 Token Yönetimi</div>
+            <div class="menu-item" onclick="sayfaDegis('afk', this)">🎧 AFK Ses Sistemi</div>
+            <div class="menu-item" onclick="sayfaDegis('botlar', this)">🤖 Bot Altyapısı</div>
+        </div>
+
+        <div class="menu-grup">
+            <div class="menu-baslik">KURUMSAL</div>
+            <div class="menu-item" onclick="sayfaDegis('kurallar', this)">📜 Kurallar</div>
+            <div class="menu-item" onclick="sayfaDegis('sss', this)">❓ SSS</div>
+            <div class="menu-item" onclick="sayfaDegis('destek', this)">🛟 Destek</div>
+            <div class="menu-item" onclick="sayfaDegis('iletisim', this)">📞 İletişim</div>
+            <div class="menu-item" onclick="sayfaDegis('sponsor', this)">🤝 Sponsorlar</div>
+            <div class="menu-item" onclick="sayfaDegis('gizlilik', this)">🔒 Gizlilik Politikası</div>
+        </div>
+    </sidebar>
+
+    <!-- SAĞ İÇERİK ALANI -->
     <main>
-        <!-- Yönetim Ekibi Bölümü -->
-        <section>
-            <h2>👑 Yönetim Ekibi</h2>
-            <div id="yonetim-alani" class="yonetim-listesi">
-                <!-- Bot buraya otomatik ekleyecek -->
-            </div>
-        </section>
+        <!-- 1. ANA SAYFA -->
+        <div id="anasayfa" class="bolum aktif-bolum">
+            <h2>🏠 Ana Sayfa</h2>
+            <p>HÜKÜM Studio resmi web platformuna hoş geldiniz. Sol menüden tüm sistemleri ve yönetim kadrosunu inceleyebilirsiniz.</p>
+        </div>
 
-        <!-- Üyeler Bölümü -->
-        <section>
-            <h2>👥 Kayıtlı Üyeler</h2>
-            <div id="uye-alani" class="uye-listesi">
-                <!-- Bot buraya otomatik ekleyecek -->
-            </div>
-        </section>
+        <!-- 2. DUYURULAR -->
+        <div id="duyurular" class="bolum">
+            <h2>📢 Duyurular</h2>
+            <div id="duyuru-listesi">Henüz duyuru eklenmedi.</div>
+        </div>
 
-        <!-- Projeler Bölümü -->
-        <section>
+        <!-- 3. İCRAATLARIMIZ -->
+        <div id="icraatlarimiz" class="bolum">
+            <h2>⚡ İcraatlarimiz</h2>
+            <p>HÜKÜM ailesinin gerçekleştirdiği büyük projeler ve operasyonlar burada yer almaktadır.</p>
+        </div>
+
+        <!-- 4. PROJELERİMİZ -->
+        <div id="projelerimiz" class="bolum">
             <h2>🚀 Projelerimiz</h2>
-            <div id="proje-alani" class="proje-listesi">
-                <!-- Bot buraya otomatik ekleyecek -->
+            <div id="proje-listesi">Henüz proje eklenmedi.</div>
+        </div>
+
+        <!-- 5. SUNUCUMUZ -->
+        <div id="sunucumuz" class="bolum">
+            <h2>🌐 Sunucumuz</h2>
+            <p>Discord sunucumuza katılarak aramıza katılabilirsiniz: <a href="https://discord.gg/athenalig" target="_blank" style="color:var(--accent-gold)">.gg/athenalig</a></p>
+        </div>
+
+        <!-- 6. YÖNETİM EKİBİ -->
+        <div id="yonetim" class="bolum">
+            <h2>👑 Yönetim Ekibi</h2>
+            <div id="yonetim-listesi">
+                <div class="kart">
+                    <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Avatar">
+                    <div>
+                        <h3 style="margin:0; color:white;">JAZ J BOENIQUE</h3>
+                        <p style="margin:5px 0 0 0; color:var(--accent-gold);">Roller: 💎 JAZ J BOENIQUE | Kurucu / Yönetici</p>
+                    </div>
+                </div>
+                <div class="kart">
+                    <img src="https://cdn.discordapp.com/embed/avatars/1.png" alt="Avatar">
+                    <div>
+                        <h3 style="margin:0; color:white;">CEO OF HÜKÜM</h3>
+                        <p style="margin:5px 0 0 0; color:var(--accent-gold);">Roller: 👑 CEO OF HÜKÜM | Üst Yönetici</p>
+                    </div>
+                </div>
+                <div class="kart">
+                    <img src="https://cdn.discordapp.com/embed/avatars/2.png" alt="Avatar">
+                    <div>
+                        <h3 style="margin:0; color:white;">Sunucu Yöneticisi</h3>
+                        <p style="margin:5px 0 0 0; color:var(--accent-gold);">Roller: 👑 Sunucu Yöneticisi | Operasyon</p>
+                    </div>
+                </div>
             </div>
-        </section>
+            <div id="dinamik-yonetim"></div>
+        </div>
+
+        <!-- 7. ÜYELERİMİZ -->
+        <div id="uyelerimiz" class="bolum">
+            <h2>👥 Üyelerimiz</h2>
+            <div id="uye-listesi">Henüz kayıtlı üye yok. Siteye kayıt olmak için Discord üzerinden komut kullanabilirsiniz.</div>
+        </div>
+
+        <!-- 8. BAŞVURULAR -->
+        <div id="basvurular" class="bolum">
+            <h2>📝 Başvurular</h2>
+            <p>Yetkili veya ekip alımları için Discord kanallarımızdaki başvuru formlarını doldurabilirsiniz.</p>
+        </div>
+
+        <!-- 9. YETKİ DAĞILIMI -->
+        <div id="yetkiler" class="bolum">
+            <h2>🛡️ Yetki Dağılımı</h2>
+            <p>Ana yetkililer: JAZ J BOENIQUE, CEO OF HÜKÜM, Sunucu Yöneticisi.</p>
+        </div>
+
+        <!-- 10. AİLE ROLLERİ -->
+        <div id="roller" class="bolum">
+            <h2>🎖️ Aile Rolleri</h2>
+            <p>EMPIRE OF HÜKÜM, GATEKAPPER, V45 TILL I DIE ve özel rütbeler.</p>
+        </div>
+
+        <!-- 11. OSINT PANEL -->
+        <div id="osint" class="bolum">
+            <h2>🔍 OSINT Panel</h2>
+            <p>Güvenlik ve istihbarat analiz araçları (Sadece yetkili erişimine tabidir).</p>
+        </div>
+
+        <!-- 12. SİTE KONTROL (ŞİFRELİ PANEL) -->
+        <div id="sitekontrol" class="bolum">
+            <h2>⚙️ Site Kontrol Paneli</h2>
+            <div id="sifre-ekrani" class="sifre-kutu">
+                <h3>🔒 Yönetici Şifresi Gereklidir</h3>
+                <p>Şifreyi girerek siteyi güncelleyebilirsiniz.</p>
+                <input type="password" id="girilen-sifre" placeholder="Şifre (HÜKÜM_SUNAR)">
+                <button onclick="sifreKontrolEt()">Giriş Yap</button>
+            </div>
+
+            <div id="yonetim-formlari" style="display:none; margin-top:20px;">
+                <div class="sifre-kutu" style="max-width:100%; text-align:left;">
+                    <h3 style="color:var(--accent-gold);">📢 Duyuru Yayınla</h3>
+                    <input type="text" id="yeni-duyuru-baslik" placeholder="Duyuru Başlığı">
+                    <textarea id="yeni-duyuru-metin" placeholder="Duyuru İçeriği"></textarea>
+                    <button onclick="duyuruEkle()">Duyuruyu Yayınla</button>
+
+                    <h3 style="color:var(--accent-gold); margin-top:20px;">👑 Yönetime Kişi Ekle</h3>
+                    <input type="text" id="yeni-yonetim-isim" placeholder="Discord Adı">
+                    <input type="text" id="yeni-yonetim-rol" placeholder="Rolü (Örn: CEO OF HÜKÜM)">
+                    <button onclick="yonetimEkle()">Yönetime Ekle</button>
+
+                    <h3 style="color:var(--accent-gold); margin-top:20px;">🚀 Proje Ekle</h3>
+                    <input type="text" id="yeni-proje-isim" placeholder="Proje Adı">
+                    <input type="text" id="yeni-proje-aciklama" placeholder="Proje Tanıtımı">
+                    <button onclick="projeEkle()">Projeyi Ekle</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. RÜTBE SİSTEMİ -->
+        <div id="rutbe" class="bolum">
+            <h2>⭐ Rütbe Sistemi</h2>
+            <p>Ses ve mesaj aktivitenize göre otomatik rütbe atlama sistemi.</p>
+        </div>
+
+        <!-- 14. İSTATİSTİKLER -->
+        <div id="istatistik" class="bolum">
+            <h2>📊 İstatistikler</h2>
+            <p>Sunucu üye sayısı, aktif ses istatistikleri ve bot verileri.</p>
+        </div>
+
+        <!-- 15. OWO OTOMASYON -->
+        <div id="owo" class="bolum">
+            <h2>🦉 OWO Otomasyon Sistemi</h2>
+            <p>OwO bot kasma ve otomatik işlemler paneli.</p>
+        </div>
+
+        <!-- 16. SUNUCU KOPYALAMA -->
+        <div id="kopyala" class="bolum">
+            <h2>🔄 Sunucu Kopyalama Aracı</h2>
+            <p>Komple sunucu, kanal veya rol kopyalama modülü.</p>
+        </div>
+
+        <!-- 17. TOKEN YÖNETİMİ -->
+        <div id="token" class="bolum">
+            <h2>💎 Token Yönetimi</h2>
+            <p>Ses aktifliği ve token ekleme sistemi.</p>
+        </div>
+
+        <!-- 18. AFK SES SİSTEMİ -->
+        <div id="afk" class="bolum">
+            <h2>🎧 AFK Ses Sistemi</h2>
+            <p>Hesabınızı ses kanallarında daima aktif tutma aracı.</p>
+        </div>
+
+        <!-- 19. BOT ALTYAPISI -->
+        <div id="botlar" class="bolum">
+            <h2>🤖 Bot Altyapısı</h2>
+            <p>HÜKÜM Studio entegre bot sistemleri.</p>
+        </div>
+
+        <!-- 20. KURALLAR -->
+        <div id="kurallar" class="bolum">
+            <h2>📜 Kurallar</h2>
+            <p>1. Saygı ve sevgi esastır.<br>2. Din, siyaset ve ırkçılık yasaktır.<br>3. Küfür ve hakaret kesinlikle yasaktır.</p>
+        </div>
+
+        <!-- 21. SSS -->
+        <div id="sss" class="bolum">
+            <h2>❓ Sık Sorulan Sorular</h2>
+            <p>Sunucuya nasıl kayıt olurum? /uye_ol komutunu kullanarak veya yetkililerle iletişime geçerek.</p>
+        </div>
+
+        <!-- 22. DESTEK -->
+        <div id="destek" class="bolum">
+            <h2>🛟 Destek</h2>
+            <p>Destek talebi açmak için Discord sunucumuzu ziyaret edin.</p>
+        </div>
+
+        <!-- 23. İLETİŞİM -->
+        <div id="iletisim" class="bolum">
+            <h2>📞 İletişim</h2>
+            <p>Discord: .gg/athenalig</p>
+        </div>
+
+        <!-- 24. SPONSORLAR -->
+        <div id="sponsor" class="bolum">
+            <h2>🤝 Sponsorlar</h2>
+            <p>HÜKÜM Studio resmi sponsorları ve ortakları.</p>
+        </div>
+
+        <!-- 25. GİZLİLİK POLİTİKASI -->
+        <div id="gizlilik" class="bolum">
+            <h2>🔒 Gizlilik Politikası</h2>
+            <p>Verileriniz güvenle saklanır ve üçüncü şahıslarla paylaşılmaz.</p>
+        </div>
     </main>
 
-    <!-- Site Tuşları ve Etkileşim Alanı -->
-    <div class="panel-tuslari">
-        <button id="btn-duyuru" class="site-btn">📢 Duyuruları Gör</button>
-        <button id="btn-kurallar" class="site-btn">📜 Kurallar</button>
-        <button id="btn-iletisim" class="site-btn">📞 İletişim</button>
-    </div>
+    <script>
+        // Sayfa Değiştirme Fonksiyonu
+        function sayfaDegis(bolumID, element) {
+            document.querySelectorAll('.bolum').forEach(b => b.classList.remove('aktif-bolum'));
+            document.getElementById(bolumID).classList.add('aktif-bolum');
 
-    <!-- Bildiri / Mesaj Kutusu -->
-    <div id="bilgi-kutusu" class="gizli"></div>
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('aktif'));
+            element.classList.add('aktif');
+        }
 
-    <script src="app.js"></script>
+        // Şifre Kontrolü (HÜKÜM_SUNAR)
+        function sifreKontrolEt() {
+            let sifre = document.getElementById('girilen-sifre').value;
+            if (sifre === "HÜKÜM_SUNAR") {
+                document.getElementById('sifre-ekrani').style.display = 'none';
+                document.getElementById('yonetim-formlari').style.display = 'block';
+                alert("✅ Şifre doğru! Kontrol paneli açıldı.");
+            } else {
+                alert("❌ Hatalı şifre! Şifre: HÜKÜM_SUNAR");
+            }
+        }
+
+        // Verileri Kaydetme ve Gösterme
+        document.addEventListener("DOMContentLoaded", () => {
+            verileriYukle();
+        });
+
+        function duyuruEkle() {
+            let baslik = document.getElementById('yeni-duyuru-baslik').value;
+            let metin = document.getElementById('yeni-duyuru-metin').value;
+            if (!baslik || !metin) { alert("Boş bırakmayın!"); return; }
+
+            let duyurular = JSON.parse(localStorage.getItem('hukum_duyuru') || '[]');
+            duyurular.push({ baslik, metin });
+            localStorage.setItem('hukum_duyuru', JSON.stringify(duyurular));
+
+            document.getElementById('yeni-duyuru-baslik').value = '';
+            document.getElementById('yeni-duyuru-metin').value = '';
+            verileriYukle();
+            alert("✅ Duyuru eklendi!");
+        }
+
+        function yonetimEkle() {
+            let isim = document.getElementById('yeni-yonetim-isim').value;
+            let rol = document.getElementById('yeni-yonetim-rol').value;
+            if (!isim || !rol) { alert("Boş bırakmayın!"); return; }
+
+            let yonetim = JSON.parse(localStorage.getItem('hukum_ yonetim_ek') || '[]');
+            yonetim.push({ isim, rol });
+            localStorage.setItem('hukum_yonetim_ek', JSON.stringify(yonetim));
+
+            document.getElementById('yeni-yonetim-isim').value = '';
+            document.getElementById('yeni-yonetim-rol').value = '';
+            verileriYukle();
+            alert("✅ Yönetici eklendi!");
+        }
+
+        function projeEkle() {
+            let isim = document.getElementById('yeni-proje-isim').value;
+            let aciklama = document.getElementById('yeni-proje-aciklama').value;
+            if (!isim || !aciklama) { alert("Boş bırakmayın!"); return; }
+
+            let projeler = JSON.parse(localStorage.getItem('hukum_proje') || '[]');
+            projeler.push({ isim, aciklama });
+            localStorage.setItem('hukum_proje', JSON.stringify(projeler));
+
+            document.getElementById('yeni-proje-isim').value = '';
+            document.getElementById('yeni-proje-aciklama').value = '';
+            verileriYukle();
+            alert("✅ Proje eklendi!");
+        }
+
+        function verileriYukle() {
+            // Duyurular
+            let duyurular = JSON.parse(localStorage.getItem('hukum_duyuru') || '[]');
+            let dAlan = document.getElementById('duyuru-listesi');
+            if (duyurular.length > 0) {
+                dAlan.innerHTML = duyurular.map(d => `<div class="kart"><div><h3 style="color:var(--accent-gold);margin:0;">${d.baslik}</h3><p style="margin:5px 0 0 0;">${d.metin}</p></div></div>`).join('');
+            }
+
+            // Ek Yöneticiler
+            let ekYonetim = JSON.parse(localStorage.getItem('hukum_yonetim_ek') || '[]');
+            let yAlan = document.getElementById('dinamik-yonetim');
+            if (ekYonetim.length > 0) {
+                yAlan.innerHTML = ekYonetim.map(y => `<div class="kart"><img src="https://cdn.discordapp.com/embed/avatars/3.png"><div><h3 style="margin:0;color:white;">${y.isim}</h3><p style="margin:5px 0 0 0;color:var(--accent-gold);">${y.rol}</p></div></div>`).join('');
+            }
+
+            // Projeler
+            let projeler = JSON.parse(localStorage.getItem('hukum_proje') || '[]');
+            let pAlan = document.getElementById('proje-listesi');
+            if (projeler.length > 0) {
+                pAlan.innerHTML = projeler.map(p => `<div class="kart"><div><h3 style="color:var(--accent-gold);margin:0;">${p.isim}</h3><p style="margin:5px 0 0 0;">${p.aciklama}</p></div></div>`).join('');
+            }
+        }
+    </script>
 </body>
 </html>
