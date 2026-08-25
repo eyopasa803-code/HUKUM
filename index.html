@@ -5,10 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HÜKÜM Studio</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+<!-- Üye Bilgi / Profil Kartı (2. Ekran Görüntüsü İlhamıyla) -->
 <div class="sidebar">
+  <div id="profil-alani" style="padding:15px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px;">
+    <div id="avatar-kutu" style="width:42px; height:42px; border-radius:50%; background:#21262d; display:flex; align-items:center; justify-content:center; font-weight:bold; color:var(--accent);">?</div>
+    <div style="flex:1; overflow:hidden;">
+      <div id="profil-isim" style="font-weight:600; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ziyaretçi</div>
+      <div id="profil-rol" style="font-size:11px; color:var(--muted);">Kayıtsız Üye</div>
+      <div id="profil-durum" style="font-size:10px; color:#3fb950; margin-top:2px;"><i class="fa-solid fa-circle" style="font-size:8px;"></i> Çevrimdışı</div>
+    </div>
+  </div>
+
   <h1>👑 HÜKÜM STUDIO</h1>
 
   <div class="grup">GENEL</div>
@@ -22,20 +33,23 @@
 
   <div class="grup">ÜYELİK</div>
   <a onclick="sekmeAc('siralama', this)">🏆 Kullanıcı Sıralaması</a>
-  <a onclick="sekmeAc('dosyalar', this)">📁 Dosya Paylaşımı</a>
-  <a onclick="sekmeAc('oyunlar', this)">🎮 Oyunlar</a>
+  <a onclick="sekmeAc('dosyalar', this)">📁 Dosya Paylaşımı <span style="background:#238636; color:#fff; font-size:9px; padding:1px 6px; border-radius:8px; float:right;">Yeni</span></a>
+  <a onclick="sekmeAc('oyunlar', this)">🎮 Oyunlar <span style="background:#1f6feb; color:#fff; font-size:9px; padding:1px 6px; border-radius:8px; float:right;">Ücretsiz</span></a>
 
   <div class="grup">SİSTEMLER</div>
+  <a onclick="sekmeAc('giris-paneli', this)">👤 Üye Giriş / Kayıt</a>
   <a href="admin.html">⚙️ Site Kontrol</a>
 </div>
 
 <div class="content">
 
-  <div id="banner-alani"></div>
-
   <div id="ana-sayfa" class="tab-icerik aktif">
     <h2>🏠 Ana Sayfa</h2>
-    <p>HÜKÜM Studio resmi web platformuna hoş geldiniz.</p>
+    <div class="kart" style="border-left: 4px solid var(--accent); background: linear-gradient(135deg, #161b22 0%, #1f242d 100%);">
+      <div class="baslik">🔔 HÜKÜM İÇİN BİR FİKRİNİZ VARSA</div>
+      <div>TikTok <b>eyo_pasha15</b> adresine DM atarak fikrinizi, önerinizi ya da isteğinizi söyleyebilirsiniz!</div>
+    </div>
+    <p>HÜKÜM Studio resmi web platformuna hoş geldiniz. Otomatik API veritabanı ile artık anında güncellenmektedir.</p>
   </div>
 
   <div id="duyurular" class="tab-icerik">
@@ -58,27 +72,44 @@
     <div id="yonetim-liste"></div>
   </div>
 
-  <!-- ===== YENİ: Kullanıcı Sıralaması ===== -->
   <div id="siralama" class="tab-icerik">
     <h2>🏆 Kullanıcı Sıralaması</h2>
+    <p style="color:var(--muted); font-size:13px; margin-bottom:15px;">Sisteme kayıt olan aktif üyelerin puan tablosu.</p>
     <div id="siralama-liste"></div>
   </div>
 
-  <!-- ===== YENİ: Dosya Paylaşımı ===== -->
   <div id="dosyalar" class="tab-icerik">
-    <h2>📁 Dosya Paylaşımı</h2>
+    <h2>📁 Dosya Paylaşımı (Herkese Açık)</h2>
     <div id="dosya-liste"></div>
   </div>
 
-  <!-- ===== YENİ: Oyunlar ===== -->
   <div id="oyunlar" class="tab-icerik">
-    <h2>🎮 Oyunlar</h2>
-    <div id="oyun-liste" class="oyun-grid"></div>
+    <h2>🎮 Oyunlar (Herkese Açık)</h2>
+    <div id="oyun-liste"></div>
+  </div>
+
+  <div id="giris-paneli" class="tab-icerik">
+    <h2>👤 Kullanıcı Giriş ve Kayıt Paneli</h2>
+    <div class="kart" style="max-width: 400px;">
+      <div id="giris-durum-metin" style="margin-bottom:12px; font-size:13px; color:var(--muted);">Sisteme kayıt olarak sıralamada yerini alabilirsin!</div>
+      <div id="giris-form-alani">
+        <label>Kullanıcı Adınız:</label>
+        <input type="text" id="kullanici-adi-input" placeholder="Adını veya rumuzunu yaz...">
+        <button onclick="kullaniciGirisYap()">Kayıt Ol / Giriş Yap</button>
+      </div>
+      <div id="cikis-form-alani" style="display:none;">
+        <button class="sil" onclick="kullaniciCikisYap()">Oturumu Kapat</button>
+      </div>
+    </div>
   </div>
 
 </div>
 
 <script>
+const BIN_ID = "6a8dcf97f5f4af5e29411dd5";
+const MASTER_KEY = "$2a$10$Nrh3ww..c2Y9xuDWdZReXOCkJuMUpuji5pGnU82WR96mjE7I6RRDG";
+const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
 function sekmeAc(id, el){
   document.querySelectorAll('.tab-icerik').forEach(e=>e.classList.remove('aktif'));
   document.getElementById(id).classList.add('aktif');
@@ -86,100 +117,178 @@ function sekmeAc(id, el){
   if(el) el.classList.add('active');
 }
 
-fetch('content.json?_=' + Date.now())
-  .then(r => r.json())
-  .then(veri => {
-    // YENİ: Site geneli bildirim banner'ı
-    const bannerAlani = document.getElementById('banner-alani');
-    if(veri.site_bildirim && veri.site_bildirim.aktif && veri.site_bildirim.mesaj){
-      bannerAlani.innerHTML = `<div class="banner-bildirim">🔔 ${veri.site_bildirim.mesaj}</div>`;
-    }
+// Aktif Kullanıcı Kontrolü
+let aktifKullanici = localStorage.getItem('hukum_aktif_uye') || null;
 
-    const dList = document.getElementById('duyuru-liste');
-    dList.innerHTML = (veri.duyurular && veri.duyurular.length)
-      ? veri.duyurular.slice().reverse().map(d => `
-        <div class="kart">
-          <div class="baslik">${d.baslik}</div>
-          <div>${d.metin}</div>
-          <div class="tarih">${d.tarih}</div>
-        </div>`).join('')
-      : '<p>Henüz duyuru yok.</p>';
+function guncelleProfilArayuz() {
+  const isimEl = document.getElementById('profil-isim');
+  const rolEl = document.getElementById('profil-rol');
+  const durumEl = document.getElementById('profil-durum');
+  const avatarEl = document.getElementById('avatar-kutu');
+  const girisForm = document.getElementById('giris-form-alani');
+  const cikisForm = document.getElementById('cikis-form-alani');
+  const inputEl = document.getElementById('kullanici-adi-input');
 
-    const iList = document.getElementById('icraat-liste');
-    iList.innerHTML = (veri.icraatlar && veri.icraatlar.length)
-      ? veri.icraatlar.slice().reverse().map(i => `
-        <div class="kart">
-          <div class="baslik">${i.baslik}</div>
-          <div>${i.aciklama}</div>
-          <div class="tarih">${i.tarih}</div>
-        </div>`).join('')
-      : '<p>Henüz icraat eklenmedi.</p>';
+  if (aktifKullanici) {
+    isimEl.innerText = aktifKullanici;
+    rolEl.innerText = "Üye / Oyuncu";
+    durumEl.innerHTML = '<i class="fa-solid fa-circle" style="font-size:8px;"></i> Çevrimiçi';
+    durumEl.style.color = '#3fb950';
+    avatarEl.innerText = aktifKullanici.charAt(0).toUpperCase();
+    if(girisForm) girisForm.style.display = 'none';
+    if(cikisForm) cikisForm.style.display = 'block';
+  } else {
+    isimEl.innerText = "Ziyaretçi";
+    rolEl.innerText = "Kayıtsız Üye";
+    durumEl.innerHTML = '<i class="fa-solid fa-circle" style="font-size:8px;"></i> Çevrimdışı';
+    durumEl.style.color = '#8b949e';
+    avatarEl.innerText = "?";
+    if(girisForm) girisForm.style.display = 'block';
+    if(cikisForm) cikisForm.style.display = 'none';
+  }
+}
 
-    const pList = document.getElementById('proje-liste');
-    pList.innerHTML = (veri.projeler && veri.projeler.length)
-      ? veri.projeler.map(p => `
-        <div class="kart">
-          ${p.resim ? `<img src="${p.resim}" style="max-width:100%;border-radius:6px;margin-bottom:10px">` : ''}
-          <div class="baslik">${p.isim}</div>
-          <div>${p.tanitim}</div>
-          <div style="color:#8b949e;margin-top:6px">Amaç: ${p.amac}</div>
-        </div>`).join('')
-      : '<p>Henüz proje yok.</p>';
+async function veriCek() {
+  try {
+    let response = await fetch(API_URL, {
+      headers: { 'X-Master-Key': MASTER_KEY }
+    });
+    if (response.ok) {
+      let sonuc = await response.json();
+      let veri = sonuc.record;
+      
+      // Duyurular
+      const dList = document.getElementById('duyuru-liste');
+      dList.innerHTML = (veri.duyurular && veri.duyurular.length)
+        ? veri.duyurular.slice().reverse().map(d => `
+          <div class="kart">
+            <div class="baslik">${d.baslik}</div>
+            <div>${d.metin}</div>
+            <div class="tarih">${d.tarih}</div>
+          </div>`).join('')
+        : '<p>Henüz duyuru yok.</p>';
 
-    const yList = document.getElementById('yonetim-liste');
-    yList.innerHTML = (veri.yonetim && veri.yonetim.length)
-      ? veri.yonetim.map(y => `
-        <div class="kart" style="display:flex;align-items:center;gap:14px">
-          ${y.resim ? `<img src="${y.resim}" style="width:50px;height:50px;border-radius:50%">` : '<div style="width:50px;height:50px;border-radius:50%;background:#21262d"></div>'}
-          <div>
-            <div class="baslik">${y.isim}</div>
-            <span class="rozet">${y.rol}</span>
-          </div>
-        </div>`).join('')
-      : '<p>Henüz yönetim ekibi eklenmedi.</p>';
+      // İcraatlar
+      const iList = document.getElementById('icraat-liste');
+      iList.innerHTML = (veri.icraatlar && veri.icraatlar.length)
+        ? veri.icraatlar.slice().reverse().map(i => `
+          <div class="kart">
+            <div class="baslik">${i.baslik}</div>
+            <div>${i.aciklama}</div>
+            <div class="tarih">${i.tarih}</div>
+          </div>`).join('')
+        : '<p>Henüz icraat eklenmedi.</p>';
 
-    // YENİ: Kullanıcı Sıralaması (puana göre büyükten küçüğe)
-    const sList = document.getElementById('siralama-liste');
-    const siraliListe = (veri.siralama || []).slice().sort((a,b)=>b.puan-a.puan);
-    sList.innerHTML = siraliListe.length
-      ? siraliListe.map((s,idx) => `
-        <div class="siralama-satir">
-          <div class="siralama-sira">${idx+1}</div>
-          <div class="siralama-isim">${s.isim}</div>
-          <div class="siralama-puan">${s.puan} puan</div>
-        </div>`).join('')
-      : '<p>Henüz sıralamada kimse yok.</p>';
+      // Projeler
+      const pList = document.getElementById('proje-liste');
+      pList.innerHTML = (veri.projeler && veri.projeler.length)
+        ? veri.projeler.map(p => `
+          <div class="kart">
+            ${p.resim ? `<img src="${p.resim}" style="max-width:100%;border-radius:6px;margin-bottom:10px">` : ''}
+            <div class="baslik">${p.isim}</div>
+            <div>${p.tanitim}</div>
+            <div style="color:#8b949e;margin-top:6px">Amaç: ${p.amac}</div>
+          </div>`).join('')
+        : '<p>Henüz proje yok.</p>';
 
-    // YENİ: Dosya Paylaşımı
-    const fList = document.getElementById('dosya-liste');
-    fList.innerHTML = (veri.dosyalar && veri.dosyalar.length)
-      ? veri.dosyalar.slice().reverse().map(f => `
-        <div class="kart dosya-kart">
-          <div>
+      // Yönetim
+      const yList = document.getElementById('yonetim-liste');
+      yList.innerHTML = (veri.yonetim && veri.yonetim.length)
+        ? veri.yonetim.map(y => `
+          <div class="kart" style="display:flex;align-items:center;gap:14px">
+            <div style="width:50px;height:50px;border-radius:50%;background:#21262d;display:flex;align-items:center;justify-content:center;font-weight:bold;color:var(--accent);">${y.isim.charAt(0)}</div>
+            <div>
+              <div class="baslik">${y.isim}</div>
+              <span class="rozet">${y.rol}</span>
+            </div>
+          </div>`).join('')
+        : '<p>Henüz yönetim ekibi eklenmedi.</p>';
+
+      // Kullanıcı Sıralaması
+      const sList = document.getElementById('siralama-liste');
+      if (veri.users && veri.users.length > 0) {
+        sList.innerHTML = veri.users.sort((a,b) => b.puan - a.puan).map((u, index) => `
+          <div class="kart" style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px;">
+            <div><b>#${index+1}</b> ${u.isim}</div>
+            <div style="color:var(--accent); font-weight:bold;">${u.puan || 100} Puan</div>
+          </div>`).join('');
+      } else {
+        sList.innerHTML = '<p>Henüz kayıtlı üye bulunmuyor.</p>';
+      }
+
+      // Dosyalar (Herkese Açık)
+      const fList = document.getElementById('dosya-liste');
+      fList.innerHTML = (veri.dosyalar && veri.dosyalar.length)
+        ? veri.dosyalar.map(f => `
+          <div class="kart">
             <div class="baslik">${f.isim}</div>
-            <div>${f.aciklama || ''}</div>
-          </div>
-          <a href="${f.link}" target="_blank">İndir / Aç ↗</a>
-        </div>`).join('')
-      : '<p>Henüz paylaşılan dosya yok.</p>';
+            <div style="font-size:13px; color:var(--muted); margin-bottom:8px;">Boyut: ${f.boyut || 'Bilinmiyor'}</div>
+            <a href="${f.url}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:600;"><i class="fa-solid fa-download"></i> İndir / Aç</a>
+          </div>`).join('')
+        : `<div class="kart">
+            <div class="baslik">ASKER KAMPI BOT KODLARI</div>
+            <div>İttifak ordusu bot kodları eyo paşa farkıyla sizlerle</div>
+            <a href="#" style="color:var(--accent); text-decoration:none; display:inline-block; margin-top:8px;"><i class="fa-solid fa-download"></i> İndir / Aç</a>
+           </div>`;
 
-    // YENİ: Oyunlar
-    const oList = document.getElementById('oyun-liste');
-    oList.innerHTML = (veri.oyunlar && veri.oyunlar.length)
-      ? veri.oyunlar.map(o => `
-        <div class="oyun-kart">
-          ${o.resim ? `<img src="${o.resim}">` : `<img src="">`}
-          <div class="oyun-govde">
-            <div class="baslik">${o.isim} ${o.ucretli ? '<span class="etiket etiket-ucretli">Ücretli</span>' : '<span class="etiket etiket-yeni">Ücretsiz</span>'}</div>
-            <div>${o.aciklama || ''}</div>
-          </div>
-        </div>`).join('')
-      : '<p>Henüz oyun eklenmedi.</p>';
-  })
-  .catch(() => {
-    document.getElementById('duyuru-liste').innerHTML = '<p>content.json yüklenemedi. Dosyanın index.html ile aynı klasörde olduğundan emin ol.</p>';
-  });
+      // Oyunlar (Herkese Açık)
+      const oList = document.getElementById('oyun-liste');
+      oList.innerHTML = (veri.oyunlar && veri.oyunlar.length)
+        ? veri.oyunlar.map(o => `
+          <div class="kart">
+            <div class="baslik">${o.isim}</div>
+            <div style="font-size:13px; color:var(--muted); margin-bottom:8px;">Kategori: ${o.kategori || 'Genel'}</div>
+            <a href="${o.url}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:600;"><i class="fa-solid fa-gamepad"></i> Oyunu Oyna</a>
+          </div>`).join('')
+        : '<p>Henüz oyun eklenmedi.</p>';
+    }
+  } catch (err) {
+    console.error("API Bağlantı Hatası:", err);
+  }
+}
+
+async function kullaniciGirisYap() {
+  const isim = document.getElementById('kullanici-adi-input').value.trim();
+  if(!isim) { alert("Lütfen kullanıcı adınızı yazın!"); return; }
+
+  aktifKullanici = isim;
+  localStorage.setItem('hukum_aktif_uye', aktifKullanici);
+
+  // Veritabanına da kullanıcıyı ekle/güncelle
+  try {
+    let res = await fetch(API_URL, { headers: { 'X-Master-Key': MASTER_KEY } });
+    if(res.ok) {
+      let data = (await res.json()).record;
+      if(!data.users) data.users = [];
+      if(!data.users.some(u => u.isim === aktifKullanici)) {
+        data.users.push({ isim: aktifKullanici, puan: 150 });
+        await fetch(API_URL, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+          body: JSON.stringify(data)
+        });
+      }
+    }
+  } catch(e) {}
+
+  guncelleProfilArayuz();
+  veriCek();
+  alert("Başarıyla kayıt oldun / giriş yaptın!");
+}
+
+function kullaniciCikisYap() {
+  localStorage.removeItem('hukum_aktif_uye');
+  aktifKullanici = null;
+  guncelleProfilArayuz();
+  alert("Oturum kapatıldı.");
+}
+
+window.onload = () => {
+  guncelleProfilArayuz();
+  veriCek();
+};
 </script>
 
 </body>
 </html>
+
