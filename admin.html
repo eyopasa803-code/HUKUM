@@ -24,6 +24,17 @@
   <a onclick="sekmeAc('t-icraat', this)">⚡ İcraatlar</a>
   <a onclick="sekmeAc('t-yonetim', this)">👑 Yönetim Ekibi</a>
   <a onclick="sekmeAc('t-proje', this)">🚀 Projeler</a>
+
+  <div class="grup">ÜYELİK</div>
+  <a onclick="sekmeAc('t-siralama', this)">🏆 Kullanıcı Sıralaması</a>
+  <a onclick="sekmeAc('t-dosya', this)">📁 Dosya Paylaşımı <span class="etiket etiket-yeni">Yeni</span></a>
+  <a onclick="sekmeAc('t-oyun', this)">🎮 Oyunlar <span class="etiket etiket-ucretli">Ücretli</span></a>
+
+  <div class="grup">YÖNETİM ARAÇLARI</div>
+  <a onclick="sekmeAc('t-bakiye', this)">💰 Bakiye Paneli</a>
+  <a onclick="sekmeAc('t-bildirim', this)">🔔 Bildirim Paneli</a>
+
+  <div class="grup">SİSTEM</div>
   <a onclick="sekmeAc('t-disaAktar', this)">💾 Kaydet / Yükle</a>
   <div class="grup"></div>
   <a href="index.html">⬅ Siteye Dön</a>
@@ -81,6 +92,76 @@
     <div id="p-liste"></div>
   </div>
 
+  <!-- ===== YENİ: Kullanıcı Sıralaması ===== -->
+  <div id="t-siralama" class="tab-icerik">
+    <h2>🏆 Kullanıcı Sıralaması</h2>
+    <label>Kullanıcı İsmi</label>
+    <input id="s-isim">
+    <label>Puan</label>
+    <input id="s-puan" type="number" value="0">
+    <button onclick="siralamaEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Sıralama</h3>
+    <div id="s-liste"></div>
+  </div>
+
+  <!-- ===== YENİ: Dosya Paylaşımı ===== -->
+  <div id="t-dosya" class="tab-icerik">
+    <h2>📁 Dosya Paylaşımı Ekle</h2>
+    <label>Dosya / Paylaşım İsmi</label>
+    <input id="f-isim">
+    <label>Açıklama</label>
+    <textarea id="f-aciklama" rows="3"></textarea>
+    <label>Dosya Linki (Drive, Discord, GitHub vb.)</label>
+    <input id="f-link">
+    <button onclick="dosyaEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Dosyalar</h3>
+    <div id="f-liste"></div>
+  </div>
+
+  <!-- ===== YENİ: Oyunlar ===== -->
+  <div id="t-oyun" class="tab-icerik">
+    <h2>🎮 Oyun Ekle</h2>
+    <label>Oyun İsmi</label>
+    <input id="o-isim">
+    <label>Açıklama</label>
+    <textarea id="o-aciklama" rows="3"></textarea>
+    <label>Görsel URL (opsiyonel)</label>
+    <input id="o-resim">
+    <div class="check-satir">
+      <input type="checkbox" id="o-ucretli">
+      <label style="margin:0">Ücretli oyun</label>
+    </div>
+    <button onclick="oyunEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Oyunlar</h3>
+    <div id="o-liste"></div>
+  </div>
+
+  <!-- ===== YENİ: Bakiye Paneli ===== -->
+  <div id="t-bakiye" class="tab-icerik">
+    <h2>💰 Bakiye Paneli</h2>
+    <p style="color:var(--muted);font-size:13px">Bu panel sadece admin panelinde görünür, sitede yayınlanmaz.</p>
+    <label>Kullanıcı İsmi</label>
+    <input id="b-isim">
+    <label>Bakiye</label>
+    <input id="b-bakiye" type="number" value="0">
+    <button onclick="bakiyeEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Bakiyeler</h3>
+    <div id="b-liste"></div>
+  </div>
+
+  <!-- ===== YENİ: Bildirim Paneli ===== -->
+  <div id="t-bildirim" class="tab-icerik">
+    <h2>🔔 Bildirim Paneli</h2>
+    <p style="color:var(--muted);font-size:13px">Aktif edildiğinde, sitenin ana sayfasının en üstünde bir banner olarak görünür.</p>
+    <div class="check-satir">
+      <input type="checkbox" id="n-aktif">
+      <label style="margin:0">Banner'ı aktif et</label>
+    </div>
+    <label>Bildirim Metni</label>
+    <textarea id="n-metin" rows="3"></textarea>
+    <button onclick="bildirimKaydet()">Kaydet</button>
+  </div>
+
   <div id="t-disaAktar" class="tab-icerik">
     <h2>💾 Değişiklikleri Siteye Yansıt</h2>
     <p>Yaptığın değişikliklerin sitede görünmesi için:</p>
@@ -99,7 +180,7 @@
 
 <script>
 const SIFRE = "HÜKÜM_SUNAR";
-let veri = { duyurular: [], icraatlar: [], yonetim: [], projeler: [] };
+let veri = { duyurular: [], icraatlar: [], yonetim: [], projeler: [], siralama: [], dosyalar: [], oyunlar: [], bakiyeler: [], site_bildirim: { aktif:false, mesaj:"" } };
 
 function girisYap(){
   const g = document.getElementById('sifre-giris').value;
@@ -125,13 +206,24 @@ function verileriYukle(){
   const kayitli = localStorage.getItem('hukum_veri');
   if(kayitli){
     veri = JSON.parse(kayitli);
+    normalizeVeri();
     listeleriCiz();
   } else {
     fetch('content.json?_=' + Date.now())
       .then(r => r.json())
-      .then(d => { veri = d; if(!veri.icraatlar) veri.icraatlar = []; listeleriCiz(); })
+      .then(d => { veri = d; normalizeVeri(); listeleriCiz(); })
       .catch(() => listeleriCiz());
   }
+}
+
+// Eski content.json dosyalarında yeni alanlar olmayabilir, eksikse oluştur
+function normalizeVeri(){
+  if(!veri.icraatlar) veri.icraatlar = [];
+  if(!veri.siralama) veri.siralama = [];
+  if(!veri.dosyalar) veri.dosyalar = [];
+  if(!veri.oyunlar) veri.oyunlar = [];
+  if(!veri.bakiyeler) veri.bakiyeler = [];
+  if(!veri.site_bildirim) veri.site_bildirim = { aktif:false, mesaj:"" };
 }
 
 function kaydet(){
@@ -217,6 +309,84 @@ function projeSil(id){
   kaydet();
 }
 
+// --- KULLANICI SIRALAMASI (YENİ) ---
+function siralamaEkle(){
+  const isim = document.getElementById('s-isim').value.trim();
+  const puan = parseInt(document.getElementById('s-puan').value) || 0;
+  if(!isim){ alert('Kullanıcı ismi boş olamaz.'); return; }
+  veri.siralama.push({ id: yeniId(veri.siralama), isim, puan });
+  document.getElementById('s-isim').value='';
+  document.getElementById('s-puan').value='0';
+  kaydet();
+}
+function siralamaSil(id){
+  veri.siralama = veri.siralama.filter(s => s.id !== id);
+  kaydet();
+}
+
+// --- DOSYA PAYLAŞIMI (YENİ) ---
+function dosyaEkle(){
+  const isim = document.getElementById('f-isim').value.trim();
+  const aciklama = document.getElementById('f-aciklama').value.trim();
+  const link = document.getElementById('f-link').value.trim();
+  if(!isim || !link){ alert('Dosya ismi ve link boş olamaz.'); return; }
+  veri.dosyalar.push({ id: yeniId(veri.dosyalar), isim, aciklama, link, tarih: bugun() });
+  document.getElementById('f-isim').value='';
+  document.getElementById('f-aciklama').value='';
+  document.getElementById('f-link').value='';
+  kaydet();
+}
+function dosyaSil(id){
+  veri.dosyalar = veri.dosyalar.filter(f => f.id !== id);
+  kaydet();
+}
+
+// --- OYUNLAR (YENİ) ---
+function oyunEkle(){
+  const isim = document.getElementById('o-isim').value.trim();
+  if(!isim){ alert('Oyun ismi boş olamaz.'); return; }
+  veri.oyunlar.push({
+    id: yeniId(veri.oyunlar), isim,
+    aciklama: document.getElementById('o-aciklama').value.trim(),
+    resim: document.getElementById('o-resim').value.trim(),
+    ucretli: document.getElementById('o-ucretli').checked
+  });
+  document.getElementById('o-isim').value='';
+  document.getElementById('o-aciklama').value='';
+  document.getElementById('o-resim').value='';
+  document.getElementById('o-ucretli').checked=false;
+  kaydet();
+}
+function oyunSil(id){
+  veri.oyunlar = veri.oyunlar.filter(o => o.id !== id);
+  kaydet();
+}
+
+// --- BAKİYE PANELİ (YENİ) ---
+function bakiyeEkle(){
+  const isim = document.getElementById('b-isim').value.trim();
+  const bakiye = parseFloat(document.getElementById('b-bakiye').value) || 0;
+  if(!isim){ alert('Kullanıcı ismi boş olamaz.'); return; }
+  veri.bakiyeler.push({ id: yeniId(veri.bakiyeler), isim, bakiye });
+  document.getElementById('b-isim').value='';
+  document.getElementById('b-bakiye').value='0';
+  kaydet();
+}
+function bakiyeSil(id){
+  veri.bakiyeler = veri.bakiyeler.filter(b => b.id !== id);
+  kaydet();
+}
+
+// --- BİLDİRİM PANELİ (YENİ) ---
+function bildirimKaydet(){
+  veri.site_bildirim = {
+    aktif: document.getElementById('n-aktif').checked,
+    mesaj: document.getElementById('n-metin').value.trim()
+  };
+  kaydet();
+  alert('Bildirim kaydedildi.');
+}
+
 // --- LİSTELERİ ÇİZ ---
 function listeleriCiz(){
   document.getElementById('d-liste').innerHTML = veri.duyurular.map(d => `
@@ -249,6 +419,49 @@ function listeleriCiz(){
       <div class="tarih">Amaç: ${p.amac}</div>
       <button class="sil" onclick="projeSil(${p.id})">Sil</button>
     </div>`).join('') || '<p>Proje yok.</p>';
+
+  // YENİ: Sıralama (puana göre büyükten küçüğe)
+  const siraliListe = veri.siralama.slice().sort((a,b)=>b.puan-a.puan);
+  document.getElementById('s-liste').innerHTML = siraliListe.map((s,idx) => `
+    <div class="siralama-satir">
+      <div class="siralama-sira">${idx+1}</div>
+      <div class="siralama-isim">${s.isim}</div>
+      <div class="siralama-puan">${s.puan} puan</div>
+      <button class="sil" onclick="siralamaSil(${s.id})">Sil</button>
+    </div>`).join('') || '<p>Sıralamada kimse yok.</p>';
+
+  // YENİ: Dosya Paylaşımı
+  document.getElementById('f-liste').innerHTML = veri.dosyalar.map(f => `
+    <div class="kart dosya-kart">
+      <div>
+        <div class="baslik">${f.isim}</div>
+        <div>${f.aciklama || ''}</div>
+        <a href="${f.link}" target="_blank">${f.link}</a>
+      </div>
+      <button class="sil" onclick="dosyaSil(${f.id})">Sil</button>
+    </div>`).join('') || '<p>Paylaşılan dosya yok.</p>';
+
+  // YENİ: Oyunlar
+  document.getElementById('o-liste').innerHTML = veri.oyunlar.map(o => `
+    <div class="kart">
+      <div class="baslik">${o.isim} ${o.ucretli ? '<span class="etiket etiket-ucretli">Ücretli</span>' : ''}</div>
+      <div>${o.aciklama || ''}</div>
+      <button class="sil" onclick="oyunSil(${o.id})">Sil</button>
+    </div>`).join('') || '<p>Oyun yok.</p>';
+
+  // YENİ: Bakiye
+  document.getElementById('b-liste').innerHTML = veri.bakiyeler.map(b => `
+    <div class="bakiye-satir">
+      <div>${b.isim}</div>
+      <div class="bakiye-deger">${b.bakiye}</div>
+      <button class="sil" onclick="bakiyeSil(${b.id})">Sil</button>
+    </div>`).join('') || '<p>Bakiye kaydı yok.</p>';
+
+  // YENİ: Bildirim panelini mevcut değerlerle doldur
+  if(veri.site_bildirim){
+    document.getElementById('n-aktif').checked = !!veri.site_bildirim.aktif;
+    document.getElementById('n-metin').value = veri.site_bildirim.mesaj || '';
+  }
 }
 
 // --- İNDİR / YÜKLE ---
@@ -268,7 +481,7 @@ function jsonYukle(e){
   okuyucu.onload = function(evt){
     try{
       veri = JSON.parse(evt.target.result);
-      if(!veri.icraatlar) veri.icraatlar = [];
+      normalizeVeri();
       kaydet();
       alert('Yüklendi.');
     }catch(err){
