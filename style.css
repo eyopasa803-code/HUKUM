@@ -6,8 +6,6 @@
   --text:#e6edf3;
   --muted:#8b949e;
   --danger:#e5534b;
-  --ok:#3fb950;
-  --info:#58a6ff;
 }
 *{box-sizing:border-box}
 body{
@@ -19,16 +17,16 @@ body{
   min-height:100vh;
 }
 .sidebar{
-  width:250px;
+  width:260px;
   background:var(--panel);
   border-right:1px solid var(--border);
-  padding:20px 0;
+  padding:15px 0;
   flex-shrink:0;
 }
 .sidebar h1{
   color:var(--accent);
   font-size:18px;
-  padding:0 20px 20px;
+  padding:15px 20px 15px;
   margin:0;
   border-bottom:1px solid var(--border);
 }
@@ -41,7 +39,7 @@ body{
 }
 .sidebar a{
   display:block;
-  padding:8px 20px;
+  padding:9px 20px;
   color:var(--text);
   text-decoration:none;
   font-size:14px;
@@ -54,7 +52,7 @@ body{
 .content{
   flex:1;
   padding:30px;
-  max-width:900px;
+  max-width:950px;
 }
 .content h2{margin-top:0}
 .kart{
@@ -107,77 +105,7 @@ button.sil{background:var(--danger);color:#fff}
   display:flex;align-items:center;justify-content:center;flex-direction:column;
   z-index:99;
 }
-#kilit-ekrani .kutu{width:300px;text-align:center}
+#kilit-ekrani .kutu{width:320px;text-align:center}
 .tab-icerik{display:none}
 .tab-icerik.aktif{display:block}
 #hata{color:var(--danger);font-size:13px;min-height:18px}
-
-/* ===== EKLENEN YENİ STİLLER ===== */
-
-/* Yeni / Ücretli rozet etiketleri (sidebar linklerinin yanında) */
-.etiket{
-  display:inline-block;
-  font-size:10px;
-  font-weight:700;
-  padding:2px 7px;
-  border-radius:10px;
-  margin-left:8px;
-  vertical-align:middle;
-}
-.etiket-yeni{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
-.etiket-ucretli{background:rgba(240,160,32,.15);color:var(--accent);border:1px solid var(--accent)}
-
-/* Kullanıcı Sıralaması listesi */
-.siralama-satir{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:10px 16px;
-  margin-bottom:8px;
-}
-.siralama-sira{
-  width:28px;height:28px;border-radius:50%;
-  background:#21262d;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;color:var(--accent);font-size:13px;flex-shrink:0;
-}
-.siralama-isim{flex:1;font-weight:600}
-.siralama-puan{color:var(--ok);font-weight:700}
-
-/* Dosya Paylaşımı kartları */
-.dosya-kart{display:flex;justify-content:space-between;align-items:center}
-.dosya-kart a{color:var(--info);text-decoration:none;font-size:13px}
-.dosya-kart a:hover{text-decoration:underline}
-
-/* Oyun kartları (grid) */
-.oyun-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
-.oyun-kart{background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.oyun-kart img{width:100%;height:100px;object-fit:cover;display:block;background:#21262d}
-.oyun-kart .oyun-govde{padding:10px 12px}
-.oyun-kart .baslik{margin-bottom:4px}
-
-/* Bakiye paneli tablosu */
-.bakiye-satir{
-  display:flex;justify-content:space-between;align-items:center;
-  background:var(--panel);border:1px solid var(--border);border-radius:8px;
-  padding:10px 16px;margin-bottom:8px;
-}
-.bakiye-deger{color:var(--accent);font-weight:700}
-
-/* Site geneli bildirim banner'ı (index.html üstünde) */
-.banner-bildirim{
-  background:rgba(240,160,32,.12);
-  border:1px solid var(--accent);
-  color:var(--text);
-  border-radius:8px;
-  padding:12px 18px;
-  margin-bottom:20px;
-  font-size:14px;
-}
-
-/* Admin panelde checkbox satırı (ücretli/aktif gibi) */
-.check-satir{display:flex;align-items:center;gap:8px;margin-bottom:14px}
-.check-satir input{width:auto;margin:0}
