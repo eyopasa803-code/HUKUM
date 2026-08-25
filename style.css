@@ -17,11 +17,13 @@ body{
   min-height:100vh;
 }
 .sidebar{
-  width:260px;
+  width:270px;
   background:var(--panel);
   border-right:1px solid var(--border);
   padding:15px 0;
   flex-shrink:0;
+  overflow-y:auto;
+  max-height:100vh;
 }
 .sidebar h1{
   color:var(--accent);
@@ -52,7 +54,7 @@ body{
 .content{
   flex:1;
   padding:30px;
-  max-width:950px;
+  max-width:1000px;
 }
 .content h2{margin-top:0}
 .kart{
@@ -74,7 +76,7 @@ body{
   font-size:12px;
   margin-top:6px;
 }
-input, textarea{
+input, textarea, select{
   width:100%;
   background:#0d1117;
   border:1px solid var(--border);
