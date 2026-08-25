@@ -33,17 +33,15 @@
 
 <div class="content" id="admin-content" style="display:none;">
   
-  <!-- Duyuru Ekle -->
   <div id="duyuru-ekle" class="tab-icerik aktif">
     <h2>📢 Yeni Duyuru Yayınla</h2>
     <label>Duyuru Başlığı</label>
-    <input type="text" id="d-baslik" placeholder="Örn: Hüküm Studio v2">
+    <input type="text" id="d-baslik" placeholder="Başlık...">
     <label>Duyuru Metni</label>
-    <textarea id="d-metin" rows="4" placeholder="Duyuru içeriğini yazın..."></textarea>
+    <textarea id="d-metin" rows="4" placeholder="İçerik..."></textarea>
     <button onclick="duyuruEkleAPI()">Yayınla</button>
   </div>
 
-  <!-- İcraat Ekle -->
   <div id="icraat-ekle" class="tab-icerik">
     <h2>⚡ Yeni İcraat Ekle</h2>
     <label>İcraat Başlığı</label>
@@ -53,40 +51,37 @@
     <button onclick="icraatEkleAPI()">Ekle</button>
   </div>
 
-  <!-- Proje Ekle -->
   <div id="proje-ekle" class="tab-icerik">
     <h2>🚀 Yeni Proje Ekle</h2>
     <label>Proje Adı</label>
     <input type="text" id="p-isim" placeholder="Proje adı...">
     <label>Tanıtım</label>
-    <textarea id="p-tanitim" rows="3" placeholder="Proje tanıtımı..."></textarea>
+    <textarea id="p-tanitim" rows="3" placeholder="Tanıtım..."></textarea>
     <label>Amaç</label>
-    <input type="text" id="p-amac" placeholder="Projenin amacı...">
-    <label>Görsel URL (İsteğe Bağlı)</label>
+    <input type="text" id="p-amac" placeholder="Amaç...">
+    <label>Görsel URL</label>
     <input type="text" id="p-resim" placeholder="https://...">
-    <button onclick="projeEkleAPI()">Projeyi Ekle</button>
+    <button onclick="projeEkleAPI()">Ekle</button>
   </div>
 
-  <!-- Dosya Ekle -->
   <div id="dosya-ekle" class="tab-icerik">
     <h2>📁 Herkese Açık Dosya Paylaş</h2>
     <label>Dosya Adı</label>
-    <input type="text" id="f-isim" placeholder="Örn: Asker Kampı Bot Kodları">
+    <input type="text" id="f-isim" placeholder="Dosya adı...">
     <label>Boyut</label>
-    <input type="text" id="f-boyut" placeholder="Örn: 15 MB">
-    <label>İndirme / Açma Linki</label>
+    <input type="text" id="f-boyut" placeholder="Örn: 25 MB">
+    <label>İndirme Linki</label>
     <input type="text" id="f-url" placeholder="https://...">
     <button onclick="dosyaEkleAPI()">Dosyayı Paylaş</button>
   </div>
 
-  <!-- Oyun Ekle -->
   <div id="oyun-ekle" class="tab-icerik">
     <h2>🎮 Herkese Açık Oyun Ekle</h2>
     <label>Oyun Adı</label>
     <input type="text" id="o-isim" placeholder="Oyun adı...">
     <label>Kategori</label>
-    <input type="text" id="o-kategori" placeholder="Örn: Aksiyon, Strateji">
-    <label>Oynama / İndirme Linki</label>
+    <input type="text" id="o-kategori" placeholder="Kategori...">
+    <label>Oynama Linki</label>
     <input type="text" id="o-url" placeholder="https://...">
     <button onclick="oyunEkleAPI()">Oyunu Ekle</button>
   </div>
@@ -122,46 +117,29 @@ async function veriGuncelle(islemFonksiyonu) {
     if(res.ok) {
       let sonuc = await res.json();
       let veri = sonuc.record;
-      
       islemFonksiyonu(veri);
-
       let kayitRes = await fetch(API_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
         body: JSON.stringify(veri)
       });
-
-      if(kayitRes.ok) {
-        alert("Başarıyla eklendi ve buluta kaydedildi! Siteye anında yansıdı.");
-      } else {
-        alert("Kayıt sırasında bir hata oluştu.");
-      }
+      if(kayitRes.ok) alert("Başarıyla buluta eklendi ve siteye yansıdı!");
     }
-  } catch(e) {
-    alert("Bağlantı hatası: " + e.message);
-  }
+  } catch(e) { alert("Hata: " + e.message); }
 }
 
 function duyuruEkleAPI(){
   const baslik = document.getElementById('d-baslik').value;
   const metin = document.getElementById('d-metin').value;
-  if(!baslik || !metin) { alert("Boş bırakmayın!"); return; }
-  
-  veriGuncelle(veri => {
-    if(!veri.duyurular) veri.duyurular = [];
-    veri.duyurular.push({ id: Date.now(), baslik, metin, tarih: new Date().toISOString().split('T')[0] });
-  });
+  if(!baslik || !metin) return;
+  veriGuncelle(v => { if(!v.duyurular) v.duyurular = []; v.duyurular.push({ baslik, metin, tarih: new Date().toISOString().split('T')[0] }); });
 }
 
 function icraatEkleAPI(){
   const baslik = document.getElementById('i-baslik').value;
   const aciklama = document.getElementById('i-aciklama').value;
-  if(!baslik || !aciklama) { alert("Boş bırakmayın!"); return; }
-
-  veriGuncelle(veri => {
-    if(!veri.icraatlar) veri.icraatlar = [];
-    veri.icraatlar.push({ id: Date.now(), baslik, aciklama, tarih: new Date().toISOString().split('T')[0] });
-  });
+  if(!baslik || !aciklama) return;
+  veriGuncelle(v => { if(!v.icraatlar) v.icraatlar = []; v.icraatlar.push({ baslik, aciklama, tarih: new Date().toISOString().split('T')[0] }); });
 }
 
 function projeEkleAPI(){
@@ -169,36 +147,24 @@ function projeEkleAPI(){
   const tanitim = document.getElementById('p-tanitim').value;
   const amac = document.getElementById('p-amac').value;
   const resim = document.getElementById('p-resim').value;
-  if(!isim) { alert("Proje adını yazın!"); return; }
-
-  veriGuncelle(veri => {
-    if(!veri.projeler) veri.projeler = [];
-    veri.projeler.push({ isim, tanitim, amac, resim });
-  });
+  if(!isim) return;
+  veriGuncelle(v => { if(!v.projeler) v.projeler = []; v.projeler.push({ isim, tanitim, amac, resim }); });
 }
 
 function dosyaEkleAPI(){
   const isim = document.getElementById('f-isim').value;
   const boyut = document.getElementById('f-boyut').value;
   const url = document.getElementById('f-url').value;
-  if(!isim || !url) { alert("İsim ve link zorunludur!"); return; }
-
-  veriGuncelle(veri => {
-    if(!veri.dosyalar) veri.dosyalar = [];
-    veri.dosyalar.push({ isim, boyut, url });
-  });
+  if(!isim || !url) return;
+  veriGuncelle(v => { if(!v.dosyalar) v.dosyalar = []; v.dosyalar.push({ isim, boyut, url }); });
 }
 
 function oyunEkleAPI(){
   const isim = document.getElementById('o-isim').value;
   const kategori = document.getElementById('o-kategori').value;
   const url = document.getElementById('o-url').value;
-  if(!isim || !url) { alert("İsim ve link zorunludur!"); return; }
-
-  veriGuncelle(veri => {
-    if(!veri.oyunlar) veri.oyunlar = [];
-    veri.oyunlar.push({ isim, kategori, url });
-  });
+  if(!isim || !url) return;
+  veriGuncelle(v => { if(!v.oyunlar) v.oyunlar = []; v.oyunlar.push({ isim, kategori, url }); });
 }
 </script>
 
