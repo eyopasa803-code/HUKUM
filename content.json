@@ -40,5 +40,13 @@
       "resim": ""
     }
   ],
-  "projeler": []
+  "projeler": [],
+  "siralama": [],
+  "dosyalar": [],
+  "oyunlar": [],
+  "bakiyeler": [],
+  "site_bildirim": {
+    "aktif": false,
+    "mesaj": ""
+  }
 }
