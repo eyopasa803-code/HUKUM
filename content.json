@@ -1,73 +1,25 @@
 {
-  "duyurular": [],
+  "duyurular": [
+    {
+      "id": 1,
+      "baslik": "HÜKÜM STUDİOS",
+      "metin": "Hey dostum duydunmu HÜKÜM studios açıldı \nPeki nedir bu HÜKÜM studios? \n-Burda projelerini paylaşa bilir kendini geliştire bilirsin \n\n-HÜKÜM sunucumuza destek ola bilir ve güzel vatanımız türkiyemizi Sanalda temsil etmemiz için bize destek ola bilirsin",
+      "tarih": "2026-08-03"
+    }
+  ],
   "icraatlar": [],
   "yonetim": [
-    {
-      "id": 2,
-      "isim": "EYO PAŞA!",
-      "rol": "Kurucu/geliştirici",
-      "resim": ""
-    },
-    {
-      "id": 3,
-      "isim": "Nexis",
-      "rol": "Jaz (owner)/boş işler müdürü",
-      "resim": ""
-    }
+    { "id": 1, "isim": "Wexy Montéz", "rol": "Ceo of hüküm (co owner)/geliştirici", "resim": "" },
+    { "id": 2, "isim": "EYO PAŞA!", "rol": "Kurucu/geliştirici", "resim": "" },
+    { "id": 3, "isim": "Nexis", "rol": "Jaz (owner)/boş işler müdürü", "resim": "" },
+    { "id": 4, "isim": "GökoFriztche", "rol": "Jaz(owner)/otlakçı inaktif", "resim": "" },
+    { "id": 5, "isim": "!404 Varlo", "rol": "Jaz(owner)/otlakçı puşking", "resim": "" }
   ],
-  "projeler": [
-    {
-      "id": 1,
-      "isim": "HÜKÜM CEHENEMİ",
-      "tanitim": "Yakında.......",
-      "amac": "Yakında......",
-      "resim": ""
-    }
-  ],
-  "siralama": [
-    {
-      "id": 1,
-      "isim": "EYO PAŞA!",
-      "puan": 500
-    },
-    {
-      "id": 2,
-      "isim": "Nexis",
-      "puan": 750
-    }
-  ],
-  "dosyalar": [
-    {
-      "id": 1,
-      "isim": "ASKER KAMPI BOT KODLARI",
-      "aciklama": "İttifak ordusu bot kodları eyo paşa farkıyla sizlerle",
-      "link": "https://hukum-block.github.io/hukum-block/",
-      "tarih": "2026-08-25"
-    }
-  ],
-  "oyunlar": [
-    {
-      "id": 1,
-      "isim": "Hüküm pixel war",
-      "aciklama": "Durum: yapım aşamasında....\n\n\nOyun: r/place tarzı birşey",
-      "resim": "https://eyopasa803-code.github.io/HUKUM-PIXEL-WAR/",
-      "ucretli": false
-    }
-  ],
-  "bakiyeler": [
-    {
-      "id": 1,
-      "isim": "EYO PAŞA!",
-      "bakiye": 1500
-    },
-    {
-      "id": 2,
-      "isim": "Nexis",
-      "bakiye": 250
-    }
-  ],
-  "site_bildirim": {
-    "aktif": true,
-    "mesaj": "HÜKÜM İÇİN BİR FİKRİNİZ VARSA TİKTOK \n\neyo_pasha15 DM atarak fikrinizi önerinizi yada isteğinizi söyleye bilirsiniz"
-  }
+  "projeler": [],
+  "siralama": [],
+  "dosyalar": [],
+  "oyunlar": [],
+  "bakiyeler": [],
+  "uyeler": [],
+  "site_bildirim": { "aktif": false, "mesaj": "" }
 }
