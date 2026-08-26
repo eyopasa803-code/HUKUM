@@ -25,8 +25,12 @@
   <a onclick="sekmeAc('t-icraat', this)">⚡ İcraatlar</a>
   <a onclick="sekmeAc('t-yonetim', this)">👑 Yönetim Ekibi</a>
   <a onclick="sekmeAc('t-proje', this)">🚀 Projeler</a>
+  <a onclick="sekmeAc('t-sss', this)">❓ SSS</a>
+  <a onclick="sekmeAc('t-changelog', this)">📝 Değişiklik Günlüğü</a>
 
-  <div class="grup">ÜYELİK</div>
+  <div class="grup">TOPLULUK</div>
+  <a onclick="sekmeAc('t-sohbet', this)">💬 Sohbet Moderasyon</a>
+  <a onclick="sekmeAc('t-roller', this)">🎖️ Rütbeler</a>
   <a onclick="sekmeAc('t-uyeler', this)">👤 Üyeler</a>
   <a onclick="sekmeAc('t-siralama', this)">🏆 Kullanıcı Sıralaması</a>
   <a onclick="sekmeAc('t-dosya', this)">📁 Dosya Paylaşımı</a>
@@ -35,6 +39,7 @@
   <div class="grup">YÖNETİM ARAÇLARI</div>
   <a onclick="sekmeAc('t-bakiye', this)">💰 Bakiye Paneli</a>
   <a onclick="sekmeAc('t-bildirim', this)">🔔 Bildirim Paneli</a>
+  <a onclick="sekmeAc('t-bakim', this)">🛠️ Bakım Modu</a>
 
   <div class="grup">SİSTEM</div>
   <a onclick="sekmeAc('t-disaAktar', this)">💾 Yedekleme</a>
@@ -50,6 +55,7 @@
     <input id="d-baslik">
     <label>Duyuru Metni</label>
     <textarea id="d-metin" rows="4"></textarea>
+    <div class="check-satir"><input type="checkbox" id="d-sabit"><label style="margin:0">📌 Sabitle</label></div>
     <button onclick="duyuruEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut Duyurular</h3>
     <div id="d-liste"></div>
@@ -57,10 +63,8 @@
 
   <div id="t-icraat" class="tab-icerik">
     <h2>⚡ İcraat Ekle</h2>
-    <label>Başlık</label>
-    <input id="i-baslik">
-    <label>Açıklama</label>
-    <textarea id="i-aciklama" rows="4"></textarea>
+    <label>Başlık</label><input id="i-baslik">
+    <label>Açıklama</label><textarea id="i-aciklama" rows="4"></textarea>
     <button onclick="icraatEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut İcraatlar</h3>
     <div id="i-liste"></div>
@@ -68,12 +72,10 @@
 
   <div id="t-yonetim" class="tab-icerik">
     <h2>👑 Yönetim Ekibi</h2>
-    <label>İsim</label>
-    <input id="y-isim">
-    <label>Rol</label>
-    <input id="y-rol">
-    <label>Profil Resmi URL (opsiyonel)</label>
-    <input id="y-resim">
+    <label>İsim</label><input id="y-isim">
+    <label>Rol</label><input id="y-rol">
+    <label>Profil Resmi URL (opsiyonel)</label><input id="y-resim">
+    <label>Sosyal Medya Linki (opsiyonel)</label><input id="y-sosyal" placeholder="https://...">
     <button onclick="yonetimEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut Yönetim</h3>
     <div id="y-liste"></div>
@@ -81,32 +83,62 @@
 
   <div id="t-proje" class="tab-icerik">
     <h2>🚀 Proje Ekle</h2>
-    <label>Proje İsmi</label>
-    <input id="p-isim">
-    <label>Proje Tanıtımı</label>
-    <textarea id="p-tanitim" rows="3"></textarea>
-    <label>Proje Amacı</label>
-    <textarea id="p-amac" rows="2"></textarea>
-    <label>Görsel URL (opsiyonel)</label>
-    <input id="p-resim">
+    <label>Proje İsmi</label><input id="p-isim">
+    <label>Proje Tanıtımı</label><textarea id="p-tanitim" rows="3"></textarea>
+    <label>Proje Amacı</label><textarea id="p-amac" rows="2"></textarea>
+    <label>Görsel URL (opsiyonel)</label><input id="p-resim">
     <button onclick="projeEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut Projeler</h3>
     <div id="p-liste"></div>
   </div>
 
-  <!-- ===== YENİ: Üyeler (moderasyon) ===== -->
+  <div id="t-sss" class="tab-icerik">
+    <h2>❓ Soru Ekle</h2>
+    <label>Soru</label><input id="sss-soru">
+    <label>Cevap</label><textarea id="sss-cevap" rows="3"></textarea>
+    <button onclick="sssEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Sorular</h3>
+    <div id="sss-adminliste"></div>
+  </div>
+
+  <div id="t-changelog" class="tab-icerik">
+    <h2>📝 Değişiklik Kaydı Ekle</h2>
+    <label>Sürüm / Başlık</label><input id="c-surum">
+    <label>Notlar</label><textarea id="c-notlar" rows="3"></textarea>
+    <button onclick="changelogEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Kayıtlar</h3>
+    <div id="c-liste"></div>
+  </div>
+
+  <!-- ===== YENİ: Sohbet Moderasyon ===== -->
+  <div id="t-sohbet" class="tab-icerik">
+    <h2>💬 Sohbet Moderasyon</h2>
+    <p style="color:var(--muted);font-size:13px">Uygunsuz mesajları buradan silebilirsin.</p>
+    <div id="m-liste"></div>
+  </div>
+
+  <!-- ===== YENİ: Rütbeler ===== -->
+  <div id="t-roller" class="tab-icerik">
+    <h2>🎖️ Rütbe Ekle</h2>
+    <p style="color:var(--muted);font-size:13px">Discord'daki gibi renkli rütbeler oluştur, sonra Üyeler sekmesinden üyelere ata.</p>
+    <label>Rütbe İsmi</label><input id="r-isim" placeholder="örn: Moderatör">
+    <label>Renk</label><input id="r-renk" type="color" value="#f0a020" style="height:44px;padding:4px">
+    <button onclick="rolEkle()">Ekle</button>
+    <h3 style="margin-top:30px">Mevcut Rütbeler</h3>
+    <div id="r-liste"></div>
+  </div>
+
   <div id="t-uyeler" class="tab-icerik">
     <h2>👤 Kayıtlı Üyeler</h2>
-    <p style="color:var(--muted);font-size:13px">Üyeler siteden kendileri kayıt oluyor. Buradan sadece görüntüleyip, gerekirse silebilirsin (örn. kod unutma / kötüye kullanım durumunda).</p>
+    <p style="color:var(--muted);font-size:13px">Üyeler siteden kendileri kayıt oluyor. Rütbe verebilir veya gerekirse silebilirsin.</p>
     <div id="u-liste"></div>
   </div>
 
   <div id="t-siralama" class="tab-icerik">
     <h2>🏆 Kullanıcı Sıralaması</h2>
-    <label>Kullanıcı İsmi</label>
-    <input id="s-isim">
-    <label>Puan</label>
-    <input id="s-puan" type="number" value="0">
+    <label>Kullanıcı İsmi</label><input id="s-isim">
+    <label>Puan</label><input id="s-puan" type="number" value="0">
+    <label>Rozet (opsiyonel)</label><input id="s-rozet">
     <button onclick="siralamaEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut Sıralama</h3>
     <div id="s-liste"></div>
@@ -114,12 +146,9 @@
 
   <div id="t-dosya" class="tab-icerik">
     <h2>📁 Dosya Paylaşımı Ekle</h2>
-    <label>Dosya / Paylaşım İsmi</label>
-    <input id="f-isim">
-    <label>Açıklama</label>
-    <textarea id="f-aciklama" rows="3"></textarea>
-    <label>Dosya Linki (Drive, Discord, GitHub vb.)</label>
-    <input id="f-link">
+    <label>Dosya / Paylaşım İsmi</label><input id="f-isim">
+    <label>Açıklama</label><textarea id="f-aciklama" rows="3"></textarea>
+    <label>Dosya Linki</label><input id="f-link">
     <button onclick="dosyaEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut Dosyalar</h3>
     <div id="f-liste"></div>
@@ -127,16 +156,10 @@
 
   <div id="t-oyun" class="tab-icerik">
     <h2>🎮 Oyun Ekle</h2>
-    <label>Oyun İsmi</label>
-    <input id="o-isim">
-    <label>Açıklama</label>
-    <textarea id="o-aciklama" rows="3"></textarea>
-    <label>Görsel URL (opsiyonel)</label>
-    <input id="o-resim">
-    <div class="check-satir">
-      <input type="checkbox" id="o-ucretli">
-      <label style="margin:0">Ücretli oyun</label>
-    </div>
+    <label>Oyun İsmi</label><input id="o-isim">
+    <label>Açıklama</label><textarea id="o-aciklama" rows="3"></textarea>
+    <label>Görsel URL (opsiyonel)</label><input id="o-resim">
+    <div class="check-satir"><input type="checkbox" id="o-ucretli"><label style="margin:0">Ücretli oyun</label></div>
     <button onclick="oyunEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut Oyunlar</h3>
     <div id="o-liste"></div>
@@ -144,11 +167,8 @@
 
   <div id="t-bakiye" class="tab-icerik">
     <h2>💰 Bakiye Paneli</h2>
-    <p style="color:var(--muted);font-size:13px">Bu panel sadece admin panelinde görünür, sitede yayınlanmaz.</p>
-    <label>Kullanıcı İsmi</label>
-    <input id="b-isim">
-    <label>Bakiye</label>
-    <input id="b-bakiye" type="number" value="0">
+    <label>Kullanıcı İsmi</label><input id="b-isim">
+    <label>Bakiye</label><input id="b-bakiye" type="number" value="0">
     <button onclick="bakiyeEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut Bakiyeler</h3>
     <div id="b-liste"></div>
@@ -156,22 +176,23 @@
 
   <div id="t-bildirim" class="tab-icerik">
     <h2>🔔 Bildirim Paneli</h2>
-    <p style="color:var(--muted);font-size:13px">Aktif edildiğinde, sitenin ana sayfasının en üstünde bir banner olarak görünür.</p>
-    <div class="check-satir">
-      <input type="checkbox" id="n-aktif">
-      <label style="margin:0">Banner'ı aktif et</label>
-    </div>
-    <label>Bildirim Metni</label>
-    <textarea id="n-metin" rows="3"></textarea>
+    <div class="check-satir"><input type="checkbox" id="n-aktif"><label style="margin:0">Banner'ı aktif et</label></div>
+    <label>Bildirim Metni</label><textarea id="n-metin" rows="3"></textarea>
     <button onclick="bildirimKaydet()">Kaydet</button>
+  </div>
+
+  <div id="t-bakim" class="tab-icerik">
+    <h2>🛠️ Bakım Modu</h2>
+    <div class="check-satir"><input type="checkbox" id="bk-aktif"><label style="margin:0">Bakım modunu aktif et</label></div>
+    <label>Mesaj</label><textarea id="bk-metin" rows="3"></textarea>
+    <button onclick="bakimKaydet()">Kaydet</button>
   </div>
 
   <div id="t-disaAktar" class="tab-icerik">
     <h2>💾 Yedekleme</h2>
-    <p>Site otomatik olarak kaydediliyor — yaptığın her değişiklik anında canlıya yansır.</p>
+    <p>Site otomatik kaydediliyor.</p>
     <button onclick="jsonIndir()">📥 Yedek İndir (content.json)</button>
     <hr style="border-color:#30363d;margin:24px 0">
-    <p>Bozulan/eski bir yedeği geri yüklemek istersen (dikkat: canlı veriyi değiştirir):</p>
     <input type="file" id="json-yukle" accept="application/json" onchange="jsonYukle(event)">
   </div>
 
@@ -179,17 +200,13 @@
 
 <script>
 const SIFRE = "HÜKÜM_SUNAR";
-
 const JSONBIN_ID  = "6a8dcf97f5f4af5e29411dd5";
 const JSONBIN_KEY = "$2a$10$Nrh3ww..c2Y9xuDWdZReXOCkJuMUpuji5pGnU82WR96mjE7I6RRDG";
 const JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
 
-let veri = { duyurular:[], icraatlar:[], yonetim:[], projeler:[], siralama:[], dosyalar:[], oyunlar:[], bakiyeler:[], uyeler:[], site_bildirim:{aktif:false,mesaj:""} };
+let veri = { duyurular:[], icraatlar:[], yonetim:[], projeler:[], siralama:[], dosyalar:[], oyunlar:[], bakiyeler:[], uyeler:[], sss:[], changelog:[], mesajlar:[], roller:[], site_bildirim:{aktif:false,mesaj:""}, bakim_modu:{aktif:false,mesaj:""} };
 
-function durumGoster(msg){
-  const el = document.getElementById('durum-alani');
-  if(el) el.innerText = msg;
-}
+function durumGoster(msg){ const el = document.getElementById('durum-alani'); if(el) el.innerText = msg; }
 
 function girisYap(){
   const g = document.getElementById('sifre-giris').value;
@@ -199,9 +216,7 @@ function girisYap(){
     document.getElementById('panel-icerik').classList.remove('gizli');
     document.body.style.display='flex';
     verileriYukle();
-  } else {
-    document.getElementById('hata-mesaj').innerText = 'Şifre yanlış.';
-  }
+  } else { document.getElementById('hata-mesaj').innerText = 'Şifre yanlış.'; }
 }
 
 function sekmeAc(id, el){
@@ -215,13 +230,8 @@ function verileriYukle(){
   durumGoster('🔄 Yükleniyor...');
   fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } })
     .then(r => { if(!r.ok) throw new Error('okuma hatası'); return r.json(); })
-    .then(d => {
-      veri = d.record;
-      normalizeVeri();
-      listeleriCiz();
-      durumGoster('✅ Bağlı — canlı veri');
-    })
-    .catch(() => { durumGoster('❌ Bağlanamadı, internetini kontrol et'); listeleriCiz(); });
+    .then(d => { veri = d.record; normalizeVeri(); listeleriCiz(); durumGoster('✅ Bağlı — canlı veri'); })
+    .catch(() => { durumGoster('❌ Bağlanamadı'); listeleriCiz(); });
 }
 
 function normalizeVeri(){
@@ -231,145 +241,169 @@ function normalizeVeri(){
   if(!veri.oyunlar) veri.oyunlar = [];
   if(!veri.bakiyeler) veri.bakiyeler = [];
   if(!veri.uyeler) veri.uyeler = [];
+  if(!veri.sss) veri.sss = [];
+  if(!veri.changelog) veri.changelog = [];
+  if(!veri.mesajlar) veri.mesajlar = [];
+  if(!veri.roller) veri.roller = [];
   if(!veri.site_bildirim) veri.site_bildirim = { aktif:false, mesaj:"" };
+  if(!veri.bakim_modu) veri.bakim_modu = { aktif:false, mesaj:"Site şu anda bakımda." };
 }
 
 function kaydet(){
   listeleriCiz();
   durumGoster('🔄 Kaydediliyor...');
-  fetch(JSONBIN_URL, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
-    body: JSON.stringify(veri)
-  })
-  .then(r => { if(!r.ok) throw new Error('yazma hatası'); durumGoster('✅ Kaydedildi'); })
-  .catch(() => durumGoster('❌ Kaydedilemedi, tekrar dene'));
+  fetch(JSONBIN_URL, { method:'PUT', headers:{ 'Content-Type':'application/json', 'X-Master-Key':JSONBIN_KEY }, body: JSON.stringify(veri) })
+    .then(r => { if(!r.ok) throw new Error('yazma hatası'); durumGoster('✅ Kaydedildi'); })
+    .catch(() => durumGoster('❌ Kaydedilemedi'));
 }
 
-function yeniId(dizi){
-  return dizi.length ? Math.max(...dizi.map(x=>x.id)) + 1 : 1;
-}
-function bugun(){
-  return new Date().toISOString().slice(0,10);
-}
+function yeniId(dizi){ return dizi.length ? Math.max(...dizi.map(x=>x.id)) + 1 : 1; }
+function bugun(){ return new Date().toISOString().slice(0,10); }
 
-// --- DUYURU ---
 function duyuruEkle(){
   const baslik = document.getElementById('d-baslik').value.trim();
   const metin = document.getElementById('d-metin').value.trim();
-  if(!baslik || !metin){ alert('Başlık ve metin boş olamaz.'); return; }
-  veri.duyurular.push({ id: yeniId(veri.duyurular), baslik, metin, tarih: bugun() });
-  document.getElementById('d-baslik').value=''; document.getElementById('d-metin').value='';
+  const sabit = document.getElementById('d-sabit').checked;
+  if(!baslik || !metin){ alert('Boş olamaz.'); return; }
+  veri.duyurular.push({ id: yeniId(veri.duyurular), baslik, metin, tarih: bugun(), sabit });
+  document.getElementById('d-baslik').value=''; document.getElementById('d-metin').value=''; document.getElementById('d-sabit').checked=false;
   kaydet();
 }
 function duyuruSil(id){ veri.duyurular = veri.duyurular.filter(d => d.id !== id); kaydet(); }
+function duyuruSabitDegistir(id){ const d = veri.duyurular.find(x => x.id === id); d.sabit = !d.sabit; kaydet(); }
 
-// --- İCRAAT ---
 function icraatEkle(){
   const baslik = document.getElementById('i-baslik').value.trim();
   const aciklama = document.getElementById('i-aciklama').value.trim();
-  if(!baslik || !aciklama){ alert('Başlık ve açıklama boş olamaz.'); return; }
+  if(!baslik || !aciklama){ alert('Boş olamaz.'); return; }
   veri.icraatlar.push({ id: yeniId(veri.icraatlar), baslik, aciklama, tarih: bugun() });
   document.getElementById('i-baslik').value=''; document.getElementById('i-aciklama').value='';
   kaydet();
 }
 function icraatSil(id){ veri.icraatlar = veri.icraatlar.filter(i => i.id !== id); kaydet(); }
 
-// --- YÖNETİM ---
 function yonetimEkle(){
   const isim = document.getElementById('y-isim').value.trim();
   const rol = document.getElementById('y-rol').value.trim();
-  if(!isim || !rol){ alert('İsim ve rol boş olamaz.'); return; }
-  veri.yonetim.push({ id: yeniId(veri.yonetim), isim, rol, resim: document.getElementById('y-resim').value.trim() });
-  document.getElementById('y-isim').value=''; document.getElementById('y-rol').value=''; document.getElementById('y-resim').value='';
+  if(!isim || !rol){ alert('Boş olamaz.'); return; }
+  veri.yonetim.push({ id: yeniId(veri.yonetim), isim, rol, resim: document.getElementById('y-resim').value.trim(), sosyal: document.getElementById('y-sosyal').value.trim() });
+  document.getElementById('y-isim').value=''; document.getElementById('y-rol').value=''; document.getElementById('y-resim').value=''; document.getElementById('y-sosyal').value='';
   kaydet();
 }
 function yonetimSil(id){ veri.yonetim = veri.yonetim.filter(y => y.id !== id); kaydet(); }
 
-// --- PROJE ---
 function projeEkle(){
   const isim = document.getElementById('p-isim').value.trim();
-  if(!isim){ alert('Proje ismi boş olamaz.'); return; }
-  veri.projeler.push({
-    id: yeniId(veri.projeler), isim,
-    tanitim: document.getElementById('p-tanitim').value.trim(),
-    amac: document.getElementById('p-amac').value.trim(),
-    resim: document.getElementById('p-resim').value.trim()
-  });
-  document.getElementById('p-isim').value=''; document.getElementById('p-tanitim').value='';
-  document.getElementById('p-amac').value=''; document.getElementById('p-resim').value='';
+  if(!isim){ alert('Boş olamaz.'); return; }
+  veri.projeler.push({ id: yeniId(veri.projeler), isim, tanitim: document.getElementById('p-tanitim').value.trim(), amac: document.getElementById('p-amac').value.trim(), resim: document.getElementById('p-resim').value.trim() });
+  document.getElementById('p-isim').value=''; document.getElementById('p-tanitim').value=''; document.getElementById('p-amac').value=''; document.getElementById('p-resim').value='';
   kaydet();
 }
 function projeSil(id){ veri.projeler = veri.projeler.filter(p => p.id !== id); kaydet(); }
 
-// --- ÜYELER (moderasyon, sadece görüntüle/sil) ---
+function sssEkle(){
+  const soru = document.getElementById('sss-soru').value.trim();
+  const cevap = document.getElementById('sss-cevap').value.trim();
+  if(!soru || !cevap){ alert('Boş olamaz.'); return; }
+  veri.sss.push({ id: yeniId(veri.sss), soru, cevap });
+  document.getElementById('sss-soru').value=''; document.getElementById('sss-cevap').value='';
+  kaydet();
+}
+function sssSil(id){ veri.sss = veri.sss.filter(s => s.id !== id); kaydet(); }
+
+function changelogEkle(){
+  const surum = document.getElementById('c-surum').value.trim();
+  const notlar = document.getElementById('c-notlar').value.trim();
+  if(!surum || !notlar){ alert('Boş olamaz.'); return; }
+  veri.changelog.push({ id: yeniId(veri.changelog), surum, notlar, tarih: bugun() });
+  document.getElementById('c-surum').value=''; document.getElementById('c-notlar').value='';
+  kaydet();
+}
+function changelogSil(id){ veri.changelog = veri.changelog.filter(c => c.id !== id); kaydet(); }
+
+// --- YENİ: Sohbet moderasyon ---
+function mesajSil(id){ veri.mesajlar = veri.mesajlar.filter(m => m.id !== id); kaydet(); }
+
+// --- YENİ: Rütbeler ---
+function rolEkle(){
+  const isim = document.getElementById('r-isim').value.trim();
+  const renk = document.getElementById('r-renk').value;
+  if(!isim){ alert('Rütbe ismi boş olamaz.'); return; }
+  veri.roller.push({ id: yeniId(veri.roller), isim, renk });
+  document.getElementById('r-isim').value='';
+  kaydet();
+}
+function rolSil(id){ veri.roller = veri.roller.filter(r => r.id !== id); kaydet(); }
+
+// --- ÜYELER (rütbe atama + silme) ---
 function uyeSil(id){
-  if(!confirm('Bu üyeyi silmek istediğine emin misin? Geri alınamaz.')) return;
+  if(!confirm('Bu üyeyi silmek istediğine emin misin?')) return;
   veri.uyeler = veri.uyeler.filter(u => u.id !== id);
   kaydet();
 }
+function uyeRutbeAta(id, rutbe){
+  const uye = veri.uyeler.find(u => u.id === id);
+  uye.rutbe = rutbe;
+  kaydet();
+}
 
-// --- KULLANICI SIRALAMASI ---
 function siralamaEkle(){
   const isim = document.getElementById('s-isim').value.trim();
   const puan = parseInt(document.getElementById('s-puan').value) || 0;
-  if(!isim){ alert('Kullanıcı ismi boş olamaz.'); return; }
-  veri.siralama.push({ id: yeniId(veri.siralama), isim, puan });
-  document.getElementById('s-isim').value=''; document.getElementById('s-puan').value='0';
+  const rozet = document.getElementById('s-rozet').value.trim();
+  if(!isim){ alert('Boş olamaz.'); return; }
+  veri.siralama.push({ id: yeniId(veri.siralama), isim, puan, rozet });
+  document.getElementById('s-isim').value=''; document.getElementById('s-puan').value='0'; document.getElementById('s-rozet').value='';
   kaydet();
 }
 function siralamaSil(id){ veri.siralama = veri.siralama.filter(s => s.id !== id); kaydet(); }
 
-// --- DOSYA PAYLAŞIMI ---
 function dosyaEkle(){
   const isim = document.getElementById('f-isim').value.trim();
-  const aciklama = document.getElementById('f-aciklama').value.trim();
   const link = document.getElementById('f-link').value.trim();
-  if(!isim || !link){ alert('Dosya ismi ve link boş olamaz.'); return; }
-  veri.dosyalar.push({ id: yeniId(veri.dosyalar), isim, aciklama, link, tarih: bugun() });
+  if(!isim || !link){ alert('Boş olamaz.'); return; }
+  veri.dosyalar.push({ id: yeniId(veri.dosyalar), isim, aciklama: document.getElementById('f-aciklama').value.trim(), link, tarih: bugun(), ekleyen: 'Admin' });
   document.getElementById('f-isim').value=''; document.getElementById('f-aciklama').value=''; document.getElementById('f-link').value='';
   kaydet();
 }
 function dosyaSil(id){ veri.dosyalar = veri.dosyalar.filter(f => f.id !== id); kaydet(); }
 
-// --- OYUNLAR ---
 function oyunEkle(){
   const isim = document.getElementById('o-isim').value.trim();
-  if(!isim){ alert('Oyun ismi boş olamaz.'); return; }
-  veri.oyunlar.push({
-    id: yeniId(veri.oyunlar), isim,
-    aciklama: document.getElementById('o-aciklama').value.trim(),
-    resim: document.getElementById('o-resim').value.trim(),
-    ucretli: document.getElementById('o-ucretli').checked
-  });
-  document.getElementById('o-isim').value=''; document.getElementById('o-aciklama').value='';
-  document.getElementById('o-resim').value=''; document.getElementById('o-ucretli').checked=false;
+  if(!isim){ alert('Boş olamaz.'); return; }
+  veri.oyunlar.push({ id: yeniId(veri.oyunlar), isim, aciklama: document.getElementById('o-aciklama').value.trim(), resim: document.getElementById('o-resim').value.trim(), ucretli: document.getElementById('o-ucretli').checked, ekleyen: 'Admin' });
+  document.getElementById('o-isim').value=''; document.getElementById('o-aciklama').value=''; document.getElementById('o-resim').value=''; document.getElementById('o-ucretli').checked=false;
   kaydet();
 }
 function oyunSil(id){ veri.oyunlar = veri.oyunlar.filter(o => o.id !== id); kaydet(); }
 
-// --- BAKİYE ---
 function bakiyeEkle(){
   const isim = document.getElementById('b-isim').value.trim();
   const bakiye = parseFloat(document.getElementById('b-bakiye').value) || 0;
-  if(!isim){ alert('Kullanıcı ismi boş olamaz.'); return; }
+  if(!isim){ alert('Boş olamaz.'); return; }
   veri.bakiyeler.push({ id: yeniId(veri.bakiyeler), isim, bakiye });
   document.getElementById('b-isim').value=''; document.getElementById('b-bakiye').value='0';
   kaydet();
 }
 function bakiyeSil(id){ veri.bakiyeler = veri.bakiyeler.filter(b => b.id !== id); kaydet(); }
 
-// --- BİLDİRİM ---
 function bildirimKaydet(){
   veri.site_bildirim = { aktif: document.getElementById('n-aktif').checked, mesaj: document.getElementById('n-metin').value.trim() };
   kaydet();
 }
+function bakimKaydet(){
+  veri.bakim_modu = { aktif: document.getElementById('bk-aktif').checked, mesaj: document.getElementById('bk-metin').value.trim() };
+  kaydet();
+}
 
-// --- LİSTELERİ ÇİZ ---
 function listeleriCiz(){
   document.getElementById('d-liste').innerHTML = veri.duyurular.map(d => `
-    <div class="kart"><div class="baslik">${d.baslik}</div><div>${d.metin}</div><div class="tarih">${d.tarih}</div>
-    <button class="sil" onclick="duyuruSil(${d.id})">Sil</button></div>`).join('') || '<p>Duyuru yok.</p>';
+    <div class="kart ${d.sabit ? 'sabit-kart' : ''}">
+      <div class="baslik">${d.baslik} ${d.sabit ? '<span class="etiket etiket-sabit">📌 Sabit</span>' : ''}</div>
+      <div>${d.metin}</div><div class="tarih">${d.tarih}</div>
+      <button class="ikincil" onclick="duyuruSabitDegistir(${d.id})">${d.sabit ? 'Sabitten Kaldır' : 'Sabitle'}</button>
+      <button class="sil" onclick="duyuruSil(${d.id})">Sil</button>
+    </div>`).join('') || '<p>Duyuru yok.</p>';
 
   document.getElementById('i-liste').innerHTML = veri.icraatlar.map(i => `
     <div class="kart"><div class="baslik">${i.baslik}</div><div>${i.aciklama}</div><div class="tarih">${i.tarih}</div>
@@ -377,17 +411,47 @@ function listeleriCiz(){
 
   document.getElementById('y-liste').innerHTML = veri.yonetim.map(y => `
     <div class="kart"><div class="baslik">${y.isim}</div><span class="rozet">${y.rol}</span>
+    ${y.sosyal ? `<br><a class="sosyal-link" href="${y.sosyal}" target="_blank">🔗 ${y.sosyal}</a>` : ''}
     <br><button class="sil" onclick="yonetimSil(${y.id})">Sil</button></div>`).join('') || '<p>Yönetim üyesi yok.</p>';
 
   document.getElementById('p-liste').innerHTML = veri.projeler.map(p => `
     <div class="kart"><div class="baslik">${p.isim}</div><div>${p.tanitim}</div><div class="tarih">Amaç: ${p.amac}</div>
     <button class="sil" onclick="projeSil(${p.id})">Sil</button></div>`).join('') || '<p>Proje yok.</p>';
 
-  document.getElementById('u-liste').innerHTML = (veri.uyeler||[]).length
+  document.getElementById('sss-adminliste').innerHTML = veri.sss.map(s => `
+    <div class="kart"><div class="baslik">${s.soru}</div><div>${s.cevap}</div>
+    <button class="sil" onclick="sssSil(${s.id})">Sil</button></div>`).join('') || '<p>Soru yok.</p>';
+
+  document.getElementById('c-liste').innerHTML = veri.changelog.map(c => `
+    <div class="kart"><div class="baslik">${c.surum}</div><div>${c.notlar}</div><div class="tarih">${c.tarih}</div>
+    <button class="sil" onclick="changelogSil(${c.id})">Sil</button></div>`).join('') || '<p>Kayıt yok.</p>';
+
+  // Sohbet moderasyon
+  document.getElementById('m-liste').innerHTML = veri.mesajlar.length
+    ? veri.mesajlar.slice().reverse().map(m => `
+      <div class="kart"><b>${m.kullaniciAdi}</b> (${m.saat}): ${m.mesaj}
+      <br><button class="sil" onclick="mesajSil(${m.id})">Sil</button></div>`).join('')
+    : '<p>Henüz mesaj yok.</p>';
+
+  // Rütbeler
+  document.getElementById('r-liste').innerHTML = veri.roller.length
+    ? veri.roller.map(r => `
+      <div class="kart"><span class="rutbe-rozet" style="background:${r.renk}">${r.isim}</span>
+      <button class="sil" style="margin-top:10px" onclick="rolSil(${r.id})">Sil</button></div>`).join('')
+    : '<p>Henüz rütbe yok.</p>';
+
+  // Üyeler (rütbe atama dropdown ile)
+  document.getElementById('u-liste').innerHTML = veri.uyeler.length
     ? veri.uyeler.map(u => `
       <div class="uye-satir">
         ${u.profilResmi ? `<img src="${u.profilResmi}">` : '<div class="avatar-bos"></div>'}
-        <div class="bilgi"><div>${u.kullaniciAdi}</div><div class="kucuk">Kayıt: ${u.kayitTarihi}</div></div>
+        <div class="bilgi">
+          <div>${u.kullaniciAdi}</div><div class="kucuk">Kayıt: ${u.kayitTarihi}</div>
+          <select onchange="uyeRutbeAta(${u.id}, this.value)" style="margin-top:6px;margin-bottom:0">
+            <option value="">Rütbe yok</option>
+            ${veri.roller.map(r => `<option value="${r.isim}" ${u.rutbe===r.isim?'selected':''}>${r.isim}</option>`).join('')}
+          </select>
+        </div>
         <button class="sil" onclick="uyeSil(${u.id})">Sil</button>
       </div>`).join('')
     : '<p>Henüz kayıtlı üye yok.</p>';
@@ -396,21 +460,21 @@ function listeleriCiz(){
   document.getElementById('s-liste').innerHTML = siraliListe.map((s,idx) => `
     <div class="siralama-satir">
       <div class="siralama-sira">${idx+1}</div>
-      <div class="siralama-isim">${s.isim}</div>
+      <div class="siralama-isim">${s.isim} ${s.rozet ? `<span class="uye-rozet">${s.rozet}</span>` : ''}</div>
       <div class="siralama-puan">${s.puan} puan</div>
       <button class="sil" onclick="siralamaSil(${s.id})">Sil</button>
     </div>`).join('') || '<p>Sıralamada kimse yok.</p>';
 
   document.getElementById('f-liste').innerHTML = veri.dosyalar.map(f => `
     <div class="kart dosya-kart">
-      <div><div class="baslik">${f.isim}</div><div>${f.aciklama || ''}</div><a href="${f.link}" target="_blank">${f.link}</a></div>
+      <div><div class="baslik">${f.isim}</div><div>${f.aciklama || ''}</div>${f.ekleyen ? `<div class="tarih">Ekleyen: ${f.ekleyen}</div>` : ''}<a href="${f.link}" target="_blank">${f.link}</a></div>
       <button class="sil" onclick="dosyaSil(${f.id})">Sil</button>
     </div>`).join('') || '<p>Paylaşılan dosya yok.</p>';
 
   document.getElementById('o-liste').innerHTML = veri.oyunlar.map(o => `
     <div class="kart">
       <div class="baslik">${o.isim} ${o.ucretli ? '<span class="etiket etiket-ucretli">Ücretli</span>' : ''}</div>
-      <div>${o.aciklama || ''}</div>
+      <div>${o.aciklama || ''}</div>${o.ekleyen ? `<div class="tarih">Ekleyen: ${o.ekleyen}</div>` : ''}
       <button class="sil" onclick="oyunSil(${o.id})">Sil</button>
     </div>`).join('') || '<p>Oyun yok.</p>';
 
@@ -422,9 +486,12 @@ function listeleriCiz(){
     document.getElementById('n-aktif').checked = !!veri.site_bildirim.aktif;
     document.getElementById('n-metin').value = veri.site_bildirim.mesaj || '';
   }
+  if(veri.bakim_modu){
+    document.getElementById('bk-aktif').checked = !!veri.bakim_modu.aktif;
+    document.getElementById('bk-metin').value = veri.bakim_modu.mesaj || '';
+  }
 }
 
-// --- YEDEK İNDİR / YÜKLE ---
 function jsonIndir(){
   const blob = new Blob([JSON.stringify(veri, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
@@ -437,12 +504,8 @@ function jsonYukle(e){
   if(!dosya) return;
   const okuyucu = new FileReader();
   okuyucu.onload = function(evt){
-    try{
-      veri = JSON.parse(evt.target.result);
-      normalizeVeri();
-      kaydet();
-      alert('Yüklendi ve canlıya kaydedildi.');
-    }catch(err){ alert('Geçersiz JSON dosyası.'); }
+    try{ veri = JSON.parse(evt.target.result); normalizeVeri(); kaydet(); alert('Yüklendi.'); }
+    catch(err){ alert('Geçersiz JSON dosyası.'); }
   };
   okuyucu.readAsText(dosya);
 }
