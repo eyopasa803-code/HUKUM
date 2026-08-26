@@ -3,26 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HÜKÜM Studio - Gelişmiş Platform</title>
+<title>HÜKÜM Studio</title>
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<!-- Sol Kenar Çubuğu ve Profil Paneli (2. Ekran Görüntüsü İlhamıyla) -->
 <div class="sidebar">
-  <div id="profil-alani" style="padding:15px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px;">
-    <div id="avatar-kutu" style="width:45px; height:45px; border-radius:50%; background:#21262d; display:flex; align-items:center; justify-content:center; font-weight:bold; color:var(--accent); overflow:hidden; border:2px solid var(--accent);">
-      <span id="avatar-harf">?</span>
-    </div>
-    <div style="flex:1; overflow:hidden;">
-      <div id="profil-isim" style="font-weight:600; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Ziyaretçi</div>
-      <div id="profil-rol" style="font-size:11px; color:var(--muted);">Kayıtsız Üye</div>
-      <div id="profil-durum" style="font-size:10px; color:#3fb950; margin-top:2px;"><i class="fa-solid fa-circle" style="font-size:7px;"></i> Çevrimdışı</div>
-    </div>
-  </div>
-
   <h1>👑 HÜKÜM STUDIO</h1>
+
+  <!-- Giriş yapılmışsa profil özeti, yapılmamışsa Kayıt/Giriş linki -->
+  <div id="profil-ozet-alani"></div>
 
   <div class="grup">GENEL</div>
   <a onclick="sekmeAc('ana-sayfa', this)" class="active">🏠 Ana Sayfa</a>
@@ -33,260 +23,141 @@
   <div class="grup">EKİP</div>
   <a onclick="sekmeAc('yonetim', this)">👑 Yönetim Ekibi</a>
 
-  <div class="grup">ÜYELİK & PROFİL</div>
-  <a onclick="sekmeAc('giris-paneli', this)">👤 Giriş / Kayıt Ol</a>
-  <a onclick="sekmeAc('profil-duzenle', this)">⚙️ Profilimi Düzenle</a>
+  <div class="grup">ÜYELİK</div>
+  <a onclick="sekmeAc('hesap', this)" id="hesap-link">👤 Kayıt Ol / Giriş Yap</a>
   <a onclick="sekmeAc('siralama', this)">🏆 Kullanıcı Sıralaması</a>
-  <a onclick="sekmeAc('dosyalar', this)">📁 Dosya Paylaşımı <span style="background:#238636; color:#fff; font-size:9px; padding:1px 6px; border-radius:8px; float:right;">Herkese Açık</span></a>
-  <a onclick="sekmeAc('oyunlar', this)">🎮 Oyunlar <span style="background:#1f6feb; color:#fff; font-size:9px; padding:1px 6px; border-radius:8px; float:right;">Herkese Açık</span></a>
+  <a onclick="sekmeAc('dosyalar', this)">📁 Dosya Paylaşımı</a>
+  <a onclick="sekmeAc('oyunlar', this)">🎮 Oyunlar</a>
 
-  <div class="grup">EKSTRA SİSTEMLER (15+ YENİ)</div>
-  <a onclick="sekmeAc('sohbet-odasi', this)">💬 Canlı Sohbet Odası</a>
-  <a onclick="sekmeAc('muzik-calar', this)">🎵 Hüküm Müzik</a>
-  <a onclick="sekmeAc('gorevler', this)">🎯 Günlük Görevler</a>
-  <a onclick="sekmeAc('rozetler', this)">🏅 Rozet Koleksiyonum</a>
-  <a onclick="sekmeAc('destek-sistemi', this)">📞 Destek / Talep</a>
-  <a onclick="sekmeAc('not-defteri', this)">📝 Bulut Not Defteri</a>
-  <a onclick="sekmeAc('anketler', this)">📊 Topluluk Anketleri</a>
-  <a onclick="sekmeAc('sozluk', this)">📖 Hüküm Sözlük</a>
-  <a onclick="sekmeAc('karsilastirma', this)">⚔️ Hesap Karşılaştır</a>
-  <a onclick="sekmeAc('istatistikler', this)">📈 Site İstatistikleri</a>
-  <a onclick="sekmeAc('mini-oyun', this)">🕹️ Şans Çarkı</a>
-  <a onclick="sekmeAc('duvar-kagidi', this)">🖼️ Arka Plan Değiştir</a>
-  <a onclick="sekmeAc('hakkimizda', this)">ℹ️ Biz Kimiz?</a>
-
-  <div class="grup">YÖNETİM</div>
-  <a href="admin.html">⚙️ Site Kontrol (Admin)</a>
+  <div class="grup">SİSTEMLER</div>
+  <a href="admin.html">⚙️ Site Kontrol</a>
 </div>
 
 <div class="content">
 
-  <!-- ANA SAYFA -->
+  <div id="banner-alani"></div>
+
   <div id="ana-sayfa" class="tab-icerik aktif">
     <h2>🏠 Ana Sayfa</h2>
-    <div class="kart" style="border-left: 4px solid var(--accent); background: linear-gradient(135deg, #161b22 0%, #1f242d 100%);">
-      <div class="baslik">🔔 HÜKÜM İÇİN BİR FİKRİNİZ VARSA</div>
-      <div>TikTok <b>eyo_pasha15</b> adresine DM atarak fikrinizi, önerinizi ya da isteğinizi söyleyebilirsiniz!</div>
-    </div>
-    <p>HÜKÜM Studio resmi web platformuna hoş geldiniz. Devasa güncelleme ile artık profiller, şifreli girişler, dosya/oyun paylaşımları ve 15+ ekstra sistem aktif!</p>
+    <p>HÜKÜM Studio resmi web platformuna hoş geldiniz.</p>
   </div>
 
-  <!-- DUYURULAR -->
   <div id="duyurular" class="tab-icerik">
     <h2>📢 Duyurular</h2>
     <div id="duyuru-liste"></div>
   </div>
 
-  <!-- İCRAATLAR -->
   <div id="icraatlar" class="tab-icerik">
     <h2>⚡ İcraatlarımız</h2>
     <div id="icraat-liste"></div>
   </div>
 
-  <!-- PROJELER -->
   <div id="projeler" class="tab-icerik">
     <h2>🚀 Projelerimiz</h2>
     <div id="proje-liste"></div>
   </div>
 
-  <!-- YÖNETİM EKİBİ -->
   <div id="yonetim" class="tab-icerik">
     <h2>👑 Yönetim Ekibi</h2>
     <div id="yonetim-liste"></div>
   </div>
 
-  <!-- GİRİŞ / KAYIT -->
-  <div id="giris-paneli" class="tab-icerik">
-    <h2>👤 Üye Giriş / Kayıt Sistemi</h2>
-    <div class="kart" style="max-width:420px;">
-      <div id="giris-form-alani">
-        <label>Kullanıcı Adı:</label>
-        <input type="text" id="giris-isim" placeholder="Kullanıcı adını yaz...">
-        <label>Şifre:</label>
-        <input type="password" id="giris-sifre" placeholder="Güvenli bir şifre gir...">
-        <div style="display:flex; gap:10px; margin-top:10px;">
-          <button onclick="uyeKayitOl()" style="flex:1;">Kayıt Ol</button>
-          <button onclick="uyeGirisYap()" class="ikincil" style="flex:1;">Giriş Yap</button>
-        </div>
-      </div>
-      <div id="cikis-form-alani" style="display:none; text-align:center;">
-        <p style="margin-bottom:12px; color:var(--muted);">Zaten aktif bir oturumun var.</p>
-        <button class="sil" onclick="uyeCikisYap()">Oturumu Kapat</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROFİL DÜZENLE -->
-  <div id="profil-duzenle" class="tab-icerik">
-    <h2>⚙️ Profilimi Düzenle</h2>
-    <div class="kart" style="max-width:420px;">
-      <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Profil fotoğrafını ve kullanıcı adını dilediğin zaman değiştir!</p>
-      <label>Yeni Kullanıcı Adı:</label>
-      <input type="text" id="profil-yeni-isim" placeholder="Yeni ad...">
-      <label>Profil Fotoğrafı Seç (Galeriden / Cihazdan):</label>
-      <input type="file" id="profil-dosya-input" accept="image/*" onchange="resimSec(event)" style="margin-bottom:10px;">
-      <label>Veya Resim URL Adresi:</label>
-      <input type="text" id="profil-url-input" placeholder="https://... (Görsel linki)">
-      <button onclick="profilGuncelleKaydet()">Bilgileri Güncelle</button>
-    </div>
-  </div>
-
-  <!-- KULLANICI SIRALAMASI -->
   <div id="siralama" class="tab-icerik">
     <h2>🏆 Kullanıcı Sıralaması</h2>
-    <p style="color:var(--muted); font-size:13px; margin-bottom:15px;">Sisteme kayıt olan üyelerin puan tablosu.</p>
     <div id="siralama-liste"></div>
   </div>
 
-  <!-- DOSYA PAYLAŞIMI -->
   <div id="dosyalar" class="tab-icerik">
-    <h2>📁 Dosya Paylaşımı (Herkese Açık)</h2>
+    <h2>📁 Dosya Paylaşımı</h2>
     <div id="dosya-liste"></div>
   </div>
 
-  <!-- OYUNLAR -->
   <div id="oyunlar" class="tab-icerik">
-    <h2>🎮 Oyun Arşivi (Herkese Açık)</h2>
-    <div id="oyun-liste"></div>
+    <h2>🎮 Oyunlar</h2>
+    <div id="oyun-liste" class="oyun-grid"></div>
   </div>
 
-  <!-- EKSTRA 1: CANLI SOHBET ODASI -->
-  <div id="sohbet-odasi" class="tab-icerik">
-    <h2>💬 Canlı Sohbet Odası</h2>
-    <div class="kart">
-      <div id="sohbet-mesajlar" style="height:250px; overflow-y:auto; background:#0d1117; padding:10px; border-radius:6px; border:1px solid var(--border); margin-bottom:10px;"></div>
-      <div style="display:flex; gap:8px;">
-        <input type="text" id="sohbet-input" placeholder="Mesajını yaz..." style="margin:0;">
-        <button onclick="sohbetMesajGonder()">Gönder</button>
+  <!-- ===== HESAP: Kayıt / Giriş / Profil ===== -->
+  <div id="hesap" class="tab-icerik">
+
+    <!-- Giriş yapılmamışsa: Kayıt / Giriş formları -->
+    <div id="hesap-giris-alani">
+      <h2>👤 Üyelik</h2>
+      <p style="color:var(--muted);font-size:13px">
+        ⚠️ Burası basit bir rumuz sistemidir, gerçek bir şifre koruması sağlamaz.
+        Lütfen başka yerlerde kullandığın gerçek şifreni buraya yazma — sadece kolay hatırlayacağın 4 haneli bir kod seç.
+      </p>
+
+      <div class="form-sekme">
+        <button id="sekme-giris-btn" class="secili" onclick="hesapSekmeAc('giris')">Giriş Yap</button>
+        <button id="sekme-kayit-btn" onclick="hesapSekmeAc('kayit')">Kayıt Ol</button>
+      </div>
+
+      <!-- GİRİŞ FORMU -->
+      <div id="form-giris">
+        <label>Kullanıcı Adı</label>
+        <input id="giris-isim">
+        <label>Kod (4 hane)</label>
+        <input id="giris-kod" type="password" maxlength="4" inputmode="numeric">
+        <button onclick="girisYapUye()">Giriş Yap</button>
+        <p id="giris-hata" style="color:var(--danger);font-size:13px"></p>
+      </div>
+
+      <!-- KAYIT FORMU -->
+      <div id="form-kayit" class="gizli">
+        <div class="avatar-secici">
+          <img id="kayit-avatar-onizleme" class="avatar-buyuk" src="" style="display:none">
+          <div id="kayit-avatar-bos" class="avatar-buyuk" style="display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">Fotoğraf yok</div>
+          <label for="kayit-dosya-input" class="dosya-btn">📷 Galeriden Seç</label>
+          <input type="file" id="kayit-dosya-input" accept="image/*" style="display:none" onchange="dosyaSecildi(this,'kayit')">
+          <p id="kayit-yukleniyor" class="yukleniyor-yazi gizli">Yükleniyor...</p>
+          <label style="margin-top:10px">veya resim linki yapıştır</label>
+          <input id="kayit-resim-link" placeholder="https://...">
+        </div>
+        <label>Kullanıcı Adı</label>
+        <input id="kayit-isim">
+        <label>Kod Belirle (4 hane)</label>
+        <input id="kayit-kod" type="password" maxlength="4" inputmode="numeric">
+        <button onclick="kayitOl()">Kayıt Ol</button>
+        <p id="kayit-hata" style="color:var(--danger);font-size:13px"></p>
       </div>
     </div>
-  </div>
 
-  <!-- EKSTRA 2: MÜZİK ÇALAR -->
-  <div id="muzik-calar" class="tab-icerik">
-    <h2>🎵 Hüküm Müzik</h2>
-    <div class="kart" style="text-align:center;">
-      <div style="font-size:16px; font-weight:bold; color:var(--accent); margin-bottom:10px;">🎶 Hüküm Studio Lo-Fi & Gaming Radio</div>
-      <audio id="radyo-audio" controls style="width:100%; margin-top:10px;">
-        <source src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg">
-        Tarayıcınız ses oynatıcısını desteklemiyor.
-      </audio>
-    </div>
-  </div>
-
-  <!-- EKSTRA 3: GÜNLÜK GÖREVLER -->
-  <div id="gorevler" class="tab-icerik">
-    <h2>🎯 Günlük Görevler</h2>
-    <div class="kart">
-      <div class="baslik">Görevi Tamamla +50 Puan Kazan!</div>
-      <p style="font-size:13px; color:var(--muted);">Bugün siteye giriş yaptın ve rozetini aldın. Ödülünü toplamak için aşağıdaki butona tıkla.</p>
-      <button onclick="gorevOduluAl()">Ödülü Al (+50 Puan)</button>
-    </div>
-  </div>
-
-  <!-- EKSTRA 4: ROZET KOLEKSİYONU -->
-  <div id="rozetler" class="tab-icerik">
-    <h2>🏅 Rozet Koleksiyonum</h2>
-    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:12px;">
-      <div class="kart" style="text-align:center;"><i class="fa-solid fa-crown" style="font-size:28px; color:var(--accent); margin-bottom:8px;"></i><div style="font-weight:bold; font-size:13px;">Kurucu Üye</div></div>
-      <div class="kart" style="text-align:center;"><i class="fa-solid fa-shield-halved" style="font-size:28px; color:#3fb950; margin-bottom:8px;"></i><div style="font-weight:bold; font-size:13px;">Güvenli Hesap</div></div>
-      <div class="kart" style="text-align:center;"><i class="fa-solid fa-fire" style="font-size:28px; color:#e5534b; margin-bottom:8px;"></i><div style="font-weight:bold; font-size:13px;">Aktif Oyuncu</div></div>
-    </div>
-  </div>
-
-  <!-- EKSTRA 5: DESTEK SİSTEMİ -->
-  <div id="destek-sistemi" class="tab-icerik">
-    <h2>📞 Destek / Talep Oluştur</h2>
-    <div class="kart">
-      <label>Konu Başlığı</label>
-      <input type="text" id="destek-konu" placeholder="Sorununuz veya öneriniz...">
-      <label>Açıklama</label>
-      <textarea id="destek-aciklama" rows="3" placeholder="Detayları yazın..."></textarea>
-      <button onclick="destekGonder()">Talep Gönder</button>
-    </div>
-  </div>
-
-  <!-- EKSTRA 6: BULUT NOT DEFTERİ -->
-  <div id="not-defteri" class="tab-icerik">
-    <h2>📝 Bulut Not Defteri</h2>
-    <div class="kart">
-      <textarea id="notlar-input" rows="6" placeholder="Kişisel notlarını buraya yaz, tarayıcında saklansın..."></textarea>
-      <button onclick="notlariKaydet()">Notları Kaydet</button>
-    </div>
-  </div>
-
-  <!-- EKSTRA 7: TOPLULUK ANKETLERİ -->
-  <div id="anketler" class="tab-icerik">
-    <h2>📊 Topluluk Anketleri</h2>
-    <div class="kart">
-      <div class="baslik">Sence Hüküm Studio'nun Son Güncellemesi Nasıl?</div>
-      <div style="margin:12px 0; display:flex; flex-direction:column; gap:8px;">
-        <button class="ikincil" onclick="oyVer('Harika')">🔥 Harika (Oyla)</button>
-        <button class="ikincil" onclick="oyVer('Gelişmeli')">⚡ Daha da Gelişmeli (Oyla)</button>
+    <!-- Giriş yapılmışsa: Profil düzenleme -->
+    <div id="hesap-profil-alani" class="gizli">
+      <h2>👤 Profilim</h2>
+      <div class="avatar-secici">
+        <img id="profil-avatar-onizleme" class="avatar-buyuk" src="" style="display:none">
+        <div id="profil-avatar-bos" class="avatar-buyuk" style="display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">Fotoğraf yok</div>
+        <label for="profil-dosya-input" class="dosya-btn">📷 Fotoğrafı Değiştir</label>
+        <input type="file" id="profil-dosya-input" accept="image/*" style="display:none" onchange="dosyaSecildi(this,'profil')">
+        <p id="profil-yukleniyor" class="yukleniyor-yazi gizli">Yükleniyor...</p>
+        <label style="margin-top:10px">veya resim linki yapıştır</label>
+        <input id="profil-resim-link" placeholder="https://...">
       </div>
-      <div id="anket-sonuc" style="font-size:13px; color:var(--accent);"></div>
+      <label>Kullanıcı Adı</label>
+      <input id="profil-isim">
+      <button onclick="profilKaydet()">Kaydet</button>
+      <button class="ikincil" onclick="cikisYap()">Çıkış Yap</button>
+      <p id="profil-mesaj" style="color:var(--ok);font-size:13px"></p>
     </div>
-  </div>
 
-  <!-- EKSTRA 8: HÜKÜM SÖZLÜK -->
-  <div id="sozluk" class="tab-icerik">
-    <h2>📖 Hüküm Sözlük</h2>
-    <div class="kart"><div class="baslik">Hükümci</div><div>Hüküm Studio platformunu kullanan seçkin ve elit topluluk üyesi.</div></div>
-    <div class="kart"><div class="baslik">Eyo Paşa</div><div>Projenin kurucusu ve baş mimarı.</div></div>
-  </div>
-
-  <!-- EKSTRA 9: HESAP KARŞILAŞTIRMA -->
-  <div id="karsilastirma" class="tab-icerik">
-    <h2>⚔️ Hesap Karşılaştır</h2>
-    <div class="kart">
-      <p style="font-size:13px; color:var(--muted);">Kendi profil gücünü ve puanını sistemdeki diğer oyuncularla kıyasla!</p>
-      <div id="karsilastirma-alani" style="font-weight:bold; color:var(--accent);"></div>
-    </div>
-  </div>
-
-  <!-- EKSTRA 10: SİTE İSTATİSTİKLERİ -->
-  <div id="istatistikler" class="tab-icerik">
-    <h2>📈 Site İSTATİSTİKLERİ</h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-      <div class="kart" style="text-align:center;"><div style="font-size:24px; font-weight:bold; color:var(--accent);" id="stat-uye">0</div><div style="font-size:12px; color:var(--muted);">Kayıtlı Üye</div></div>
-      <div class="kart" style="text-align:center;"><div style="font-size:24px; font-weight:bold; color:#3fb950;" id="stat-dosya">0</div><div style="font-size:12px; color:var(--muted);">Paylaşılan Dosya</div></div>
-    </div>
-  </div>
-
-  <!-- EKSTRA 11: ŞANS ÇARKI (MİNİ OYUN) -->
-  <div id="mini-oyun" class="tab-icerik">
-    <h2>🕹️ Şans Çarkı (Puan Kazan)</h2>
-    <div class="kart" style="text-align:center;">
-      <p style="font-size:13px; color:var(--muted);">Çarkı çevirerek rastgele puan kazanabilirsin!</p>
-      <div id="cark-sonuc" style="font-size:20px; font-weight:bold; color:var(--accent); margin:15px 0;">Hadi Çevir!</div>
-      <button onclick="carkiCevir()">Çarkı Çevir</button>
-    </div>
-  </div>
-
-  <!-- EKSTRA 12: ARKA PLAN DEĞİŞTİR -->
-  <div id="duvar-kagidi" class="tab-icerik">
-    <h2>🖼️ Arka Plan Teması</h2>
-    <div class="kart" style="display:flex; gap:10px;">
-      <button onclick="temaAyarla('#0d1117')" style="background:#0d1117; border:1px solid var(--border);">Klasik Siyah</button>
-      <button onclick="temaAyarla('#090d16')" style="background:#090d16; border:1px solid #1f6feb;">Koyu Mavi</button>
-      <button onclick="temaAyarla('#160f0f')" style="background:#160f0f; border:1px solid #e5534b;">Koyu Kırmızı</button>
-    </div>
-  </div>
-
-  <!-- EKSTRA 13: BİZ KİMİZ? -->
-  <div id="hakkimizda" class="tab-icerik">
-    <h2>ℹ️ Biz Kimiz?</h2>
-    <div class="kart">
-      <p>HÜKÜM Studio; geliştiricilerin, oyuncuların ve topluluk üyelerinin projelerini buluşturduğu devasa bir ortak platformdur.</p>
-    </div>
   </div>
 
 </div>
 
 <script>
-const BIN_ID = "6a8dcf97f5f4af5e29411dd5";
-const MASTER_KEY = "$2a$10$Nrh3ww..c2Y9xuDWdZReXOCkJuMUpuji5pGnU82WR96mjE7I6RRDG";
-const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+// ==== JSONBIN BAĞLANTISI ====
+const JSONBIN_ID  = "6a8dcf97f5f4af5e29411dd5";
+const JSONBIN_KEY = "$2a$10$Nrh3ww..c2Y9xuDWdZReXOCkJuMUpuji5pGnU82WR96mjE7I6RRDG";
+const JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
+
+// ==== IMGBB (resim yükleme) ====
+// Kayıt ol: api.imgbb.com -> "Get API key" -> aşağıya yapıştır
+const IMGBB_KEY = "BURAYA_IMGBB_API_ANAHTARINI_YAPISTIR";
+
+let veri = { duyurular:[], icraatlar:[], yonetim:[], projeler:[], siralama:[], dosyalar:[], oyunlar:[], bakiyeler:[], uyeler:[], site_bildirim:{aktif:false,mesaj:""} };
+let oturum = null; // giriş yapmış üyenin verisi
 
 function sekmeAc(id, el){
   document.querySelectorAll('.tab-icerik').forEach(e=>e.classList.remove('aktif'));
@@ -295,253 +166,276 @@ function sekmeAc(id, el){
   if(el) el.classList.add('active');
 }
 
-// Oturum Yönetimi
-let aktifKullanici = localStorage.getItem('hukum_aktif_uye') || null;
-let geciciAvatar = localStorage.getItem('hukum_aktif_avatar') || null;
+function normalizeVeri(){
+  if(!veri.icraatlar) veri.icraatlar = [];
+  if(!veri.siralama) veri.siralama = [];
+  if(!veri.dosyalar) veri.dosyalar = [];
+  if(!veri.oyunlar) veri.oyunlar = [];
+  if(!veri.bakiyeler) veri.bakiyeler = [];
+  if(!veri.uyeler) veri.uyeler = [];
+  if(!veri.site_bildirim) veri.site_bildirim = { aktif:false, mesaj:"" };
+}
 
-function guncelleProfilArayuz() {
-  const isimEl = document.getElementById('profil-isim');
-  const rolEl = document.getElementById('profil-rol');
-  const durumEl = document.getElementById('profil-durum');
-  const avatarKutu = document.getElementById('avatar-kutu');
-  const avatarHarf = document.getElementById('avatar-harf');
-  const girisForm = document.getElementById('giris-form-alani');
-  const cikisForm = document.getElementById('cikis-form-alani');
+function yeniId(dizi){
+  return dizi.length ? Math.max(...dizi.map(x=>x.id)) + 1 : 1;
+}
 
-  if (aktifKullanici) {
-    isimEl.innerText = aktifKullanici;
-    rolEl.innerText = "Üye / Oyuncu";
-    durumEl.innerHTML = '<i class="fa-solid fa-circle" style="font-size:7px;"></i> Çevrimiçi';
-    durumEl.style.color = '#3fb950';
-    
-    if(geciciAvatar && geciciAvatar.startsWith('data:image')) {
-      avatarKutu.innerHTML = `<img src="${geciciAvatar}" style="width:100%;height:100%;object-fit:cover;">`;
-    } else {
-      avatarHarf.innerText = aktifKullanici.charAt(0).toUpperCase();
-    }
+// ==== VERİYİ ÇEK ve EKRANA BAS ====
+fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } })
+  .then(r => r.json())
+  .then(d => {
+    veri = d.record;
+    normalizeVeri();
+    ciz();
+    oturumKontrol();
+  })
+  .catch(() => {
+    document.getElementById('duyuru-liste').innerHTML = '<p>Veri yüklenemedi, internetini kontrol et.</p>';
+  });
 
-    if(girisForm) girisForm.style.display = 'none';
-    if(cikisForm) cikisForm.style.display = 'block';
+// JSONBin'e yaz (sessizce - kayıt/giriş/profil işlemlerinde kullanılıyor)
+function veriKaydet(){
+  return fetch(JSONBIN_URL, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+    body: JSON.stringify(veri)
+  });
+}
+
+function ciz(){
+  if(veri.site_bildirim && veri.site_bildirim.aktif && veri.site_bildirim.mesaj){
+    document.getElementById('banner-alani').innerHTML = `<div class="banner-bildirim">🔔 ${veri.site_bildirim.mesaj}</div>`;
+  }
+
+  document.getElementById('duyuru-liste').innerHTML = (veri.duyurular.length)
+    ? veri.duyurular.slice().reverse().map(d => `
+      <div class="kart"><div class="baslik">${d.baslik}</div><div>${d.metin}</div><div class="tarih">${d.tarih}</div></div>`).join('')
+    : '<p>Henüz duyuru yok.</p>';
+
+  document.getElementById('icraat-liste').innerHTML = (veri.icraatlar.length)
+    ? veri.icraatlar.slice().reverse().map(i => `
+      <div class="kart"><div class="baslik">${i.baslik}</div><div>${i.aciklama}</div><div class="tarih">${i.tarih}</div></div>`).join('')
+    : '<p>Henüz icraat eklenmedi.</p>';
+
+  document.getElementById('proje-liste').innerHTML = (veri.projeler.length)
+    ? veri.projeler.map(p => `
+      <div class="kart">
+        ${p.resim ? `<img src="${p.resim}" style="max-width:100%;border-radius:6px;margin-bottom:10px">` : ''}
+        <div class="baslik">${p.isim}</div><div>${p.tanitim}</div>
+        <div style="color:#8b949e;margin-top:6px">Amaç: ${p.amac}</div>
+      </div>`).join('')
+    : '<p>Henüz proje yok.</p>';
+
+  document.getElementById('yonetim-liste').innerHTML = (veri.yonetim.length)
+    ? veri.yonetim.map(y => `
+      <div class="kart" style="display:flex;align-items:center;gap:14px">
+        ${y.resim ? `<img src="${y.resim}" style="width:50px;height:50px;border-radius:50%">` : '<div style="width:50px;height:50px;border-radius:50%;background:#21262d"></div>'}
+        <div><div class="baslik">${y.isim}</div><span class="rozet">${y.rol}</span></div>
+      </div>`).join('')
+    : '<p>Henüz yönetim ekibi eklenmedi.</p>';
+
+  const siraliListe = (veri.siralama||[]).slice().sort((a,b)=>b.puan-a.puan);
+  document.getElementById('siralama-liste').innerHTML = siraliListe.length
+    ? siraliListe.map((s,idx) => `
+      <div class="siralama-satir">
+        <div class="siralama-sira">${idx+1}</div>
+        <div class="siralama-isim">${s.isim}</div>
+        <div class="siralama-puan">${s.puan} puan</div>
+      </div>`).join('')
+    : '<p>Henüz sıralamada kimse yok.</p>';
+
+  document.getElementById('dosya-liste').innerHTML = (veri.dosyalar||[]).length
+    ? veri.dosyalar.slice().reverse().map(f => `
+      <div class="kart dosya-kart">
+        <div><div class="baslik">${f.isim}</div><div>${f.aciklama||''}</div></div>
+        <a href="${f.link}" target="_blank">İndir / Aç ↗</a>
+      </div>`).join('')
+    : '<p>Henüz paylaşılan dosya yok.</p>';
+
+  document.getElementById('oyun-liste').innerHTML = (veri.oyunlar||[]).length
+    ? veri.oyunlar.map(o => `
+      <div class="oyun-kart">
+        <img src="${o.resim||''}">
+        <div class="oyun-govde">
+          <div class="baslik">${o.isim} ${o.ucretli ? '<span class="etiket etiket-ucretli">Ücretli</span>' : '<span class="etiket etiket-yeni">Ücretsiz</span>'}</div>
+          <div>${o.aciklama||''}</div>
+        </div>
+      </div>`).join('')
+    : '<p>Henüz oyun eklenmedi.</p>';
+}
+
+// ================== ÜYELİK SİSTEMİ ==================
+
+function hesapSekmeAc(hangisi){
+  const g = document.getElementById('form-giris');
+  const k = document.getElementById('form-kayit');
+  const gb = document.getElementById('sekme-giris-btn');
+  const kb = document.getElementById('sekme-kayit-btn');
+  if(hangisi === 'giris'){
+    g.classList.remove('gizli'); k.classList.add('gizli');
+    gb.classList.add('secili'); kb.classList.remove('secili');
   } else {
-    isimEl.innerText = "Ziyaretçi";
-    rolEl.innerText = "Kayıtsız Üye";
-    durumEl.innerHTML = '<i class="fa-solid fa-circle" style="font-size:7px;"></i> Çevrimdışı';
-    durumEl.style.color = '#8b949e';
-    avatarKutu.innerHTML = `<span id="avatar-harf">?</span>`;
-    if(girisForm) girisForm.style.display = 'block';
-    if(cikisForm) cikisForm.style.display = 'none';
+    k.classList.remove('gizli'); g.classList.add('gizli');
+    kb.classList.add('secili'); gb.classList.remove('secili');
   }
 }
 
-// Galeri / Dosya Seçimi
-let secilenGorselBase64 = "";
-function resimSec(event) {
-  const dosya = event.target.files[0];
-  if(dosya) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      secilenGorselBase64 = e.target.result;
-      document.getElementById('profil-url-input').value = "[Cihazdan Seçildi]";
-    }
-    reader.readAsDataURL(dosya);
+// Resim seçilince ImgBB'ye yükle, önizlemeyi göster
+function dosyaSecildi(input, hangiForm){
+  const dosya = input.files[0];
+  if(!dosya) return;
+  if(IMGBB_KEY === "BURAYA_IMGBB_API_ANAHTARINI_YAPISTIR"){
+    alert('Resim yükleme henüz açılmadı — site sahibi ImgBB anahtarını eklemeli. Şimdilik resim linki kullanabilirsin.');
+    return;
   }
-}
+  const yukleniyorYazi = document.getElementById(hangiForm + '-yukleniyor');
+  yukleniyorYazi.classList.remove('gizli');
 
-// API Veri Çekme
-async function veriCek() {
-  try {
-    let response = await fetch(API_URL, { headers: { 'X-Master-Key': MASTER_KEY } });
-    if (response.ok) {
-      let sonuc = await response.json();
-      let veri = sonuc.record;
-      
-      // Duyurular
-      document.getElementById('duyuru-liste').innerHTML = (veri.duyurular && veri.duyurular.length)
-        ? veri.duyurular.slice().reverse().map(d => `<div class="kart"><div class="baslik">${d.baslik}</div><div>${d.metin}</div><div class="tarih">${d.tarih}</div></div>`).join('')
-        : '<p>Henüz duyuru yok.</p>';
+  const formData = new FormData();
+  formData.append('image', dosya);
 
-      // İcraatlar
-      document.getElementById('icraat-liste').innerHTML = (veri.icraatlar && veri.icraatlar.length)
-        ? veri.icraatlar.slice().reverse().map(i => `<div class="kart"><div class="baslik">${i.baslik}</div><div>${i.aciklama}</div><div class="tarih">${i.tarih}</div></div>`).join('')
-        : '<p>Henüz icraat eklenmedi.</p>';
-
-      // Projeler
-      document.getElementById('proje-liste').innerHTML = (veri.projeler && veri.projeler.length)
-        ? veri.projeler.map(p => `<div class="kart">${p.resim ? `<img src="${p.resim}" style="max-width:100%;border-radius:6px;margin-bottom:10px">` : ''}<div class="baslik">${p.isim}</div><div>${p.tanitim}</div><div style="color:#8b949e;margin-top:6px">Amaç: ${p.amac}</div></div>`).join('')
-        : '<p>Henüz proje yok.</p>';
-
-      // Yönetim
-      document.getElementById('yonetim-liste').innerHTML = (veri.yonetim && veri.yonetim.length)
-        ? veri.yonetim.map(y => `<div class="kart" style="display:flex;align-items:center;gap:14px"><div style="width:50px;height:50px;border-radius:50%;background:#21262d;display:flex;align-items:center;justify-content:center;font-weight:bold;color:var(--accent);">${y.isim.charAt(0)}</div><div><div class="baslik">${y.isim}</div><span class="rozet">${y.rol}</span></div></div>`).join('')
-        : '<p>Henüz yönetim ekibi yok.</p>';
-
-      // Sıralama
-      if (veri.users && veri.users.length > 0) {
-        document.getElementById('siralama-liste').innerHTML = veri.users.sort((a,b) => b.puan - a.puan).map((u, index) => `
-          <div class="kart" style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="width:35px;height:35px;border-radius:50%;background:#21262d;display:flex;align-items:center;justify-content:center;overflow:hidden;font-weight:bold;">${u.avatar ? `<img src="${u.avatar}" style="width:100%;height:100%;object-fit:cover;">` : u.isim.charAt(0)}</div>
-              <div><b>#${index+1}</b> ${u.isim}</div>
-            </div>
-            <div style="color:var(--accent); font-weight:bold;">${u.puan || 150} Puan</div>
-          </div>`).join('');
-        document.getElementById('stat-uye').innerText = veri.users.length;
-      }
-
-      // Dosyalar
-      document.getElementById('dosya-liste').innerHTML = (veri.dosyalar && veri.dosyalar.length)
-        ? veri.dosyalar.map(f => `<div class="kart"><div class="baslik">${f.isim}</div><div style="font-size:13px; color:var(--muted); margin-bottom:8px;">Boyut: ${f.boyut || 'Bilinmiyor'}</div><a href="${f.url}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:600;"><i class="fa-solid fa-download"></i> İndir / Aç</a></div>`).join('')
-        : `<div class="kart"><div class="baslik">ASKER KAMPI BOT KODLARI</div><div>İttifak ordusu bot kodları eyo paşa farkıyla sizlerle</div><a href="#" style="color:var(--accent); text-decoration:none; display:inline-block; margin-top:8px;"><i class="fa-solid fa-download"></i> İndir / Aç</a></div>`;
-      document.getElementById('stat-dosya').innerText = veri.dosyalar ? veri.dosyalar.length : 1;
-
-      // Oyunlar
-      document.getElementById('oyun-liste').innerHTML = (veri.oyunlar && veri.oyunlar.length)
-        ? veri.oyunlar.map(o => `<div class="kart"><div class="baslik">${o.isim}</div><div style="font-size:13px; color:var(--muted); margin-bottom:8px;">Kategori: ${o.kategori || 'Genel'}</div><a href="${o.url}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:600;"><i class="fa-solid fa-gamepad"></i> Oyunu Oyna</a></div>`).join('')
-        : '<p>Henüz oyun eklenmedi.</p>';
-
-      // Sohbet Mesajları
-      if(veri.sohbet) {
-        document.getElementById('sohbet-mesajlar').innerHTML = veri.sohbet.map(s => `<div style="margin-bottom:6px; font-size:13px;"><b style="color:var(--accent);">${s.uye}:</b> ${s.mesaj}</div>`).join('');
-      }
-    }
-  } catch (err) {}
-}
-
-// Şifreli Kayıt ve Giriş Fonksiyonları
-async function uyeKayitOl() {
-  const isim = document.getElementById('giris-isim').value.trim();
-  const sifre = document.getElementById('giris-sifre').value.trim();
-  if(!isim || !sifre) { alert("Kullanıcı adı ve şifre zorunludur!"); return; }
-
-  try {
-    let res = await fetch(API_URL, { headers: { 'X-Master-Key': MASTER_KEY } });
-    if(res.ok) {
-      let data = (await res.json()).record;
-      if(!data.users) data.users = [];
-      if(data.users.some(u => u.isim === isim)) { alert("Bu kullanıcı adı zaten alınmış!"); return; }
-      
-      data.users.push({ isim, sifre, puan: 200, avatar: "" });
-      let kayit = await fetch(API_URL, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
-        body: JSON.stringify(data)
-      });
-      if(kayit.ok) {
-        aktifKullanici = isim;
-        localStorage.setItem('hukum_aktif_uye', aktifKullanici);
-        guncelleProfilArayuz();
-        veriCek();
-        alert("Kayıt başarılı ve otomatik giriş yapıldı!");
-      }
-    }
-  } catch(e) { alert("Hata oluştu."); }
-}
-
-async function uyeGirisYap() {
-  const isim = document.getElementById('giris-isim').value.trim();
-  const sifre = document.getElementById('giris-sifre').value.trim();
-  if(!isim || !sifre) { alert("Bilgileri doldurun!"); return; }
-
-  try {
-    let res = await fetch(API_URL, { headers: { 'X-Master-Key': MASTER_KEY } });
-    if(res.ok) {
-      let data = (await res.json()).record;
-      if(!data.users) data.users = [];
-      let bul = data.users.find(u => u.isim === isim && u.sifre === sifre);
-      if(bul) {
-        aktifKullanici = isim;
-        geciciAvatar = bul.avatar || "";
-        localStorage.setItem('hukum_aktif_uye', aktifKullanici);
-        localStorage.setItem('hukum_aktif_avatar', geciciAvatar);
-        guncelleProfilArayuz();
-        veriCek();
-        alert("Giriş başarılı! Hoş geldin " + isim);
+  fetch('https://api.imgbb.com/1/upload?key=' + IMGBB_KEY, { method:'POST', body: formData })
+    .then(r => r.json())
+    .then(d => {
+      yukleniyorYazi.classList.add('gizli');
+      if(d.success){
+        const url = d.data.display_url;
+        if(hangiForm === 'kayit'){
+          document.getElementById('kayit-resim-link').value = url;
+          const img = document.getElementById('kayit-avatar-onizleme');
+          img.src = url; img.style.display='block';
+          document.getElementById('kayit-avatar-bos').style.display='none';
+        } else {
+          document.getElementById('profil-resim-link').value = url;
+          const img = document.getElementById('profil-avatar-onizleme');
+          img.src = url; img.style.display='block';
+          document.getElementById('profil-avatar-bos').style.display='none';
+        }
       } else {
-        alert("Kullanıcı adı veya şifre hatalı!");
+        alert('Resim yüklenemedi, tekrar dene.');
       }
+    })
+    .catch(() => { yukleniyorYazi.classList.add('gizli'); alert('Resim yüklenemedi, tekrar dene.'); });
+}
+
+function kayitOl(){
+  const isim = document.getElementById('kayit-isim').value.trim();
+  const kod = document.getElementById('kayit-kod').value.trim();
+  const resim = document.getElementById('kayit-resim-link').value.trim();
+  const hataAlani = document.getElementById('kayit-hata');
+  hataAlani.innerText = '';
+
+  if(!isim || !kod){ hataAlani.innerText = 'Kullanıcı adı ve kod boş olamaz.'; return; }
+  if(!/^\d{4}$/.test(kod)){ hataAlani.innerText = 'Kod tam olarak 4 haneli rakam olmalı.'; return; }
+  if(veri.uyeler.some(u => u.kullaniciAdi.toLowerCase() === isim.toLowerCase())){
+    hataAlani.innerText = 'Bu kullanıcı adı zaten alınmış.'; return;
+  }
+
+  const yeniUye = {
+    id: yeniId(veri.uyeler),
+    kullaniciAdi: isim,
+    kod: kod,
+    profilResmi: resim,
+    kayitTarihi: new Date().toISOString().slice(0,10)
+  };
+  veri.uyeler.push(yeniUye);
+  veriKaydet().then(() => {
+    oturumBaslat(yeniUye);
+  }).catch(() => { hataAlani.innerText = 'Kayıt sırasında hata oluştu, tekrar dene.'; veri.uyeler.pop(); });
+}
+
+function girisYapUye(){
+  const isim = document.getElementById('giris-isim').value.trim();
+  const kod = document.getElementById('giris-kod').value.trim();
+  const hataAlani = document.getElementById('giris-hata');
+  hataAlani.innerText = '';
+
+  const bulunan = veri.uyeler.find(u => u.kullaniciAdi.toLowerCase() === isim.toLowerCase() && u.kod === kod);
+  if(!bulunan){ hataAlani.innerText = 'Kullanıcı adı veya kod hatalı.'; return; }
+  oturumBaslat(bulunan);
+}
+
+function oturumBaslat(uye){
+  oturum = uye;
+  localStorage.setItem('hukum_oturum', JSON.stringify({ id: uye.id, kullaniciAdi: uye.kullaniciAdi }));
+  profilEkraniniGoster();
+  profilOzetiCiz();
+}
+
+function oturumKontrol(){
+  const kayitli = localStorage.getItem('hukum_oturum');
+  if(!kayitli) { profilOzetiCiz(); return; }
+  try{
+    const bilgi = JSON.parse(kayitli);
+    const bulunan = veri.uyeler.find(u => u.id === bilgi.id);
+    if(bulunan){
+      oturum = bulunan;
+      profilEkraniniGoster();
+    } else {
+      localStorage.removeItem('hukum_oturum');
     }
-  } catch(e) {}
+  }catch(e){ localStorage.removeItem('hukum_oturum'); }
+  profilOzetiCiz();
 }
 
-function uyeCikisYap() {
-  localStorage.removeItem('hukum_aktif_uye');
-  localStorage.removeItem('hukum_aktif_avatar');
-  aktifKullanici = null;
-  geciciAvatar = null;
-  guncelleProfilArayuz();
-  alert("Oturum kapatıldı.");
+function profilEkraniniGoster(){
+  document.getElementById('hesap-giris-alani').classList.add('gizli');
+  document.getElementById('hesap-profil-alani').classList.remove('gizli');
+  document.getElementById('profil-isim').value = oturum.kullaniciAdi;
+  if(oturum.profilResmi){
+    document.getElementById('profil-avatar-onizleme').src = oturum.profilResmi;
+    document.getElementById('profil-avatar-onizleme').style.display = 'block';
+    document.getElementById('profil-avatar-bos').style.display = 'none';
+  }
+  document.getElementById('profil-resim-link').value = oturum.profilResmi || '';
 }
 
-async function profilGuncelleKaydet() {
-  if(!aktifKullanici) { alert("Önce giriş yapmalısın!"); return; }
-  const yeniIsim = document.getElementById('profil-yeni-isim').value.trim();
-  const urlInput = document.getElementById('profil-url-input').value.trim();
-  let avatarVeri = secilenGorselBase64 || (urlInput.startsWith('http') ? urlInput : "");
-
-  try {
-    let res = await fetch(API_URL, { headers: { 'X-Master-Key': MASTER_KEY } });
-    if(res.ok) {
-      let data = (await res.json()).record;
-      let k = data.users.find(u => u.isim === aktifKullanici);
-      if(k) {
-        if(yeniIsim) { k.isim = yeniIsim; aktifKullanici = yeniIsim; localStorage.setItem('hukum_aktif_uye', aktifKullanici); }
-        if(avatarVeri) { k.avatar = avatarVeri; geciciAvatar = avatarVeri; localStorage.setItem('hukum_aktif_avatar', geciciAvatar); }
-        
-        await fetch(API_URL, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
-          body: JSON.stringify(data)
-        });
-        guncelleProfilArayuz();
-        veriCek();
-        alert("Profil başarıyla güncellendi!");
-      }
-    }
-  } catch(e) {}
+function profilOzetiCiz(){
+  const alan = document.getElementById('profil-ozet-alani');
+  if(oturum){
+    alan.innerHTML = `
+      <div class="profil-ozet">
+        ${oturum.profilResmi ? `<img src="${oturum.profilResmi}">` : '<div class="avatar-bos"></div>'}
+        <div><div class="isim">${oturum.kullaniciAdi}</div><div class="durum">● Giriş yapıldı</div></div>
+      </div>`;
+    document.getElementById('hesap-link').innerText = '👤 Profilim';
+  } else {
+    alan.innerHTML = '';
+  }
 }
 
-// Ekstra Özellik Fonksiyonları
-async function sohbetMesajGonder() {
-  if(!aktifKullanici) { alert("Sohbet etmek için giriş yapmalısın!"); return; }
-  const mesaj = document.getElementById('sohbet-input').value.trim();
-  if(!mesaj) return;
+function profilKaydet(){
+  const yeniIsim = document.getElementById('profil-isim').value.trim();
+  const yeniResim = document.getElementById('profil-resim-link').value.trim();
+  const mesajAlani = document.getElementById('profil-mesaj');
 
-  try {
-    let res = await fetch(API_URL, { headers: { 'X-Master-Key': MASTER_KEY } });
-    if(res.ok) {
-      let data = (await res.json()).record;
-      if(!data.sohbet) data.sohbet = [];
-      data.sohbet.push({ uye: aktifKullanici, mesaj });
-      if(data.sohbet.length > 30) data.sohbet.shift();
-      
-      await fetch(API_URL, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
-        body: JSON.stringify(data)
-      });
-      document.getElementById('sohbet-input').value = '';
-      veriCek();
-    }
-  } catch(e) {}
+  if(!yeniIsim){ mesajAlani.style.color='var(--danger)'; mesajAlani.innerText='İsim boş olamaz.'; return; }
+  if(veri.uyeler.some(u => u.id !== oturum.id && u.kullaniciAdi.toLowerCase() === yeniIsim.toLowerCase())){
+    mesajAlani.style.color='var(--danger)'; mesajAlani.innerText='Bu kullanıcı adı başkasına ait.'; return;
+  }
+
+  const uye = veri.uyeler.find(u => u.id === oturum.id);
+  uye.kullaniciAdi = yeniIsim;
+  uye.profilResmi = yeniResim;
+  oturum = uye;
+
+  veriKaydet().then(() => {
+    localStorage.setItem('hukum_oturum', JSON.stringify({ id: uye.id, kullaniciAdi: uye.kullaniciAdi }));
+    mesajAlani.style.color='var(--ok)'; mesajAlani.innerText='Kaydedildi ✓';
+    profilOzetiCiz();
+  }).catch(() => { mesajAlani.style.color='var(--danger)'; mesajAlani.innerText='Kaydedilemedi, tekrar dene.'; });
 }
 
-function gorevOduluAl() { alert("Tebrikler! +50 Puan hesabına eklendi."); }
-function destekGonder() { alert("Destek talebiniz başarıyla yönetime iletildi!"); }
-function notlariKaydet() { alert("Notlarınız tarayıcınıza kaydedildi."); }
-function oyVer(secim) { document.getElementById('anket-sonuc').innerText = `Teşekkürler! Oyunuz (${secim}) kaydedildi.`; }
-function carkiCevir() {
-  const puanlar = [50, 100, 200, 500, 1000];
-  const kazan = puanlar[Math.floor(Math.random() * puanlar.length)];
-  document.getElementById('cark-sonuc').innerText = `🎉 Tebrikler! ${kazan} Puan Kazandın!`;
+function cikisYap(){
+  localStorage.removeItem('hukum_oturum');
+  oturum = null;
+  document.getElementById('hesap-giris-alani').classList.remove('gizli');
+  document.getElementById('hesap-profil-alani').classList.add('gizli');
+  document.getElementById('hesap-link').innerText = '👤 Kayıt Ol / Giriş Yap';
+  profilOzetiCiz();
+  hesapSekmeAc('giris');
 }
-function temaAyarla(renk) { document.body.style.background = renk; }
-
-window.onload = () => {
-  guncelleProfilArayuz();
-  veriCek();
-};
 </script>
 
 </body>
 </html>
-
