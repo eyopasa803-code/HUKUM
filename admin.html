@@ -2,6 +2,9 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Site Kontrol - HÜKÜM Studio</title>
 <link rel="stylesheet" href="style.css">
@@ -183,9 +186,12 @@
 
   <div id="t-bakim" class="tab-icerik">
     <h2>🛠️ Bakım Modu</h2>
-    <div class="check-satir"><input type="checkbox" id="bk-aktif"><label style="margin:0">Bakım modunu aktif et</label></div>
-    <label>Mesaj</label><textarea id="bk-metin" rows="3"></textarea>
-    <button onclick="bakimKaydet()">Kaydet</button>
+    <p id="bk-durum-yazi" style="font-size:16px;font-weight:700;margin-bottom:16px"></p>
+    <button id="bk-toggle-btn" onclick="bakimToggle()" style="width:100%;padding:16px;font-size:16px"></button>
+    <hr style="border-color:#30363d;margin:24px 0">
+    <label>Ziyaretçilere gösterilecek mesaj</label>
+    <textarea id="bk-metin" rows="3"></textarea>
+    <button onclick="bakimMesajKaydet()">Sadece Mesajı Kaydet</button>
   </div>
 
   <div id="t-disaAktar" class="tab-icerik">
@@ -391,9 +397,30 @@ function bildirimKaydet(){
   veri.site_bildirim = { aktif: document.getElementById('n-aktif').checked, mesaj: document.getElementById('n-metin').value.trim() };
   kaydet();
 }
-function bakimKaydet(){
-  veri.bakim_modu = { aktif: document.getElementById('bk-aktif').checked, mesaj: document.getElementById('bk-metin').value.trim() };
+function bakimToggle(){
+  veri.bakim_modu.aktif = !veri.bakim_modu.aktif;
+  durumGoster('🔄 Kaydediliyor...');
+  bakimEkraniGuncelle();
+  fetch(JSONBIN_URL, { method:'PUT', headers:{ 'Content-Type':'application/json', 'X-Master-Key':JSONBIN_KEY }, body: JSON.stringify(veri) })
+    .then(r => { if(!r.ok) throw new Error('yazma hatası'); durumGoster('✅ Kaydedildi'); })
+    .catch(() => { durumGoster('❌ Kaydedilemedi, tekrar dene'); veri.bakim_modu.aktif = !veri.bakim_modu.aktif; bakimEkraniGuncelle(); });
+}
+function bakimMesajKaydet(){
+  veri.bakim_modu.mesaj = document.getElementById('bk-metin').value.trim();
   kaydet();
+}
+function bakimEkraniGuncelle(){
+  const durumYazi = document.getElementById('bk-durum-yazi');
+  const btn = document.getElementById('bk-toggle-btn');
+  if(veri.bakim_modu.aktif){
+    durumYazi.innerHTML = '🔴 Bakım modu <b>AÇIK</b> — site kapalı görünüyor';
+    btn.innerText = '✅ Bakım Modunu KAPAT (Siteyi Aç)';
+    btn.style.background = 'linear-gradient(180deg,#3fb950,#2ea043)';
+  } else {
+    durumYazi.innerHTML = '🟢 Bakım modu <b>KAPALI</b> — site herkese açık';
+    btn.innerText = '🛠️ Bakım Modunu AÇ (Siteyi Kapat)';
+    btn.style.background = 'linear-gradient(180deg,#ffb84d,#f0a020)';
+  }
 }
 
 function listeleriCiz(){
@@ -487,8 +514,8 @@ function listeleriCiz(){
     document.getElementById('n-metin').value = veri.site_bildirim.mesaj || '';
   }
   if(veri.bakim_modu){
-    document.getElementById('bk-aktif').checked = !!veri.bakim_modu.aktif;
     document.getElementById('bk-metin').value = veri.bakim_modu.mesaj || '';
+    bakimEkraniGuncelle();
   }
 }
 
