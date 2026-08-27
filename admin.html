@@ -228,7 +228,7 @@ function sekmeAc(id, el){
 
 function verileriYukle(){
   durumGoster('🔄 Yükleniyor...');
-  fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } })
+  fetch(JSONBIN_URL + '/latest?_=' + Date.now(), { cache: 'no-store', headers: { 'X-Master-Key': JSONBIN_KEY } })
     .then(r => { if(!r.ok) throw new Error('okuma hatası'); return r.json(); })
     .then(d => { veri = d.record; normalizeVeri(); listeleriCiz(); durumGoster('✅ Bağlı — canlı veri'); })
     .catch(() => { durumGoster('❌ Bağlanamadı'); listeleriCiz(); });
