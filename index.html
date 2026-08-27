@@ -207,7 +207,7 @@ function normalizeVeri(){
 
 function yeniId(dizi){ return dizi.length ? Math.max(...dizi.map(x=>x.id)) + 1 : 1; }
 
-fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } })
+fetch(JSONBIN_URL + '/latest?_=' + Date.now(), { cache: 'no-store', headers: { 'X-Master-Key': JSONBIN_KEY } })
   .then(r => r.json())
   .then(d => {
     veri = d.record;
@@ -391,7 +391,7 @@ function mesajGonder(){
 }
 
 function sohbetYenile(){
-  fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } })
+  fetch(JSONBIN_URL + '/latest?_=' + Date.now(), { cache: 'no-store', headers: { 'X-Master-Key': JSONBIN_KEY } })
     .then(r => r.json())
     .then(d => { veri = d.record; normalizeVeri(); sohbetCiz(); })
     .catch(() => {});
