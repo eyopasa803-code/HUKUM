@@ -14,6 +14,7 @@
 <div id="bakim-ekrani" class="gizli">
   <h2>🛠️ Bakım Modundayız</h2>
   <p id="bakim-mesaj">Site şu anda bakımda, birazdan döneceğiz.</p>
+  <p style="font-size:11px;color:#555;margin-top:30px" id="bakim-debug"></p>
 </div>
 
 <div class="sidebar">
@@ -218,13 +219,18 @@ fetch(JSONBIN_URL + '/latest?_=' + Date.now(), { cache: 'no-store', headers: { '
     normalizeVeri();
     if(veri.bakim_modu && veri.bakim_modu.aktif){
       document.getElementById('bakim-mesaj').innerText = veri.bakim_modu.mesaj || 'Site şu anda bakımda.';
+      document.getElementById('bakim-debug').innerText = 'Debug — sunucudan gelen aktif değeri: ' + JSON.stringify(veri.bakim_modu.aktif) + ' | Bin ID: ' + JSONBIN_ID + ' | Saat: ' + new Date().toLocaleTimeString();
       document.getElementById('bakim-ekrani').classList.remove('gizli');
       return;
     }
     ciz();
     oturumKontrol();
   })
-  .catch(() => { document.getElementById('duyuru-liste').innerHTML = '<p>Veri yüklenemedi, internetini kontrol et.</p>'; });
+  .catch(() => {
+    document.getElementById('bakim-mesaj').innerText = 'Veri sunucusuna ulaşılamadı (bağlantı hatası).';
+    document.getElementById('bakim-debug').innerText = 'Debug — JSONBin isteği başarısız oldu. Bin ID: ' + JSONBIN_ID;
+    document.getElementById('bakim-ekrani').classList.remove('gizli');
+  });
 
 function veriKaydet(){
   return fetch(JSONBIN_URL, {
