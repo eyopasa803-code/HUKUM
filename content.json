@@ -31,5 +31,10 @@
     { "id": 3, "isim": "Moderatör", "renk": "#58a6ff" },
     { "id": 4, "isim": "Aktif Üye", "renk": "#3fb950" }
   ],
-  "site_bildirim": { "aktif": false, "mesaj": "" }
+  "site_bildirim": { "aktif": false, "mesaj": "" },
+  "bakim_modu": { "aktif": false, "mesaj": "Site şu anda bakımda, birazdan döneceğiz." },
+  "discord_sync": { "roller": [], "kanallar": [], "son_guncelleme": "", "url_izinli": [] },
+  "komut_kuyrugu": [],
+  "guvenlik_log": [],
+  "bot_durum": { "cevrimici": false, "son_gorulme": "", "son_denetim": "" }
 }
