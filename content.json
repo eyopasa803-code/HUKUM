@@ -3,13 +3,19 @@
     {
       "id": 1,
       "baslik": "HÜKÜM STUDİOS",
-      "metin": "Hey dostum duydunmu HÜKÜM studios açıldı",
+      "metin": "Hey dostum duydunmu HÜKÜM studios açıldı \nPeki nedir bu HÜKÜM studios? \n-Burda projelerini paylaşa bilir kendini geliştire bilirsin \n\n-HÜKÜM sunucumuza destek ola bilir ve güzel vatanımız türkiyemizi Sanalda temsil etmemiz için bize destek ola bilirsin",
       "tarih": "2026-08-03",
       "sabit": false
     }
   ],
   "icraatlar": [],
-  "yonetim": [],
+  "yonetim": [
+    { "id": 1, "isim": "Wexy Montéz", "rol": "Ceo of hüküm (co owner)/geliştirici", "resim": "", "sosyal": "" },
+    { "id": 2, "isim": "EYO PAŞA!", "rol": "Kurucu/geliştirici", "resim": "", "sosyal": "" },
+    { "id": 3, "isim": "Nexis", "rol": "Jaz (owner)/boş işler müdürü", "resim": "", "sosyal": "" },
+    { "id": 4, "isim": "GökoFriztche", "rol": "Jaz(owner)/otlakçı inaktif", "resim": "", "sosyal": "" },
+    { "id": 5, "isim": "!404 Varlo", "rol": "Jaz(owner)/otlakçı puşking", "resim": "", "sosyal": "" }
+  ],
   "projeler": [],
   "siralama": [],
   "dosyalar": [],
@@ -25,6 +31,5 @@
     { "id": 3, "isim": "Moderatör", "renk": "#58a6ff" },
     { "id": 4, "isim": "Aktif Üye", "renk": "#3fb950" }
   ],
-  "site_bildirim": { "aktif": false, "mesaj": "" },
-  "bakim_modu": { "aktif": false, "mesaj": "Site şu anda bakımda, birazdan döneceğiz." }
+  "site_bildirim": { "aktif": false, "mesaj": "" }
 }
