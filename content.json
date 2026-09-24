@@ -1,0 +1,30 @@
+{
+  "duyurular": [
+    {
+      "id": 1,
+      "baslik": "HÜKÜM STUDİOS",
+      "metin": "Hey dostum duydunmu HÜKÜM studios açıldı",
+      "tarih": "2026-08-03",
+      "sabit": false
+    }
+  ],
+  "icraatlar": [],
+  "yonetim": [],
+  "projeler": [],
+  "siralama": [],
+  "dosyalar": [],
+  "oyunlar": [],
+  "bakiyeler": [],
+  "uyeler": [],
+  "sss": [],
+  "changelog": [],
+  "mesajlar": [],
+  "roller": [
+    { "id": 1, "isim": "Kurucu", "renk": "#e5534b" },
+    { "id": 2, "isim": "Yönetici", "renk": "#f0a020" },
+    { "id": 3, "isim": "Moderatör", "renk": "#58a6ff" },
+    { "id": 4, "isim": "Aktif Üye", "renk": "#3fb950" }
+  ],
+  "site_bildirim": { "aktif": false, "mesaj": "" },
+  "bakim_modu": { "aktif": false, "mesaj": "Site şu anda bakımda, birazdan döneceğiz." }
+}
