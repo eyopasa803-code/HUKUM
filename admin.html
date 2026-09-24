@@ -42,12 +42,14 @@
   <div class="grup">YÖNETİM ARAÇLARI</div>
   <a onclick="sekmeAc('t-bakiye', this)">💰 Bakiye Paneli</a>
   <a onclick="sekmeAc('t-bildirim', this)">🔔 Bildirim Paneli</a>
+  <a onclick="sekmeAc('t-bakim', this)">🛠️ Bakım Modu</a>
+  <a onclick="sekmeAc('t-bot', this)">🤖 Bot &amp; Discord</a>
 
   <div class="grup">SİSTEM</div>
   <a onclick="sekmeAc('t-disaAktar', this)">💾 Yedekleme</a>
   <div class="grup"></div>
   <a href="index.html">⬅ Siteye Dön</a>
-  <div style="padding:14px 20px 0;font-size:10px;color:var(--muted)">Sürüm: v7</div>
+  <div style="padding:14px 20px 0;font-size:10px;color:var(--muted)">Sürüm: v7 (Bot Entegrasyonlu)</div>
 </div>
 
 <div class="content gizli" id="panel-icerik">
@@ -59,8 +61,6 @@
     <label>Duyuru Metni</label>
     <textarea id="d-metin" rows="4"></textarea>
     <div class="check-satir"><input type="checkbox" id="d-sabit"><label style="margin:0">📌 Sabitle</label></div>
-    <label>Discord'a da Gönder (opsiyonel)</label>
-    <select id="d-discord-kanal"><option value="">Gönderme</option></select>
     <button onclick="duyuruEkle()">Ekle</button>
     <h3 style="margin-top:30px">Mevcut Duyurular</h3>
     <div id="d-liste"></div>
@@ -123,7 +123,7 @@
 
   <div id="t-roller" class="tab-icerik">
     <h2>🎖️ Rütbe Ekle</h2>
-    <p style="color:var(--muted);font-size:13px">Discord'daki gibi renkli rütbeler oluştur, sonra Üyeler sekmesinden üyelere ata.</p>
+    <p style="color:var(--muted);font-size:13px">Discord'daki gibi renkli rütbeler oluştur, sonra Üyeler sekmesinden üyelere ata. Not: bot artık Discord tarafındaki rol değişikliklerini otomatik senkronize ediyor (bkz. Bot &amp; Discord sekmesi).</p>
     <label>Rütbe İsmi</label><input id="r-isim" placeholder="örn: Moderatör">
     <label>Renk</label><input id="r-renk" type="color" value="#f0a020" style="height:44px;padding:4px">
     <button onclick="rolEkle()">Ekle</button>
@@ -184,6 +184,53 @@
     <button onclick="bildirimKaydet()">Kaydet</button>
   </div>
 
+  <div id="t-bakim" class="tab-icerik">
+    <h2>🛠️ Bakım Modu</h2>
+    <p id="bk-durum-yazi" style="font-size:16px;font-weight:700;margin-bottom:16px"></p>
+    <button id="bk-toggle-btn" onclick="bakimToggle()" style="width:100%;padding:16px;font-size:16px"></button>
+    <hr style="border-color:#30363d;margin:24px 0">
+    <label>Ziyaretçilere gösterilecek mesaj</label>
+    <textarea id="bk-metin" rows="3"></textarea>
+    <button onclick="bakimMesajKaydet()">Sadece Mesajı Kaydet</button>
+  </div>
+
+  <!-- ===== YENİ: Bot & Discord paneli ===== -->
+  <div id="t-bot" class="tab-icerik">
+    <h2>🤖 Bot &amp; Discord</h2>
+    <div id="bot-durum-kutu" class="kart"></div>
+
+    <h3 style="margin-top:26px">📡 Discord'dan Senkronize Roller</h3>
+    <p style="color:var(--muted);font-size:13px">Bu liste bot tarafından otomatik dolduruluyor, buradan düzenlenemez — Discord'da düzenle, bot senkronize eder.</p>
+    <div id="bot-roller-liste"></div>
+
+    <h3 style="margin-top:26px">📺 Discord Kanalları</h3>
+    <div id="bot-kanallar-liste"></div>
+
+    <h3 style="margin-top:30px">📢 Discord'a Duyuru Gönder</h3>
+    <p style="color:var(--muted);font-size:13px">Buradan eklenen komut, bot en geç 30 saniye içinde Discord'a işler.</p>
+    <label>Hedef Kanal ID</label>
+    <input id="bk-kanal-id" placeholder="Discord kanal ID'si">
+    <label>Başlık</label>
+    <input id="bk-baslik">
+    <label>Metin</label>
+    <textarea id="bk-metin2" rows="3"></textarea>
+    <button onclick="botKomutDuyuru()">📢 Kuyruğa Ekle</button>
+
+    <h3 style="margin-top:30px">🔨 Uzaktan Ban / Kick</h3>
+    <label>Discord Kullanıcı Adı (tam ve doğru yaz)</label>
+    <input id="bk-kullanici">
+    <label>Sebep</label>
+    <input id="bk-sebep">
+    <button onclick="botKomutBan()">🔨 Banla</button>
+    <button class="ikincil" onclick="botKomutKick()">👢 At</button>
+
+    <h3 style="margin-top:30px">⏳ Bekleyen Komut Kuyruğu</h3>
+    <div id="bot-kuyruk-liste"></div>
+
+    <h3 style="margin-top:30px">🛡️ Güvenlik / İşlem Logları</h3>
+    <div id="bot-log-liste"></div>
+  </div>
+
   <div id="t-disaAktar" class="tab-icerik">
     <h2>💾 Yedekleme</h2>
     <p>Site otomatik kaydediliyor.</p>
@@ -197,10 +244,10 @@
 <script>
 const SIFRE = "HÜKÜM_SUNAR";
 const JSONBIN_ID  = "6ab4ff86ffd5d160532a06e6";
-const JSONBIN_KEY = "$2a$10$OoCVOnzOtkxFUbFUbA48f.Nay28mWmKDtL3HfaXsxnu2dWQGPiwpS";
+const JSONBIN_KEY = "$2a$10$rJSrFMMYkqrJwRZmMzZOp.1KDG9ZV5mWOYRvJR.8ttpH7LIce3WfK";
 const JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
 
-let veri = { duyurular:[], icraatlar:[], yonetim:[], projeler:[], siralama:[], dosyalar:[], oyunlar:[], bakiyeler:[], uyeler:[], sss:[], changelog:[], mesajlar:[], roller:[], site_bildirim:{aktif:false,mesaj:""} };
+let veri = { duyurular:[], icraatlar:[], yonetim:[], projeler:[], siralama:[], dosyalar:[], oyunlar:[], bakiyeler:[], uyeler:[], sss:[], changelog:[], mesajlar:[], roller:[], site_bildirim:{aktif:false,mesaj:""}, bakim_modu:{aktif:false,mesaj:""}, discord_sync:{roller:[],kanallar:[],son_guncelleme:"",url_izinli:[]}, komut_kuyrugu:[], guvenlik_log:[], bot_durum:{cevrimici:false,son_gorulme:"",son_denetim:""} };
 
 function durumGoster(msg){ const el = document.getElementById('durum-alani'); if(el) el.innerText = msg; }
 
@@ -242,8 +289,11 @@ function normalizeVeri(){
   if(!veri.mesajlar) veri.mesajlar = [];
   if(!veri.roller) veri.roller = [];
   if(!veri.site_bildirim) veri.site_bildirim = { aktif:false, mesaj:"" };
-  if(!veri.discord_kanallar) veri.discord_kanallar = [];
-  if(!veri.discord_uyeler) veri.discord_uyeler = [];
+  if(!veri.bakim_modu) veri.bakim_modu = { aktif:false, mesaj:"Site şu anda bakımda." };
+  if(!veri.discord_sync) veri.discord_sync = { roller:[], kanallar:[], son_guncelleme:"", url_izinli:[] };
+  if(!veri.komut_kuyrugu) veri.komut_kuyrugu = [];
+  if(!veri.guvenlik_log) veri.guvenlik_log = [];
+  if(!veri.bot_durum) veri.bot_durum = { cevrimici:false, son_gorulme:"", son_denetim:"" };
 }
 
 function kaydet(){
@@ -261,22 +311,10 @@ function duyuruEkle(){
   const baslik = document.getElementById('d-baslik').value.trim();
   const metin = document.getElementById('d-metin').value.trim();
   const sabit = document.getElementById('d-sabit').checked;
-  const discordKanalId = document.getElementById('d-discord-kanal').value;
   if(!baslik || !metin){ alert('Boş olamaz.'); return; }
   veri.duyurular.push({ id: yeniId(veri.duyurular), baslik, metin, tarih: bugun(), sabit });
   document.getElementById('d-baslik').value=''; document.getElementById('d-metin').value=''; document.getElementById('d-sabit').checked=false;
-  document.getElementById('d-discord-kanal').value='';
   kaydet();
-  if(discordKanalId){
-    const kanal = veri.discord_kanallar.find(k => String(k.kanal_id) === discordKanalId);
-    if(kanal && kanal.webhook_url){
-      fetch(kanal.webhook_url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: `📢 **${baslik}**\n${metin}` })
-      }).catch(() => alert("Duyuru kaydedildi ama Discord'a gönderilemedi."));
-    }
-  }
 }
 function duyuruSil(id){ veri.duyurular = veri.duyurular.filter(d => d.id !== id); kaydet(); }
 function duyuruSabitDegistir(id){ const d = veri.duyurular.find(x => x.id === id); d.sabit = !d.sabit; kaydet(); }
@@ -397,6 +435,64 @@ function bildirimKaydet(){
   veri.site_bildirim = { aktif: document.getElementById('n-aktif').checked, mesaj: document.getElementById('n-metin').value.trim() };
   kaydet();
 }
+function bakimToggle(){
+  veri.bakim_modu.aktif = !veri.bakim_modu.aktif;
+  durumGoster('🔄 Kaydediliyor...');
+  bakimEkraniGuncelle();
+  fetch(JSONBIN_URL, { method:'PUT', headers:{ 'Content-Type':'application/json', 'X-Master-Key':JSONBIN_KEY }, body: JSON.stringify(veri) })
+    .then(r => { if(!r.ok) throw new Error('yazma hatası'); durumGoster('✅ Kaydedildi'); })
+    .catch(() => { durumGoster('❌ Kaydedilemedi, tekrar dene'); veri.bakim_modu.aktif = !veri.bakim_modu.aktif; bakimEkraniGuncelle(); });
+}
+function bakimMesajKaydet(){
+  veri.bakim_modu.mesaj = document.getElementById('bk-metin').value.trim();
+  kaydet();
+}
+function bakimEkraniGuncelle(){
+  const durumYazi = document.getElementById('bk-durum-yazi');
+  const btn = document.getElementById('bk-toggle-btn');
+  if(veri.bakim_modu.aktif){
+    durumYazi.innerHTML = '🔴 Bakım modu <b>AÇIK</b> — site kapalı görünüyor';
+    btn.innerText = '✅ Bakım Modunu KAPAT (Siteyi Aç)';
+    btn.style.background = 'linear-gradient(180deg,#3fb950,#2ea043)';
+  } else {
+    durumYazi.innerHTML = '🟢 Bakım modu <b>KAPALI</b> — site herkese açık';
+    btn.innerText = '🛠️ Bakım Modunu AÇ (Siteyi Kapat)';
+    btn.style.background = 'linear-gradient(180deg,#ffb84d,#f0a020)';
+  }
+}
+
+// ===== YENİ: Bot & Discord fonksiyonları =====
+function botKomutDuyuru(){
+  const kanal_id = document.getElementById('bk-kanal-id').value.trim();
+  const baslik = document.getElementById('bk-baslik').value.trim();
+  const metin = document.getElementById('bk-metin2').value.trim();
+  if(!kanal_id || !baslik || !metin){ alert('Tüm alanları doldur.'); return; }
+  veri.komut_kuyrugu.push({ tur:'duyuru', kanal_id, baslik, metin, eklendi: new Date().toISOString() });
+  document.getElementById('bk-kanal-id').value=''; document.getElementById('bk-baslik').value=''; document.getElementById('bk-metin2').value='';
+  kaydet();
+  alert('Kuyruğa eklendi, bot en geç 30 saniye içinde işleyecek.');
+}
+function botKomutBan(){
+  const kullanici = document.getElementById('bk-kullanici').value.trim();
+  const sebep = document.getElementById('bk-sebep').value.trim() || 'Belirtilmedi';
+  if(!kullanici){ alert('Kullanıcı adı boş olamaz.'); return; }
+  if(!confirm(kullanici + ' banlanacak, emin misin?')) return;
+  veri.komut_kuyrugu.push({ tur:'ban', kullanici, sebep, eklendi: new Date().toISOString() });
+  kaydet();
+  alert('Ban komutu kuyruğa eklendi.');
+}
+function botKomutKick(){
+  const kullanici = document.getElementById('bk-kullanici').value.trim();
+  const sebep = document.getElementById('bk-sebep').value.trim() || 'Belirtilmedi';
+  if(!kullanici){ alert('Kullanıcı adı boş olamaz.'); return; }
+  veri.komut_kuyrugu.push({ tur:'kick', kullanici, sebep, eklendi: new Date().toISOString() });
+  kaydet();
+  alert('Kick komutu kuyruğa eklendi.');
+}
+function komutKuyruktanSil(idx){
+  veri.komut_kuyrugu.splice(idx, 1);
+  kaydet();
+}
 
 function listeleriCiz(){
   document.getElementById('d-liste').innerHTML = veri.duyurular.map(d => `
@@ -445,7 +541,7 @@ function listeleriCiz(){
       <div class="uye-satir">
         ${u.profilResmi ? `<img src="${u.profilResmi}">` : '<div class="avatar-bos"></div>'}
         <div class="bilgi">
-          <div>${u.kullaniciAdi}</div><div class="kucuk">Kayıt: ${u.kayitTarihi}${u.discordAdi ? ` · Discord: ${u.discordAdi}` : ''}</div>
+          <div>${u.kullaniciAdi}</div><div class="kucuk">Kayıt: ${u.kayitTarihi}</div>
           <select onchange="uyeRutbeAta(${u.id}, this.value)" style="margin-top:6px;margin-bottom:0">
             <option value="">Rütbe yok</option>
             ${veri.roller.map(r => `<option value="${r.isim}" ${u.rutbe===r.isim?'selected':''}>${r.isim}</option>`).join('')}
@@ -485,12 +581,37 @@ function listeleriCiz(){
     document.getElementById('n-aktif').checked = !!veri.site_bildirim.aktif;
     document.getElementById('n-metin').value = veri.site_bildirim.mesaj || '';
   }
-
-  const kanalSecim = document.getElementById('d-discord-kanal');
-  if(kanalSecim){
-    kanalSecim.innerHTML = '<option value="">Gönderme</option>' +
-      veri.discord_kanallar.map(k => `<option value="${k.kanal_id}">#${k.kanal_isim}</option>`).join('');
+  if(veri.bakim_modu){
+    document.getElementById('bk-metin').value = veri.bakim_modu.mesaj || '';
+    bakimEkraniGuncelle();
   }
+
+  // ===== Bot & Discord çizimi =====
+  const bd = veri.bot_durum || {};
+  document.getElementById('bot-durum-kutu').innerHTML = `
+    <div class="baslik">${bd.cevrimici ? '🟢 Bot Çevrimiçi' : '🔴 Bot Çevrimdışı'}</div>
+    <div class="tarih">Son görülme: ${bd.son_gorulme || 'hiç bağlanmadı'}</div>
+    <div class="tarih">Son açılış denetimi: ${bd.son_denetim || '-'}</div>
+    <div class="tarih">Roller/kanallar son senkron: ${(veri.discord_sync && veri.discord_sync.son_guncelleme) || '-'}</div>`;
+
+  document.getElementById('bot-roller-liste').innerHTML = (veri.discord_sync && veri.discord_sync.roller.length)
+    ? veri.discord_sync.roller.map(r => `<span class="rutbe-rozet" style="background:${r.renk};margin:0 6px 6px 0;display:inline-block">${r.isim}</span>`).join('')
+    : '<p>Henüz Discord\'dan senkron veri gelmedi (bot çalışınca otomatik dolar).</p>';
+
+  document.getElementById('bot-kanallar-liste').innerHTML = (veri.discord_sync && veri.discord_sync.kanallar.length)
+    ? veri.discord_sync.kanallar.map(k => `<div class="kart" style="padding:8px 14px"># ${k.isim} <span class="tarih">(${k.tur}) ID: ${k.id}</span></div>`).join('')
+    : '<p>Henüz Discord\'dan senkron veri gelmedi.</p>';
+
+  document.getElementById('bot-kuyruk-liste').innerHTML = veri.komut_kuyrugu.length
+    ? veri.komut_kuyrugu.map((k, idx) => `
+      <div class="kart"><div class="baslik">${k.tur}</div><div>${JSON.stringify(k)}</div>
+      <button class="sil" onclick="komutKuyruktanSil(${idx})">İptal Et</button></div>`).join('')
+    : '<p>Kuyrukta bekleyen komut yok.</p>';
+
+  document.getElementById('bot-log-liste').innerHTML = veri.guvenlik_log.length
+    ? veri.guvenlik_log.slice().reverse().slice(0, 30).map(l => `
+      <div class="kart" style="padding:8px 14px"><span class="rozet">${l.tur}</span> ${l.mesaj} <span class="tarih">${l.zaman}</span></div>`).join('')
+    : '<p>Henüz log yok.</p>';
 }
 
 function jsonIndir(){
