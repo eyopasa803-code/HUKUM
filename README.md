@@ -1,0 +1,2 @@
+# HUKUM
+HÜKÜM İÇİN GELİŞTİRİLMİŞTİR 
