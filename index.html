@@ -11,12 +11,6 @@
 </head>
 <body>
 
-<div id="bakim-ekrani" class="gizli">
-  <h2>🛠️ Bakım Modundayız</h2>
-  <p id="bakim-mesaj">Site şu anda bakımda, birazdan döneceğiz.</p>
-  <p style="font-size:11px;color:#555;margin-top:30px" id="bakim-debug"></p>
-</div>
-
 <div class="sidebar">
   <h1>👑 HÜKÜM STUDIO</h1>
   <div id="profil-ozet-alani"></div>
@@ -41,12 +35,13 @@
 
   <div class="grup">SİSTEMLER</div>
   <a href="admin.html">⚙️ Site Kontrol</a>
-  <div style="padding:14px 20px 0;font-size:10px;color:var(--muted)">Sürüm: v6 (SIFIRDAN)</div>
+  <div style="padding:14px 20px 0;font-size:10px;color:var(--muted)">Sürüm: v7</div>
 </div>
 
 <div class="content">
 
   <div id="banner-alani"></div>
+  <div id="baglanti-hata-alani"></div>
 
   <div id="ana-sayfa" class="tab-icerik aktif">
     <h2>🏠 Ana Sayfa</h2>
@@ -146,6 +141,8 @@
         </div>
         <label>Kullanıcı Adı</label>
         <input id="kayit-isim">
+        <label>Discord Kullanıcı Adı (opsiyonel — sunucudaki adınla aynı yazarsan rütben otomatik gelir)</label>
+        <input id="kayit-discord" placeholder="örn: eyopasa803">
         <label>Kod Belirle (4 hane)</label>
         <input id="kayit-kod" type="password" maxlength="4" inputmode="numeric">
         <button onclick="kayitOl()">Kayıt Ol</button>
@@ -166,6 +163,8 @@
       </div>
       <label>Kullanıcı Adı</label>
       <input id="profil-isim">
+      <label>Discord Kullanıcı Adı (opsiyonel — sunucudaki adınla aynı yazarsan rütben otomatik gelir)</label>
+      <input id="profil-discord" placeholder="örn: eyopasa803">
       <button onclick="profilKaydet()">Kaydet</button>
       <button class="ikincil" onclick="cikisYap()">Çıkış Yap</button>
       <p id="profil-mesaj" style="color:var(--ok);font-size:13px"></p>
@@ -175,13 +174,13 @@
 </div>
 
 <script>
-const JSONBIN_ID  = "6a8dcf97f5f4af5e29411dd5";
-const JSONBIN_KEY = "$2a$10$Nrh3ww..c2Y9xuDWdZReXOCkJuMUpuji5pGnU82WR96mjE7I6RRDG";
+const JSONBIN_ID  = "6ab4ff86ffd5d160532a06e6";
+const JSONBIN_KEY = "$2a$10$rJSrFMMYkqrJwRZmMzZOp.1KDG9ZV5mWOYRvJR.8ttpH7LIce3WfK";
 const JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
 const IMGBB_KEY = "BURAYA_IMGBB_API_ANAHTARINI_YAPISTIR";
-const SOHBET_MESAJ_LIMIT = 50;
+const SOHBET_MESAJ_LIMIT = 50; // 100KB kutuyu doldurmamak için son 50 mesaj tutulur
 
-let veri = { duyurular:[], icraatlar:[], yonetim:[], projeler:[], siralama:[], dosyalar:[], oyunlar:[], bakiyeler:[], uyeler:[], sss:[], changelog:[], mesajlar:[], roller:[], site_bildirim:{aktif:false,mesaj:""}, bakim_modu:{aktif:false,mesaj:""} };
+let veri = { duyurular:[], icraatlar:[], yonetim:[], projeler:[], siralama:[], dosyalar:[], oyunlar:[], bakiyeler:[], uyeler:[], sss:[], changelog:[], mesajlar:[], roller:[], site_bildirim:{aktif:false,mesaj:""} };
 let oturum = null;
 
 function sekmeAc(id, el){
@@ -204,7 +203,6 @@ function normalizeVeri(){
   if(!veri.mesajlar) veri.mesajlar = [];
   if(!veri.roller) veri.roller = [];
   if(!veri.site_bildirim) veri.site_bildirim = { aktif:false, mesaj:"" };
-  if(!veri.bakim_modu) veri.bakim_modu = { aktif:false, mesaj:"Site şu anda bakımda." };
 }
 
 function yeniId(dizi){ return dizi.length ? Math.max(...dizi.map(x=>x.id)) + 1 : 1; }
@@ -214,19 +212,11 @@ fetch(JSONBIN_URL + '/latest?_=' + Date.now(), { cache: 'no-store', headers: { '
   .then(d => {
     veri = d.record;
     normalizeVeri();
-    if(veri.bakim_modu && veri.bakim_modu.aktif){
-      document.getElementById('bakim-mesaj').innerText = veri.bakim_modu.mesaj || 'Site şu anda bakımda.';
-      document.getElementById('bakim-debug').innerText = 'Debug — sunucudan gelen aktif değeri: ' + JSON.stringify(veri.bakim_modu.aktif) + ' | Bin ID: ' + JSONBIN_ID + ' | Saat: ' + new Date().toLocaleTimeString();
-      document.getElementById('bakim-ekrani').classList.remove('gizli');
-      return;
-    }
     ciz();
     oturumKontrol();
   })
   .catch(() => {
-    document.getElementById('bakim-mesaj').innerText = 'Veri sunucusuna ulaşılamadı (bağlantı hatası).';
-    document.getElementById('bakim-debug').innerText = 'Debug — JSONBin isteği başarısız oldu. Bin ID: ' + JSONBIN_ID;
-    document.getElementById('bakim-ekrani').classList.remove('gizli');
+    document.getElementById('baglanti-hata-alani').innerHTML = '<div class="banner-bildirim" style="border-color:var(--danger);color:var(--danger)">⚠️ Veri sunucusuna ulaşılamadı, sayfayı yenilemeyi dene.</div>';
   });
 
 function veriKaydet(){
@@ -361,8 +351,11 @@ function sssAcKapat(idx){ document.getElementById('sss-' + idx).classList.toggle
 
 function sohbetCiz(){
   document.getElementById('sohbet-mesajlar').innerHTML = veri.mesajlar.length
-    ? veri.mesajlar.slice().reverse().map(m => `
-      <div class="sohbet-mesaj"><span class="kimden">${m.kullaniciAdi}</span>${m.mesaj}<span class="saat">${m.saat}</span></div>`).join('')
+    ? veri.mesajlar.slice().reverse().map(m => {
+        const gonderen = veri.uyeler.find(u => u.kullaniciAdi === m.kullaniciAdi);
+        const rozet = gonderen ? rutbeRozetiGetir(gonderen.rutbe) : '';
+        return `<div class="sohbet-mesaj"><span class="kimden">${m.kullaniciAdi}</span>${rozet}${m.mesaj}<span class="saat">${m.saat}</span></div>`;
+      }).join('')
     : '<p style="color:var(--muted);font-size:13px">Henüz mesaj yok, ilk mesajı sen at.</p>';
 
   if(oturum){
@@ -461,6 +454,7 @@ function dosyaSecildi(input, hangiForm){
 
 function kayitOl(){
   const isim = document.getElementById('kayit-isim').value.trim();
+  const discordAdi = document.getElementById('kayit-discord').value.trim();
   const kod = document.getElementById('kayit-kod').value.trim();
   const resim = document.getElementById('kayit-resim-link').value.trim();
   const hataAlani = document.getElementById('kayit-hata');
@@ -468,7 +462,7 @@ function kayitOl(){
   if(!isim || !kod){ hataAlani.innerText = 'Kullanıcı adı ve kod boş olamaz.'; return; }
   if(!/^\d{4}$/.test(kod)){ hataAlani.innerText = 'Kod tam olarak 4 haneli rakam olmalı.'; return; }
   if(veri.uyeler.some(u => u.kullaniciAdi.toLowerCase() === isim.toLowerCase())){ hataAlani.innerText = 'Bu kullanıcı adı zaten alınmış.'; return; }
-  const yeniUye = { id: yeniId(veri.uyeler), kullaniciAdi: isim, kod: kod, profilResmi: resim, kayitTarihi: new Date().toISOString().slice(0,10), rutbe: "" };
+  const yeniUye = { id: yeniId(veri.uyeler), kullaniciAdi: isim, discordAdi: discordAdi, kod: kod, profilResmi: resim, kayitTarihi: new Date().toISOString().slice(0,10), rutbe: "" };
   veri.uyeler.push(yeniUye);
   veriKaydet().then(() => oturumBaslat(yeniUye)).catch(() => { hataAlani.innerText = 'Kayıt sırasında hata oluştu, tekrar dene.'; veri.uyeler.pop(); });
 }
@@ -508,6 +502,7 @@ function profilEkraniniGoster(){
   document.getElementById('hesap-giris-alani').classList.add('gizli');
   document.getElementById('hesap-profil-alani').classList.remove('gizli');
   document.getElementById('profil-isim').value = oturum.kullaniciAdi;
+  document.getElementById('profil-discord').value = oturum.discordAdi || '';
   if(oturum.profilResmi){
     document.getElementById('profil-avatar-onizleme').src = oturum.profilResmi;
     document.getElementById('profil-avatar-onizleme').style.display = 'block';
@@ -530,6 +525,7 @@ function profilOzetiCiz(){
 
 function profilKaydet(){
   const yeniIsim = document.getElementById('profil-isim').value.trim();
+  const yeniDiscord = document.getElementById('profil-discord').value.trim();
   const yeniResim = document.getElementById('profil-resim-link').value.trim();
   const mesajAlani = document.getElementById('profil-mesaj');
   if(!yeniIsim){ mesajAlani.style.color='var(--danger)'; mesajAlani.innerText='İsim boş olamaz.'; return; }
@@ -538,6 +534,7 @@ function profilKaydet(){
   }
   const uye = veri.uyeler.find(u => u.id === oturum.id);
   uye.kullaniciAdi = yeniIsim;
+  uye.discordAdi = yeniDiscord;
   uye.profilResmi = yeniResim;
   oturum = uye;
   veriKaydet().then(() => {
