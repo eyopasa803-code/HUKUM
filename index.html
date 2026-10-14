@@ -1,723 +1,273 @@
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HÜKÜM STUDİO</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0e0c10; --panel:#1b171c; --panel2:#231e25; --border:#36303a;
-    --gold:#d4af37; --gold2:#f4d78a; --red:#7a1f2b; --text:#efe8de; --dim:#a79c8e;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;height:100%;}
-  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;}
-  h1,h2,h3{font-family:'Cinzel',serif;margin:0 0 .4em;letter-spacing:.02em;}
-  a{color:var(--gold);}
-  button{font-family:inherit;cursor:pointer;border:none;border-radius:8px;padding:.7em 1.3em;
-    background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1510;font-weight:700;
-    transition:transform .15s ease, box-shadow .15s ease;}
-  button:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(212,175,55,.25);}
-  button.ghost{background:transparent;color:var(--text);border:1px solid var(--border);box-shadow:none;}
-  button.ghost:hover{border-color:var(--gold);box-shadow:none;}
-  button.danger{background:linear-gradient(135deg,#a23344,var(--red));color:#fff;}
-  input,textarea{font-family:inherit;background:var(--panel2);border:1px solid var(--border);
-    color:var(--text);border-radius:8px;padding:.7em .9em;width:100%;outline:none;transition:border-color .15s;}
-  input:focus,textarea:focus{border-color:var(--gold);}
-  textarea{resize:vertical;min-height:80px;}
+:root{--bg:#07060f;--bg2:#0e0c1d;--card:rgba(255,255,255,.05);--bd:rgba(255,255,255,.1);--tx:#ecebff;--mu:#9a98c0;--p:#8b5cf6;--c:#22d3ee;--r:#f43f5e;--g:linear-gradient(135deg,#8b5cf6,#22d3ee)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:radial-gradient(1200px 700px at 80% -10%,#2a1a5e55,transparent),radial-gradient(900px 600px at -10% 110%,#0b4a6655,transparent),var(--bg);color:var(--tx);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;overflow:hidden}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0}
+.btn{background:var(--g);padding:10px 18px;border-radius:12px;font-weight:700;color:#06041a;transition:.25s;box-shadow:0 6px 20px #8b5cf655}
+.btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 10px 28px #22d3ee55}
+.btn.ghost{background:var(--card);color:var(--tx);border:1px solid var(--bd);box-shadow:none}
+.btn.red{background:linear-gradient(135deg,#f43f5e,#fb923c)}
+.btn.sm{padding:5px 10px;font-size:13px;border-radius:9px}
+input,textarea,select{background:#0b0a18;border:1px solid var(--bd);border-radius:12px;padding:11px 14px;width:100%;outline:0;transition:.2s}
+select option{background:#0b0a18}
+input:focus,textarea:focus,select:focus{border-color:var(--c);box-shadow:0 0 0 3px #22d3ee22}
+textarea{resize:vertical;min-height:90px}
+#welcome{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;z-index:5}
+#spark{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.box{position:relative;z-index:1;width:100%;max-width:410px;background:rgba(14,12,29,.78);backdrop-filter:blur(18px);border:1px solid var(--bd);border-radius:22px;padding:28px;animation:rise .7s both;box-shadow:0 30px 80px #000a}
+@keyframes rise{from{opacity:0;transform:translateY(30px) scale(.97)}to{opacity:1;transform:none}}
+.logo{font-size:30px;font-weight:900;letter-spacing:2px;text-align:center;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px #8b5cf6}
+.sub{text-align:center;color:var(--mu);font-size:13px;margin:4px 0 18px}
+.tabs{display:flex;gap:6px;margin-bottom:14px}.tabs button{flex:1;padding:9px;border-radius:10px;background:var(--card);color:var(--mu);font-weight:600}.tabs .on{background:var(--g);color:#06041a}
+.fld{margin-bottom:10px}
+.err{background:#f43f5e22;border:1px solid #f43f5e88;color:#ffb3c0;padding:10px 12px;border-radius:12px;margin-bottom:12px;font-size:13px;display:none}
+.copy{text-align:center;color:var(--mu);font-size:12px;margin-top:16px}
+.copy a{color:var(--c);cursor:pointer;text-decoration:underline}
+#app{display:none;height:100%}
+#side{width:272px;background:rgba(10,9,22,.92);border-right:1px solid var(--bd);display:flex;flex-direction:column;transition:transform .3s;z-index:20}
+#main{flex:1;display:flex;flex-direction:column;min-width:0}
+#app.on{display:flex}
+.me{padding:16px;border-bottom:1px solid var(--bd)}
+.me b{display:block}
+.nav{flex:1;overflow:auto;padding:10px}
+.sec{font-size:11px;letter-spacing:1.5px;color:var(--mu);margin:14px 8px 6px;text-transform:uppercase}
+.ch{display:block;width:100%;text-align:left;padding:8px 12px;border-radius:10px;background:none;color:var(--mu);transition:.2s;margin-bottom:2px}
+.ch:hover{background:var(--card);color:var(--tx);transform:translateX(4px)}
+.ch.on{background:linear-gradient(90deg,#8b5cf633,#22d3ee22);color:#fff;box-shadow:inset 3px 0 var(--c)}
+details>summary{cursor:pointer;padding:8px 12px;border-radius:10px;color:var(--tx);list-style:none}
+details>summary:hover{background:var(--card)}
+details .ch{padding-left:26px}
+.foot{padding:10px;border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:8px}
+#top{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bd);background:rgba(10,9,22,.6)}
+#top h2{font-size:18px}
+#burger{display:none;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:6px 12px;font-size:18px}
+#view{flex:1;overflow:auto;padding:18px;display:flex;flex-direction:column;animation:fade .35s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;margin-bottom:14px}
+.tilt{transition:transform .15s ease-out,box-shadow .3s;transform-style:preserve-3d;will-change:transform}
+.tilt:hover{box-shadow:0 22px 50px #8b5cf633,0 0 0 1px #22d3ee55}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;perspective:900px}
+.job{cursor:pointer;text-align:center}
+.job .ic{font-size:38px;filter:drop-shadow(0 8px 10px #000a)}
+.job.sel{outline:2px solid var(--c)}
+#list{flex:1;overflow:auto}
+.msg{display:flex;gap:12px;padding:8px 4px;animation:fade .3s}
+.av{width:38px;height:38px;border-radius:50%;background:var(--g);display:grid;place-items:center;color:#06041a;font-weight:800;flex:none}
+.msg .t{white-space:pre-wrap;word-break:break-word}
+.msg small{color:var(--mu);margin-left:6px}
+.badge{display:inline-block;font-size:11px;padding:1px 8px;border-radius:20px;background:var(--g);color:#06041a;font-weight:700;margin-left:6px}
+.badge.j{background:var(--card);color:var(--c);border:1px solid var(--bd)}
+.comp{display:flex;gap:8px;padding-top:12px}
+pre{background:#05040d;border:1px solid var(--bd);border-radius:14px;padding:14px;overflow:auto;font-size:13px;white-space:pre;max-height:60vh}
+img.shot{max-width:100%;border-radius:14px;margin-top:8px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#14122b;border:1px solid var(--c);padding:10px 18px;border-radius:12px;z-index:99;display:none}
+.modal{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:16px;z-index:50;overflow:auto}
+.modal .box{max-width:460px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+@media(max-width:760px){#side{position:fixed;inset:0 auto 0 0;transform:translateX(-100%)}#side.open{transform:none;box-shadow:0 0 0 100vw #0008}#burger{display:block}}
+</style></head><body>
+<div id="welcome"><canvas id="spark"></canvas>
+<div class="box" id="authbox">
+<div class="logo">HÜKÜM STUDİO</div><div class="sub">Güç • Otorite • Yerli ve Milli</div>
+<div class="err" id="aerr"></div>
+<div class="tabs"><button id="tl" class="on" onclick="tab(0)">Giriş</button><button id="tr" onclick="tab(1)">Kayıt</button></div>
+<div class="fld"><input id="un" placeholder="Kullanıcı adı" autocomplete="username" maxlength="20"></div>
+<div class="fld"><input id="uc" type="password" placeholder="Kod (en az 4 karakter)" autocomplete="current-password"></div>
+<button class="btn" style="width:100%" id="go" onclick="auth()">Giriş Yap</button>
+<div class="copy">© EYO PAŞA TARAFINDAN<br><a id="fl" onclick="founder()">Kurucu Girişi</a></div>
+</div></div>
 
-  /* ---------- geçiş efektleri ---------- */
-  html{scroll-behavior:smooth;}
-  #root{min-height:100vh;}
-  .fade-wrap{animation:fadeIn .55s cubic-bezier(.22,1,.36,1) both;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(16px) scale(.99);} to{opacity:1;transform:translateY(0) scale(1);}}
-  .fade-out{animation:fadeOut .3s cubic-bezier(.4,0,1,1) both;}
-  @keyframes fadeOut{to{opacity:0;transform:translateY(-10px) scale(.99);}}
-  .shimmer{background:linear-gradient(90deg,var(--gold) 0%,var(--gold2) 25%,var(--gold) 50%,var(--gold2) 75%,var(--gold) 100%);
-    background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:shimmer 4s linear infinite;}
-  @keyframes shimmer{to{background-position:200% center;}}
-
-  .stagger > *{animation:stagIn .5s cubic-bezier(.22,1,.36,1) both;}
-  .stagger > *:nth-child(1){animation-delay:.03s;} .stagger > *:nth-child(2){animation-delay:.08s;}
-  .stagger > *:nth-child(3){animation-delay:.13s;} .stagger > *:nth-child(4){animation-delay:.18s;}
-  .stagger > *:nth-child(5){animation-delay:.23s;} .stagger > *:nth-child(6){animation-delay:.28s;}
-  .stagger > *:nth-child(7){animation-delay:.33s;} .stagger > *:nth-child(8){animation-delay:.38s;}
-  .stagger > *:nth-child(9){animation-delay:.43s;} .stagger > *:nth-child(10){animation-delay:.48s;}
-  .stagger > *:nth-child(11){animation-delay:.53s;} .stagger > *:nth-child(12){animation-delay:.58s;}
-  @keyframes stagIn{from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);}}
-
-  /* ---------- toast bildirimleri ---------- */
-  #toastKutu{position:fixed;top:16px;right:16px;z-index:999;display:flex;flex-direction:column;gap:8px;}
-  .toast{background:var(--panel);border:1px solid var(--gold);border-radius:8px;padding:12px 16px;
-    color:var(--text);font-size:.9em;box-shadow:0 10px 30px rgba(0,0,0,.4);animation:toastIn .35s cubic-bezier(.22,1,.36,1) both;max-width:300px;}
-  .toast.err{border-color:#ef7a7a;}
-  @keyframes toastIn{from{opacity:0;transform:translateX(40px);} to{opacity:1;transform:translateX(0);}}
-  .toast.hide{animation:toastOut .3s ease both;}
-  @keyframes toastOut{to{opacity:0;transform:translateX(40px);}}
-
-  /* ---------- hero / karşılama ---------- */
-  .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;
-    flex-direction:column;text-align:center;overflow:hidden;padding:20px;}
-  .hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
-  .hero-inner{position:relative;z-index:1;max-width:560px;}
-  .hero .seal{width:72px;height:72px;margin:0 auto 18px;border:2px solid var(--gold);border-radius:50%;
-    display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;color:var(--gold);
-    font-size:1.6em;font-weight:900;animation:pulseSeal 3s ease-in-out infinite;}
-  @keyframes pulseSeal{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.35);} 50%{box-shadow:0 0 0 14px rgba(212,175,55,0);}}
-  .hero h1{font-size:clamp(2.2em,7vw,3.4em);margin-bottom:.15em;}
-  .hero .alt{color:var(--dim);font-size:1.05em;max-width:440px;margin:0 auto 30px;line-height:1.6;}
-  .hero .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-  .hero .btns button{min-width:150px;}
-  .feature-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
-    max-width:720px;margin:46px auto 0;padding:0 10px;}
-  .feature-card{background:rgba(27,23,28,.75);backdrop-filter:blur(6px);border:1px solid var(--border);
-    border-radius:12px;padding:18px;text-align:left;transition:border-color .2s,transform .2s;}
-  .feature-card:hover{border-color:var(--gold);transform:translateY(-3px);}
-  .feature-card .ikon{font-size:1.5em;margin-bottom:8px;}
-  .feature-card h3{font-size:1em;margin-bottom:4px;}
-  .feature-card p{font-size:.82em;color:var(--dim);margin:0;line-height:1.5;}
-
-  /* ---------- auth kartı ---------- */
-  .center-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;z-index:1;}
-  .card{background:rgba(27,23,28,.9);backdrop-filter:blur(6px);border:1px solid var(--border);
-    border-radius:14px;padding:30px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4);}
-  .seal-small{text-align:center;color:var(--gold);letter-spacing:.1em;font-size:.72em;margin-bottom:8px;text-transform:uppercase;}
-  .field{margin-bottom:14px;}
-  .field label{display:block;font-size:.85em;color:var(--dim);margin-bottom:5px;}
-  .err{color:#ef7a7a;font-size:.85em;margin-top:10px;}
-  .tabs{display:flex;gap:8px;margin-bottom:18px;}
-  .tabs button{flex:1;background:var(--panel2);color:var(--dim);box-shadow:none;}
-  .tabs button.active{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1510;}
-  .geri{background:none;color:var(--dim);box-shadow:none;padding:.4em 0;margin-bottom:10px;font-size:.85em;}
-  .geri:hover{color:var(--gold);transform:none;}
-
-  /* ---------- uygulama kabuğu ---------- */
-  .app{display:flex;min-height:100vh;}
-  .sidebar{width:260px;background:var(--panel);border-right:1px solid var(--border);
-    padding:18px 0;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;}
-  .brand{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;}
-  .brand h1{font-size:1.4em;color:var(--gold);line-height:1.1;}
-  .brand small{color:var(--dim);}
-  .grp-title{font-size:.7em;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);padding:12px 18px 4px;}
-  .chan{display:block;width:100%;text-align:left;background:none;color:var(--text);box-shadow:none;
-    border-radius:0;padding:8px 18px;font-weight:400;font-size:.95em;transition:background .15s,color .15s,padding-left .15s;}
-  .chan:hover{background:var(--panel2);transform:none;padding-left:22px;}
-  .chan.active{background:var(--panel2);border-left:3px solid var(--gold);color:var(--gold);padding-left:15px;}
-  .userbox{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border);font-size:.85em;}
-  .userbox .ad{color:var(--gold);font-weight:600;}
-  .userbox .rol{color:var(--dim);}
-
-  .main{flex:1;display:flex;flex-direction:column;min-width:0;}
-  .topbar{padding:16px 24px;border-bottom:1px solid var(--border);background:var(--panel);}
-  .content{flex:1;padding:24px;max-width:760px;width:100%;margin:0 auto;overflow-y:auto;}
-  .msg{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:10px;}
-  .msg .meta{font-size:.78em;color:var(--dim);margin-bottom:4px;}
-  .msg .meta b{color:var(--gold);}
-  .composer{display:flex;gap:10px;margin-top:16px;}
-  .composer textarea{flex:1;}
-  .locked{color:var(--dim);font-style:italic;padding:20px;text-align:center;}
-
-  .is-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .is-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;transition:border-color .2s;}
-  .is-card:hover{border-color:var(--gold);}
-  .is-card h3{font-size:1.1em;}
-  .is-card p{font-size:.85em;color:var(--dim);margin:6px 0 10px;}
-  .is-card button{width:100%;}
-  .is-card.joined{border-color:var(--gold);}
-
-  .soru{margin-bottom:12px;}
-  .kutu{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px;}
-  .kutu h2{color:var(--gold);}
-
-  .loader{display:flex;align-items:center;justify-content:center;min-height:60vh;}
-  .loader .seal{animation:spin 2.5s linear infinite, pulseSeal 3s ease-in-out infinite;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-
-  .menuBtn{display:none;background:var(--panel2);color:var(--gold);box-shadow:none;padding:.5em .7em;font-size:1.1em;}
-  .backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;}
-  .backdrop.acik{display:block;animation:toastIn .25s ease both;}
-
-  @media(max-width:760px){
-    .app{position:relative;}
-    .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:50;width:82%;max-width:300px;
-      transform:translateX(-105%);transition:transform .3s cubic-bezier(.22,1,.36,1);box-shadow:20px 0 50px rgba(0,0,0,.5);}
-    .sidebar.acik{transform:translateX(0);}
-    .main{width:100%;}
-    .menuBtn{display:inline-flex;align-items:center;gap:8px;margin-right:10px;}
-    .topbar{display:flex;align-items:center;}
-    .is-grid{grid-template-columns:1fr;}
-    .hero h1{font-size:1.9em;}
-    .hero .btns{flex-direction:column;align-items:stretch;}
-    .hero .btns button{width:100%;}
-    .feature-grid{grid-template-columns:1fr !important;}
-  }
-</style>
-</head>
-<body>
-<div id="root"></div>
+<div id="app">
+<aside id="side"><div class="me" id="me"></div><div class="nav" id="nav"></div>
+<div class="foot"><button class="btn ghost sm" id="fb" onclick="founder()">👑 Kurucu Girişi</button><button class="btn ghost sm" onclick="logout()">Çıkış</button></div></aside>
+<section id="main"><div id="top"><button id="burger" onclick="document.getElementById('side').classList.toggle('open')">☰</button><h2 id="ttl"></h2></div><div id="view"></div></section>
+</div>
+<div id="toast"></div>
 
 <script>
-/* ============================================================
-   0) JSONBIN AYARLARI
-   ============================================================ */
-const JSONBIN_ID = "6ab4ff86ffd5d160532a06e6";
-const JSONBIN_KEY = "$2a$10$KZk6tJKQc1ZgnkKrdRU80ex6YHybL2EZXS1C8.7MMLOJKVHtutajK";
-const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
+/* ====== AYARLAR ====== */
+const BIN='6ab4ff86ffd5d160532a06e6';
+const KEY='$2a$10$KZk6tJKQc1ZgnkKrdRU80ex6YHybL2EZXS1C8.7MMLOJKVHtutajK';
+const SALT='hukum-studio-v1';
+const QS=__Q__;
+const RANKS=['Kurucu','Owner','Co Owner','Baş Admin','Kıdemli Admin','Admin Denetmeni','Admin','Stajyer Admin'];
+const JOBS=[['bot','Bot & Yazılım','🤖'],['web','Web & Uygulama','🌐'],['tasarim','Grafik Tasarım','🎨'],['icerik','İçerik Üretimi','✍️'],['pazar','Pazarlama','📈'],['video','Video & Montaj','🎬'],['ses','Ses & Müzik','🎧'],['sosyal','Sosyal Medya Yönetimi','📱'],['ceviri','Çeviri & Yazarlık','🌍'],['oyun','Oyun Geliştirme','🎮'],['topluluk','Topluluk Yönetimi','🤝'],['destek','Destek & Müşteri','🛟']];
+const GEN=[['duyuru','Duyurular','📢','feed'],['sohbet','Sohbet','💬','chat'],['tanitim','Tanıtım','🎯','intro'],['kadro','Yetkili Kadromuz','👑','staff'],['yapilan','Yaptıklarımız','📸','done'],['hakkimizda','Hakkımızda','ℹ️','about'],['sosyal','Sosyal Medya','🔗','social'],['kurallar','Kurallar','📜','rules']];
+const RULES=['Herkese saygılı ol; hakaret, küfür ve aşağılama yasaktır.','Irkçılık, nefret söylemi, siyasi ve dini tartışma açma.','Spam, flood ve gereksiz etiket/tekrar mesaj yasaktır.','Reklam ve başka sunucu/site tanıtımı yetkili izni olmadan yasaktır.','Sadece kendi iş kolunun kanallarında o işe uygun içerik paylaş.','Kod deposundaki kodlar ekibe aittir; izinsiz paylaşmak yasaktır.','Yetkililerin kararlarına saygı göster; itirazını özelden ilet.','Başkasının hesabını/kodunu kullanmak, hesap çalmak yasaktır.','Ekip çalışması ve dostluk önceliğimizdir: yardımlaş, paylaş, birlikte üret.','Kurallara uymayanlar uyarılır; tekrarında yetkisi/erişimi alınır.'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let DB=null,ME=null,CH=null,mode=0;
 
-async function veriOku(){
-  const r = await fetch(JSONBIN_URL + "/latest", {headers:{"X-Master-Key":JSONBIN_KEY}});
-  const j = await r.json();
-  return j.record;
+/* ====== JSONBIN ====== */
+function norm(d){d=d&&typeof d==='object'?d:{};d.users=d.users||{};d.msgs=d.msgs||{};d.snips=d.snips||[];d.done=d.done||[];d.social=d.social||[];d.about=d.about||'';d.locked=!!d.locked;return d}
+async function load(){
+ let r;try{r=await fetch(`https://api.jsonbin.io/v3/b/${BIN}/latest`,{headers:{'X-Master-Key':KEY,'X-Bin-Meta':'false'},cache:'no-store'})}
+ catch(e){throw new Error("jsonbin'e ulaşılamadı (internet / engelleyici eklenti olabilir)")}
+ if(r.status==401||r.status==403)throw new Error('Key yanlış veya yetkisiz (X-Master-Key). Kodun başındaki KEY satırını kontrol et.');
+ if(r.status==404)throw new Error('Bin ID yanlış olabilir (BIN satırını kontrol et).');
+ if(!r.ok)throw new Error('jsonbin hata: '+r.status);
+ return norm(await r.json());
 }
-async function veriYaz(veri){
-  await fetch(JSONBIN_URL, {
-    method:"PUT",
-    headers:{"Content-Type":"application/json","X-Master-Key":JSONBIN_KEY},
-    body:JSON.stringify(veri)
-  });
+async function save(d){
+ const body=JSON.stringify(d);
+ if(body.length>95000)throw new Error('Veri alanı doldu (jsonbin 100KB sınırı). Eski kod/ekran görüntüsü silin.');
+ let r;try{r=await fetch(`https://api.jsonbin.io/v3/b/${BIN}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':KEY},body})}
+ catch(e){throw new Error("jsonbin'e ulaşılamadı")}
+ if(!r.ok)throw new Error('Kayıt hatası: '+r.status+' (Key yazma yetkisi olmayabilir)');
 }
-function bosVeri(){ return {kurucuTamamlandi:false, kullanicilar:{}, mesajlar:{}, kodlar:[]}; }
+async function mut(fn){const d=await load();const res=await fn(d);await save(d);DB=d;ME=me();return res}
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+const toast=m=>{const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',3200)};
+const act=async f=>{try{return await f()}catch(e){toast('⚠ '+e.message);console.error(e)}};
 
-/* ============================================================
-   1) İŞ KOLLARI
-   ============================================================ */
-const TAKIMLAR = {
-  bot_yazilim:{isim:"Bot & Yazılım Geliştirme",aciklama:"Discord/Telegram botu, otomasyon scriptleri, eklenti geliştirme."},
-  web_app:{isim:"Web & Uygulama Geliştirme",aciklama:"Kurumsal site, e-ticaret kurulumu, mobil uygulama, API entegrasyonu."},
-  altyapi:{isim:"Sunucu & Altyapı Yönetimi",aciklama:"VPS kurulumu, oyun sunucusu hostlama, güvenlik taraması ve bakım."},
-  saas_urun:{isim:"Ürün & SaaS Geliştirme",aciklama:"SaaS araçları, UI/UX şablonları, stok kod satışı."},
-  icerik:{isim:"İçerik Üretimi",aciklama:"YouTube, Twitch, TikTok/Instagram içerikleri, podcast, blog."},
-  topluluk:{isim:"Topluluk & Platform Yönetimi",aciklama:"Topluluk yönetimi, üyelik sistemleri, dışarıya topluluk hizmeti."},
-  pazarlama:{isim:"Pazarlama & Affiliate",aciklama:"Affiliate pazarlama, bayilik komisyonu, reklam/sponsorluk."},
-  freelance:{isim:"Freelance Hizmetler",aciklama:"Kodlama, çeviri, veri girişi, sanal asistanlık."},
-  tasarim:{isim:"Tasarım & Medya",aciklama:"Grafik tasarım, video editörlüğü, ses/müzik prodüksiyonu."},
-  oyun:{isim:"Oyun & Esports",aciklama:"Oyun sunucusu işletmeciliği, esports turnuva organizasyonu."},
-  danismanlik:{isim:"Danışmanlık & Eğitim",aciklama:"1:1 mentorluk, kurumsal teknik eğitim, dokümantasyon."},
-  dijital_urun:{isim:"Diğer Dijital Ürünler",aciklama:"Print-on-demand, teknik destek/bakım aboneliği."},
-};
-
-const GENEL_KANALLAR = [
-  {id:"duyurular",ad:"Duyurular",sadeceYetkiliYazar:true},
-  {id:"sohbet",ad:"Sohbet",limit:50},
-  {id:"tanitim",ad:"Tanıtım"},
-  {id:"yetkili-kadromuz",ad:"Yetkili Kadromuz",sadeceYetkiliYazar:true},
-  {id:"yaptiklarimiz",ad:"Yaptıklarımız",sadeceYetkiliYazar:true,ssNotu:true},
-  {id:"hakkimizda",ad:"Hakkımızda",sadeceYetkiliYazar:true},
-  {id:"sosyal-medya",ad:"Sosyal Medya",sadeceUstYazar:true},
-  {id:"kurallar",ad:"Kurallar",readOnly:true},
-  {id:"kurucu-girisi",ad:"Kurucu Girişi"},
-  {id:"kod-deposu",ad:"Kod Deposu"},
-];
-
-const KURALLAR_METNI = [
-  "1. Herkese saygılı ol, hakaret ve ayrımcılık yasaktır.",
-  "2. Spam, flood ve alakasız reklam yasaktır.",
-  "3. Kanalları amacı dışında kullanma.",
-  "4. Yetkililerin kararlarına saygı göster, itirazını doğru kanaldan ilet.",
-  "5. Başka üyenin kişisel bilgisini izinsiz paylaşma.",
-  "6. Yasa dışı veya zararlı içerik paylaşımı kesinlikle yasaktır.",
-].join("\n");
-
-/* ============================================================
-   2) DURUM
-   ============================================================ */
-let VERI = null;
-let AKTIF_KULLANICI = localStorage.getItem("hs_kullanici") || null;
-let AKTIF_KANAL = "tanitim";
-let HEDEF_KANAL = null; // hero'dan "Kurucu Girişi" gibi bir kanala direkt yönlendirmek için
-
-function ben(){ return VERI.kullanicilar[AKTIF_KULLANICI]; }
-function yetkiliMi(u){ return !!(u && u.yetkiRolu); }
-function ustYetkiliMi(u){ return !!(u && ["Kurucu","Owner","Co Owner"].includes(u.yetkiRolu)); }
-
-/* ============================================================
-   3) GEÇİŞ YARDIMCISI
-   ============================================================ */
-function toast(metin, tur="ok"){
-  let kutu = document.getElementById("toastKutu");
-  if(!kutu){
-    kutu = document.createElement("div");
-    kutu.id = "toastKutu";
-    document.body.appendChild(kutu);
-  }
-  const el = document.createElement("div");
-  el.className = "toast" + (tur==="err" ? " err" : "");
-  el.textContent = metin;
-  kutu.appendChild(el);
-  setTimeout(()=>{ el.classList.add("hide"); setTimeout(()=>el.remove(), 300); }, 2800);
+/* ====== OTURUM ====== */
+const uk=n=>n.trim().toLowerCase();
+function me(){return DB&&ME?DB.users[uk(ME.name)]||null:null}
+const rank=u=>u&&u.staff?RANKS.indexOf(u.staff):99;
+const isStaff=u=>rank(u)<99;
+const canCode=u=>isStaff(u)||(u&&u.kod);
+function tab(m){mode=m;$('tl').className=m?'':'on';$('tr').className=m?'on':'';$('go').textContent=m?'Kayıt Ol':'Giriş Yap';$('aerr').style.display='none'}
+async function auth(){
+ const name=$('un').value.trim(),code=$('uc').value,e=$('aerr');e.style.display='none';
+ try{
+  if(name.length<3)throw new Error('Kullanıcı adı en az 3 karakter olmalı.');
+  if(code.length<4)throw new Error('Kod en az 4 karakter olmalı.');
+  const h=await sha(SALT+uk(name)+code);$('go').disabled=true;
+  if(mode){await mut(d=>{if(d.users[uk(name)])throw new Error('Bu kullanıcı adı alınmış.');d.users[uk(name)]={name,h,staff:null,job:null,kod:false,ts:Date.now()}})}
+  else{DB=await load();const u=DB.users[uk(name)];if(!u||u.h!==h)throw new Error('Kullanıcı adı veya kod yanlış.')}
+  ME={name:DB.users[uk(name)].name};localStorage.setItem('hs_me',JSON.stringify({n:name,h}));enter();
+ }catch(x){e.textContent=x.message;e.style.display='block'}
+ $('go').disabled=false;
+}
+function logout(){localStorage.removeItem('hs_me');location.hash='';location.reload()}
+async function enter(){
+ $('welcome').style.display='none';$('app').classList.add('on');
+ CH=location.hash.startsWith('#/c/')?location.hash.slice(4):'tanitim';
+ if(!chList().some(c=>c.id==CH))CH='tanitim';draw();
 }
 
-function gecis(cizFn){
-  const root = document.getElementById("root");
-  root.classList.add("fade-out");
-  setTimeout(()=>{
-    cizFn();
-    const r = document.getElementById("root");
-    r.classList.remove("fade-out");
-    r.classList.add("fade-wrap");
-  }, 220);
+/* ====== KANALLAR ====== */
+function chList(){
+ const u=me(),a=GEN.map(([id,n,i,t])=>({id,n,i,t}));
+ JOBS.forEach(([j,jn,ji])=>{if(isStaff(u)||u.job==j)a.push({id:j+'-genel',n:'Genel',i:'💭',t:'chat',job:j},{id:j+'-gorev',n:'Görevler',i:'✅',t:'feed',w:1,job:j},{id:j+'-duyuru',n:'Duyurular',i:'📣',t:'feed',w:1,job:j})});
+ if(canCode(u))a.push({id:'kod',n:'Kod Deposu',i:'💻',t:'code'});
+ return a;
+}
+function go(id){CH=id;$('side').classList.remove('open');draw()}
+function draw(){
+ const u=me();if(!u){logout();return}
+ const jn=JOBS.find(j=>j[0]==u.job);
+ $('me').innerHTML=`<b>${esc(u.name)}</b>${u.staff?`<span class="badge">${esc(u.staff)}</span>`:'<span class="badge j">Üye</span>'}${u.kod&&!isStaff(u)?'<span class="badge">Kod Ekibi</span>':''}<div style="color:var(--mu);font-size:13px;margin-top:6px">${jn?jn[2]+' '+jn[1]:'İş kolu seçilmedi'}</div>`;
+ const L=chList(),btn=c=>`<button class="ch ${c.id==CH?'on':''}" onclick="go('${c.id}')">${c.i} ${esc(c.n)}</button>`;
+ let h='<div class="sec">Genel</div>'+L.filter(c=>!c.job&&c.id!='kod').map(btn).join('');
+ if(isStaff(u))h+='<div class="sec">İş Kolları</div>'+JOBS.map(j=>`<details ${L.some(c=>c.id.startsWith(j[0]+'-')&&c.id==CH)?'open':''}><summary>${j[2]} ${j[1]}</summary>${L.filter(c=>c.job==j[0]).map(btn).join('')}</details>`).join('');
+ else if(jn)h+=`<div class="sec">${jn[2]} ${jn[1]}</div>`+L.filter(c=>c.job).map(btn).join('');
+ if(canCode(u))h+='<div class="sec">Özel</div>'+btn(L.find(c=>c.id=='kod'));
+ $('nav').innerHTML=h;$('fb').style.display=DB.locked?'none':'';
+ history.replaceState(null,'','#/c/'+CH);
+ const c=L.find(c=>c.id==CH);if(!c)return go('tanitim');
+ const pre=c.job?JOBS.find(j=>j[0]==c.job)[1]+' · ':'';
+ $('ttl').textContent=c.i+' '+pre+c.n;$('view').innerHTML=view(c,u);afterView(c);
 }
 
-/* ============================================================
-   4) KOR / KIVILCIM ARKA PLAN ANİMASYONU (hero ekranı)
-   ============================================================ */
-let emberRAF = null;
-function emberBaslat(canvas){
-  const ctx = canvas.getContext("2d");
-  function boyutlandir(){ canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
-  boyutlandir();
-  window.addEventListener("resize", boyutlandir);
-  const sayi = window.innerWidth < 600 ? 28 : 60;
-  const parcacik = Array.from({length:sayi}, ()=>yeniParcacik(canvas));
-  function yeniParcacik(c){
-    return {
-      x: Math.random()*c.width, y: c.height + Math.random()*100,
-      r: 1 + Math.random()*2.2, hiz: .3 + Math.random()*.9,
-      sap: Math.random()*1.2 - .6, alfa: .15 + Math.random()*.5,
-      renk: Math.random()>.5 ? "212,175,55" : "122,31,43",
-    };
-  }
-  function kare(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    parcacik.forEach(p=>{
-      p.y -= p.hiz; p.x += p.sap;
-      if(p.y < -10){ Object.assign(p, yeniParcacik(canvas)); p.y = canvas.height + 10; }
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(${p.renk},${p.alfa})`;
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fill();
-    });
-    emberRAF = requestAnimationFrame(kare);
-  }
-  kare();
+/* ====== GÖRÜNÜMLER ====== */
+function msgHtml(m,del){const u=DB.users[uk(m.u)];return`<div class="msg"><div class="av">${esc(m.u[0].toUpperCase())}</div><div style="flex:1"><b>${esc(m.u)}</b>${u&&u.staff?`<span class="badge">${esc(u.staff)}</span>`:''}<small>${new Date(m.ts).toLocaleString('tr-TR',{dateStyle:'short',timeStyle:'short'})}</small>${del?` <button class="btn ghost sm" onclick="delMsg('${CH}',${m.ts})">✕</button>`:''}<div class="t">${esc(m.t)}</div></div></div>`}
+function listHtml(c,u){const a=DB.msgs[c.id]||[];return a.length?a.map(m=>msgHtml(m,c.t=='feed'&&isStaff(u))).join(''):'<div style="color:var(--mu);padding:20px;text-align:center">Henüz mesaj yok.</div>'}
+function view(c,u){
+ switch(c.t){
+ case'chat':case'feed':{
+  const can=c.t=='chat'||isStaff(u);
+  return`<div id="list">${listHtml(c,u)}</div>`+(can?`<div class="comp"><input id="mi" placeholder="${c.t=='feed'?'Yayınla…':'Mesaj yaz…'}" maxlength="1000" onkeydown="if(event.key=='Enter')send()"><button class="btn" onclick="send()">Gönder</button></div>`:'<div class="card" style="margin:12px 0 0;color:var(--mu)">🔒 Bu kanala sadece yetkililer yazabilir.</div>')+(c.id=='sohbet'?`<div style="color:var(--mu);font-size:12px;padding-top:6px">Sohbet her 50 mesajda sıfırlanır (${(DB.msgs.sohbet||[]).length}/50).</div>`:'');}
+ case'intro':return`<div class="card tilt"><h3>Hoş geldin, ${esc(u.name)} 👋</h3><p style="color:var(--mu);margin-top:6px">HÜKÜM STUDİO; farklı iş kollarında çalışan ekibimizin buluşma noktası. Aşağıdan <b>kendi iş kolunu seç</b>; seçtiğin işe ait özel kanallar sol menüde açılır. Dilediğin zaman değiştirebilirsin.</p></div><div class="grid">${JOBS.map(j=>`<div class="card job tilt ${u.job==j[0]?'sel':''}" onclick="pick('${j[0]}')"><div class="ic">${j[2]}</div><b>${j[1]}</b><div style="color:var(--mu);font-size:13px">${u.job==j[0]?'✔ Seçili':'Seç'}</div></div>`).join('')}</div>`;
+ case'staff':{
+  const mr=rank(u),us=Object.values(DB.users);
+  const row=x=>{const r=rank(x),can=mr<=1&&r>mr;return`<div class="card tilt row" style="justify-content:space-between"><div><b>${esc(x.name)}</b>${x.staff?`<span class="badge">${esc(x.staff)}</span>`:''}${x.kod&&!x.staff?'<span class="badge">Kod Ekibi</span>':''}</div>${mr<=1&&r>mr?`<div class="row"><select onchange="setRole('${uk(x.name)}',this.value)" style="width:auto"><option value="">Üye (yetkisiz)</option>${RANKS.filter((_,i)=>i>mr).map(k=>`<option ${x.staff==k?'selected':''}>${k}</option>`).join('')}</select><label style="font-size:13px"><input type="checkbox" style="width:auto" ${x.kod?'checked':''} onchange="setKod('${uk(x.name)}',this.checked)"> Kod rolü</label></div>`:''}</div>`};
+  let h=RANKS.map(k=>{const a=us.filter(x=>x.staff==k);return a.length?`<div class="sec">${k}</div>`+a.map(row).join(''):''}).join('')||'<div class="card">Henüz yetkili yok. Kurucu Girişi ile ilk kurucu belirlenir.</div>';
+  if(mr<=1)h+='<div class="sec">Yetki Verilebilecek Üyeler</div>'+(us.filter(x=>!x.staff).map(row).join('')||'<div class="card" style="color:var(--mu)">Üye yok.</div>');
+  return h}
+ case'done':return(isStaff(u)?`<div class="card"><b>Yeni paylaşım</b><div class="fld" style="margin-top:8px"><input type="file" id="dimg" accept="image/*"></div><div class="fld"><textarea id="dtx" placeholder="Bu ekran görüntüsü ne? Ne için alındı?"></textarea></div><button class="btn" onclick="addDone()">Paylaş</button></div>`:'<div class="card" style="color:var(--mu)">Bu kanalı sadece yetkililer doldurur.</div>')+DB.done.slice().reverse().map(x=>`<div class="card tilt"><b>${esc(x.u)}</b><small style="color:var(--mu)"> ${new Date(x.ts).toLocaleDateString('tr-TR')}</small>${isStaff(u)?` <button class="btn ghost sm" onclick="delDone(${x.ts})">✕</button>`:''}<div style="white-space:pre-wrap;margin-top:6px">${esc(x.d)}</div><img class="shot" src="${esc(x.img)}"></div>`).join('');
+ case'about':return`<div class="card tilt" style="white-space:pre-wrap">${esc(DB.about)||'<span style="color:var(--mu)">Henüz doldurulmadı.</span>'}</div>`+(isStaff(u)?`<div class="card"><textarea id="ab" style="min-height:160px">${esc(DB.about)}</textarea><button class="btn" style="margin-top:8px" onclick="saveAbout()">Kaydet</button></div>`:'');
+ case'social':return(DB.social.map((s,i)=>`<div class="card tilt row" style="justify-content:space-between"><div><b>${esc(s.n)}</b><br><a style="color:var(--c)" target="_blank" rel="noopener" href="${esc(/^https?:\/\//.test(s.u)?s.u:'#')}">${esc(s.u)}</a></div>${rank(u)<=1?`<button class="btn ghost sm" onclick="delSoc(${i})">✕</button>`:''}</div>`).join('')||'<div class="card" style="color:var(--mu)">Henüz hesap eklenmedi.</div>')+(rank(u)<=1?`<div class="card"><div class="fld"><input id="sn" placeholder="Ad (Instagram, YouTube…)"></div><div class="fld"><input id="su" placeholder="https://…"></div><button class="btn" onclick="addSoc()">Ekle</button></div>`:'');
+ case'rules':return`<div class="card tilt"><ol style="padding-left:20px">${RULES.map(r=>`<li style="margin:8px 0">${r}</li>`).join('')}</ol></div>`;
+ case'code':return codeView(u);
+ }
 }
-function emberDurdur(){ if(emberRAF) cancelAnimationFrame(emberRAF); emberRAF=null; }
+function afterView(c){const l=$('list');if(l)l.scrollTop=l.scrollHeight}
 
-/* ============================================================
-   5) BAŞLANGIÇ
-   ============================================================ */
-async function basla(){
-  const root = document.getElementById("root");
-  root.innerHTML = `<div class="loader"><div class="seal" style="width:60px;height:60px;border:2px solid var(--gold);
-    border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Cinzel,serif;font-weight:900">H</div></div>`;
-  VERI = await veriOku();
-  if(!VERI || typeof VERI !== "object" || Array.isArray(VERI)){ VERI = bosVeri(); await veriYaz(VERI); }
-  if(AKTIF_KULLANICI && VERI.kullanicilar[AKTIF_KULLANICI]){
-    gecis(cizUygulama);
-  } else {
-    AKTIF_KULLANICI = null;
-    cizHero();
-  }
+/* ====== İŞLEMLER ====== */
+async function send(){const i=$('mi'),t=i.value.trim();if(!t)return;i.value='';
+ await act(async()=>{await mut(d=>{const id=CH;let a=d.msgs[id]||[];if(id=='sohbet'&&a.length>=50)a=[{u:'Sistem',t:'♻️ Sohbet 50 mesaja ulaştığı için sıfırlandı.',ts:Date.now()-1}];a.push({u:me().name,t,ts:Date.now()});d.msgs[id]=a});draw()})}
+const delMsg=(id,ts)=>act(async()=>{await mut(d=>{d.msgs[id]=(d.msgs[id]||[]).filter(m=>m.ts!=ts)});draw()});
+const pick=j=>act(async()=>{await mut(d=>{d.users[uk(ME.name)].job=j});toast('İş kolu seçildi ✔');draw()});
+const setRole=(k,v)=>act(async()=>{await mut(d=>{const m=rank(d.users[uk(ME.name)]),t=d.users[k];if(m>1||rank(t)<=m)throw new Error('Yetkin yok');if(v&&RANKS.indexOf(v)<=m)throw new Error('Kendi rütbenden yüksek veremezsin');t.staff=v||null});draw()});
+const setKod=(k,v)=>act(async()=>{await mut(d=>{if(rank(d.users[uk(ME.name)])>1)throw new Error('Yetkin yok');d.users[k].kod=v});draw()});
+const saveAbout=()=>act(async()=>{await mut(d=>{if(!isStaff(d.users[uk(ME.name)]))throw new Error('Yetkin yok');d.about=$('ab').value});toast('Kaydedildi ✔');draw()});
+const addSoc=()=>act(async()=>{const n=$('sn').value.trim(),u=$('su').value.trim();if(!n||!/^https?:\/\//.test(u))throw new Error('Ad ve https:// ile başlayan link gir');await mut(d=>{if(rank(d.users[uk(ME.name)])>1)throw new Error('Sadece Owner ve üstü');d.social.push({n,u})});draw()});
+const delSoc=i=>act(async()=>{await mut(d=>{d.social.splice(i,1)});draw()});
+function shrink(f){return new Promise((ok,no)=>{const im=new Image();im.onload=()=>{const s=Math.min(1,560/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.5))};im.onerror=()=>no(new Error('Görsel okunamadı'));im.src=URL.createObjectURL(f)})}
+const addDone=()=>act(async()=>{const f=$('dimg').files[0],d=$('dtx').value.trim();if(!f||!d)throw new Error('Görsel ve açıklama zorunlu');const img=await shrink(f);if(img.length>45000)throw new Error('Görsel çok büyük, daha sade bir ekran görüntüsü seç');await mut(x=>{if(!isStaff(x.users[uk(ME.name)]))throw new Error('Yetkin yok');x.done.push({u:ME.name,d,img,ts:Date.now()})});draw()});
+const delDone=ts=>act(async()=>{await mut(d=>{d.done=d.done.filter(x=>x.ts!=ts)});draw()});
+
+/* ====== KOD DEPOSU ====== */
+let OPEN=null;
+function codeView(u){
+ if(OPEN){const s=DB.snips.find(x=>x.id==OPEN);if(s){const link=location.origin+location.pathname+'#/k/'+s.id;return`<button class="btn ghost sm" onclick="OPEN=null;draw()">← Geri</button><div class="card" style="margin-top:10px"><b>${esc(s.t)}</b><small style="color:var(--mu)"> ${esc(s.u)} · ${new Date(s.ts).toLocaleDateString('tr-TR')}</small><pre id="cd">${esc(s.c)}</pre><div class="row" style="margin-top:10px"><button class="btn sm" onclick="cp(document.getElementById('cd').textContent)">Kodu Kopyala</button><button class="btn sm" onclick="cp('${link}')">🔗 Paylaşım Linki</button><button class="btn red sm" onclick="delSnip('${s.id}')">Sil</button></div><div style="color:var(--mu);font-size:12px;margin-top:8px;word-break:break-all">${link}</div></div>`}OPEN=null}
+ return`<div class="card"><b>Yeni kod ekle</b><div class="fld" style="margin-top:8px"><input id="kt" placeholder="Başlık" maxlength="60"></div><div class="fld"><textarea id="kc" style="min-height:160px;font-family:monospace" placeholder="Kodu buraya yapıştır…"></textarea></div><button class="btn" onclick="addSnip()">Kaydet ve link oluştur</button></div>`+(DB.snips.slice().reverse().map(s=>`<div class="card tilt row" style="justify-content:space-between;cursor:pointer" onclick="OPEN='${s.id}';draw()"><div><b>💻 ${esc(s.t)}</b><br><small style="color:var(--mu)">${esc(s.u)} · ${s.c.length} karakter</small></div><span>›</span></div>`).join('')||'<div class="card" style="color:var(--mu)">Henüz kod yok.</div>')+`<div style="color:var(--mu);font-size:12px">Toplam veri limiti ~100KB'dır; çok uzun kodlar için sığmayabilir.</div>`;
 }
+const cp=t=>navigator.clipboard.writeText(t).then(()=>toast('Kopyalandı ✔'),()=>toast('Kopyalanamadı'));
+const addSnip=()=>act(async()=>{const t=$('kt').value.trim(),c=$('kc').value;if(!t||!c.trim())throw new Error('Başlık ve kod gir');const id=Math.random().toString(36).slice(2,10);await mut(d=>{if(!canCode(d.users[uk(ME.name)]))throw new Error('Yetkin yok');d.snips.push({id,t,c,u:ME.name,ts:Date.now()})});OPEN=id;draw()});
+const delSnip=id=>act(async()=>{if(!confirm('Silinsin mi?'))return;await mut(d=>{d.snips=d.snips.filter(x=>x.id!=id)});OPEN=null;draw()});
 
-/* ============================================================
-   6) HERO / KARŞILAMA EKRANI
-   ============================================================ */
-function cizHero(){
-  emberDurdur();
-  const root = document.getElementById("root");
-  root.className = "fade-wrap";
-  root.innerHTML = `
-  <div class="hero">
-    <canvas id="emberCanvas"></canvas>
-    <div class="hero-inner">
-      <div class="seal">H</div>
-      <h1 class="shimmer">HÜKÜM STUDİO</h1>
-      <p class="alt">Güç, otorite, dostluk ve ekip çalışmasıyla kurulan bir çatı altında; yazılımdan
-      içerik üretimine, tasarımdan danışmanlığa kadar tüm iş kollarımız burada bir araya geliyor.</p>
-      <div class="btns">
-        <button id="girisBtn">Giriş Yap</button>
-        <button id="kayitBtn" class="ghost">Kayıt Ol</button>
-      </div>
-    </div>
-    <div class="feature-grid stagger">
-      <div class="feature-card"><div class="ikon">💼</div><h3>12 İş Kolu</h3><p>Yazılımdan içerik üretimine, her alanda kendi ekip kanalın.</p></div>
-      <div class="feature-card"><div class="ikon">🏷️</div><h3>Rol Tabanlı Erişim</h3><p>Sadece katıldığın iş kollarının kanallarını görürsün.</p></div>
-      <div class="feature-card"><div class="ikon">💾</div><h3>Kod Deposu</h3><p>Yetkililer kod paylaşıp link ile anında dağıtabilir.</p></div>
-    </div>
-    <a href="#" id="kurucuLink" style="display:inline-block;margin-top:28px;position:relative;z-index:1;
-      font-size:.85em;color:var(--dim);border-bottom:1px dashed var(--border);">👑 Kurucu Girişi</a>
-  </div>`;
-  emberBaslat(document.getElementById("emberCanvas"));
-  document.getElementById("girisBtn").onclick = ()=> gecis(()=>cizGiris("giris"));
-  document.getElementById("kayitBtn").onclick = ()=> gecis(()=>cizGiris("kayit"));
-  document.getElementById("kurucuLink").onclick = (e)=>{
-    e.preventDefault();
-    if(AKTIF_KULLANICI && VERI.kullanicilar[AKTIF_KULLANICI]){
-      AKTIF_KANAL = "kurucu-girisi";
-      gecis(cizUygulama);
-    } else {
-      HEDEF_KANAL = "kurucu-girisi";
-      gecis(()=>cizGiris("giris"));
-    }
-  };
+/* ====== KURUCU GİRİŞİ ====== */
+const nz=s=>s.toLocaleLowerCase('tr').replace(/ı/g,'i').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i');
+function founder(){
+ if(!ME&&!localStorage.getItem('hs_me'))return $('aerr').textContent='Önce kayıt ol / giriş yap, sonra Kurucu Girişi yap.',$('aerr').style.display='block';
+ if(DB&&DB.locked)return toast('Kurucu girişi kalıcı olarak kapandı.');
+ const m=document.createElement('div');m.className='modal';
+ m.innerHTML=`<div class="box"><div class="logo" style="font-size:22px">KURUCU DOĞRULAMA</div><div class="sub">© EYO PAŞA TARAFINDAN · 5 soru</div>${QS.map((q,i)=>`<div class="fld"><label style="font-size:13px;color:var(--mu)">${i+1}. ${q.q}</label><input class="fq" autocomplete="off"></div>`).join('')}<div class="row"><button class="btn" id="fv">Doğrula</button><button class="btn ghost" id="fx">Vazgeç</button></div></div>`;
+ document.body.appendChild(m);$('fx').onclick=()=>m.remove();
+ $('fv').onclick=()=>act(async()=>{
+  const ins=[...m.querySelectorAll('.fq')].map(i=>nz(i.value));let ok=true;
+  for(let i=0;i<5;i++){const tk=ins[i].split(/[^a-z0-9]+/).filter(Boolean);const cand=new Set([...tk,tk.join('')]);const hs=new Set(await Promise.all([...cand].map(x=>sha(SALT+':'+x).then(h=>h))));
+   // özetler node ile SALT+':'+kelime şeklinde üretildi
+   let n=0;QS[i].a.forEach(a=>{if(hs.has(a))n++});if(n<QS[i].m)ok=false}
+  if(!ok)throw new Error('Yanlış cevap. Doğrulama başarısız.');
+  const sess=JSON.parse(localStorage.getItem('hs_me'));
+  await mut(d=>{if(d.locked)throw new Error('Kurucu girişi kapalı');const u=d.users[uk(sess.n)];if(!u||u.h!==sess.h)throw new Error('Oturum geçersiz');u.staff='Kurucu';d.locked=true});
+  m.remove();toast('👑 Artık KURUCUSUN! Kurucu girişi kapandı.');if(!$('app').classList.contains('on')){ME={name:sess.n};enter()}else draw();
+ });
 }
 
-/* ============================================================
-   7) GİRİŞ / KAYIT EKRANI
-   ============================================================ */
-function cizGiris(sekme="giris", hata=""){
-  emberDurdur();
-  const root = document.getElementById("root");
-  root.className = "fade-wrap";
-  root.innerHTML = `
-  <div class="hero">
-    <canvas id="emberCanvas2"></canvas>
-    <div class="center-screen">
-      <div class="card">
-        <button class="geri" id="geriBtn">← Ana sayfa</button>
-        <div class="seal-small">© HÜKÜM STUDİO</div>
-        <h2 style="text-align:center">Ekip Girişi</h2>
-        <div class="tabs">
-          <button id="tabGiris" class="${sekme==='giris'?'active':''}">Giriş Yap</button>
-          <button id="tabKayit" class="${sekme==='kayit'?'active':''}">Kayıt Ol</button>
-        </div>
-        <div class="field"><label>Kullanıcı adı</label><input id="kadi" autocomplete="off"></div>
-        <div class="field"><label>Giriş kodu (gerçek şifre KULLANMA)</label><input id="kkod" type="password"></div>
-        ${sekme==='kayit' ? '<div class="field"><label>Görünen ad</label><input id="gad"></div>' : ''}
-        <button id="gonderBtn" style="width:100%">${sekme==='giris'?'Giriş Yap':'Kayıt Ol'}</button>
-        ${hata ? `<div class="err">${hata}</div>` : ''}
-      </div>
-    </div>
-  </div>`;
-  emberBaslat(document.getElementById("emberCanvas2"));
-  document.getElementById("geriBtn").onclick = ()=> gecis(cizHero);
-  document.getElementById("tabGiris").onclick=()=>gecis(()=>cizGiris("giris"));
-  document.getElementById("tabKayit").onclick=()=>gecis(()=>cizGiris("kayit"));
-  document.getElementById("gonderBtn").onclick=()=> sekme==='giris' ? girisYap() : kayitOl();
+/* ====== KOD LİNKİ GÖRÜNTÜLEYİCİ ====== */
+async function viewer(id){
+ $('welcome').style.display='none';$('app').classList.add('on');$('side').style.display='none';$('burger').style.display='none';
+ try{DB=await load();const s=DB.snips.find(x=>x.id==id);if(!s)throw new Error('Kod bulunamadı veya silinmiş.');
+  $('ttl').textContent='💻 '+s.t;$('view').innerHTML=`<div class="card"><small style="color:var(--mu)">${esc(s.u)} tarafından · HÜKÜM STUDİO Kod Deposu</small><pre id="cd">${esc(s.c)}</pre><button class="btn sm" style="margin-top:10px" onclick="cp(document.getElementById('cd').textContent)">Kodu Kopyala</button></div>`}
+ catch(e){$('ttl').textContent='Hata';$('view').innerHTML=`<div class="err" style="display:block">${esc(e.message)}</div>`}
 }
 
-async function kayitOl(){
-  const kadi = document.getElementById("kadi").value.trim().toLowerCase();
-  const kkod = document.getElementById("kkod").value;
-  const gad = document.getElementById("gad").value.trim() || kadi;
-  if(!kadi || !kkod){ toast("Kullanıcı adı ve kod gerekli.","err"); return gecis(()=>cizGiris("kayit","Kullanıcı adı ve kod gerekli.")); }
-  VERI = await veriOku();
-  if(VERI.kullanicilar[kadi]){ toast("Bu kullanıcı adı zaten alınmış.","err"); return gecis(()=>cizGiris("kayit","Bu kullanıcı adı zaten alınmış.")); }
-  VERI.kullanicilar[kadi] = {ad:gad, kod:kkod, roller:[], yetkiRolu:null};
-  await veriYaz(VERI);
-  AKTIF_KULLANICI = kadi;
-  localStorage.setItem("hs_kullanici", kadi);
-  toast(`Hoş geldin, ${gad}!`);
-  if(HEDEF_KANAL){ AKTIF_KANAL = HEDEF_KANAL; HEDEF_KANAL = null; }
-  gecis(cizUygulama);
-}
+/* ====== EFEKTLER ====== */
+document.addEventListener('mousemove',e=>{const t=e.target.closest&&e.target.closest('.tilt');document.querySelectorAll('.tilt').forEach(x=>{if(x!==t)x.style.transform=''});if(!t)return;const r=t.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;t.style.transform=`perspective(700px) rotateY(${px*12}deg) rotateX(${-py*12}deg) translateZ(8px)`});
+document.addEventListener('mouseleave',()=>document.querySelectorAll('.tilt').forEach(x=>x.style.transform=''));
+(function(){const c=$('spark'),x=c.getContext('2d');let w,h,P=[];const rs=()=>{w=c.width=innerWidth;h=c.height=innerHeight};rs();addEventListener('resize',rs);
+ const mk=()=>({x:Math.random()*w,y:h+10,v:.5+Math.random()*2,r:.5+Math.random()*2,a:Math.random()*6,c:Math.random()<.5?'139,92,246':'34,211,238'});
+ for(let i=0;i<70;i++){const p=mk();p.y=Math.random()*h;P.push(p)}
+ (function f(){if($('welcome').style.display=='none')return;x.clearRect(0,0,w,h);P.forEach((p,i)=>{p.y-=p.v;p.a+=.03;p.x+=Math.sin(p.a)*.6;if(p.y<-10)P[i]=mk();x.beginPath();x.fillStyle=`rgba(${p.c},${.3+Math.abs(Math.sin(p.a))*.6})`;x.shadowBlur=12;x.shadowColor=`rgb(${p.c})`;x.arc(p.x,p.y,p.r,0,7);x.fill()});requestAnimationFrame(f)})()})();
+$('uc').addEventListener('keydown',e=>{if(e.key=='Enter')auth()});
 
-async function girisYap(){
-  const kadi = document.getElementById("kadi").value.trim().toLowerCase();
-  const kkod = document.getElementById("kkod").value;
-  VERI = await veriOku();
-  const u = VERI.kullanicilar[kadi];
-  if(!u || u.kod !== kkod){ toast("Kullanıcı adı veya kod yanlış.","err"); return gecis(()=>cizGiris("giris","Kullanıcı adı veya kod yanlış.")); }
-  AKTIF_KULLANICI = kadi;
-  localStorage.setItem("hs_kullanici", kadi);
-  toast(`Tekrar hoş geldin, ${u.ad}!`);
-  if(HEDEF_KANAL){ AKTIF_KANAL = HEDEF_KANAL; HEDEF_KANAL = null; }
-  gecis(cizUygulama);
-}
-
-function cikisYap(){
-  AKTIF_KULLANICI = null;
-  localStorage.removeItem("hs_kullanici");
-  gecis(cizHero);
-}
-
-/* ============================================================
-   8) ANA UYGULAMA İSKELETİ
-   ============================================================ */
-function kanalListesiIcinIsRolleri(u){
-  return Object.keys(TAKIMLAR).filter(k => u.roller.includes(k) || yetkiliMi(u));
-}
-
-function cizUygulama(){
-  emberDurdur();
-  const u = ben();
-  const root = document.getElementById("root");
-  root.className = "fade-wrap";
-
-  let genelHtml = GENEL_KANALLAR.map(k=>{
-    if(k.id==="kod-deposu" && !yetkiliMi(u)) return "";
-    return `<button class="chan ${AKTIF_KANAL===k.id?'active':''}" data-kanal="${k.id}">${k.ad}</button>`;
-  }).join("");
-
-  let isRolleriHtml = kanalListesiIcinIsRolleri(u).map(key=>{
-    const t = TAKIMLAR[key];
-    const altlar = [["genel","Genel"],["gorevler","Görevler"],["duyurular","Duyurular"]];
-    return `<div class="grp-title">${t.isim}</div>` + altlar.map(([s,ad])=>{
-      const kid = key+"_"+s;
-      return `<button class="chan ${AKTIF_KANAL===kid?'active':''}" data-kanal="${kid}">${ad}</button>`;
-    }).join("");
-  }).join("");
-
-  root.innerHTML = `
-  <div class="app">
-    <div class="backdrop" id="backdrop"></div>
-    <div class="sidebar" id="sidebar">
-      <div class="brand"><h1>HÜKÜM<br>STUDİO</h1><small>${u.yetkiRolu || "Üye"}</small></div>
-      <div class="grp-title">Genel</div>
-      ${genelHtml}
-      ${isRolleriHtml}
-      <div class="userbox">
-        <div class="ad">${u.ad}</div>
-        <div class="rol">${u.yetkiRolu || "Henüz yetkisiz"}</div>
-        <button class="ghost" style="margin-top:8px;width:100%" id="cikisBtn">Çıkış Yap</button>
-      </div>
-    </div>
-    <div class="main">
-      <div class="topbar"><button class="menuBtn" id="menuBtn">☰</button><h2 id="kanalBaslik" style="margin:0"></h2></div>
-      <div class="content" id="icerik"></div>
-    </div>
-  </div>`;
-
-  const sidebar = document.getElementById("sidebar");
-  const backdrop = document.getElementById("backdrop");
-  function menuAc(){ sidebar.classList.add("acik"); backdrop.classList.add("acik"); }
-  function menuKapat(){ sidebar.classList.remove("acik"); backdrop.classList.remove("acik"); }
-  document.getElementById("menuBtn").onclick = menuAc;
-  backdrop.onclick = menuKapat;
-
-  document.querySelectorAll(".chan").forEach(b=>{
-    b.onclick = ()=>{ AKTIF_KANAL = b.dataset.kanal; menuKapat(); cizUygulama(); };
-  });
-  document.getElementById("cikisBtn").onclick = cikisYap;
-  cizKanalIcerik();
-}
-
-/* ============================================================
-   9) KANAL İÇERİĞİ YÖNLENDİRME
-   ============================================================ */
-function cizKanalIcerik(){
-  const icerik = document.getElementById("icerik");
-  icerik.classList.remove("fade-wrap"); void icerik.offsetWidth; icerik.classList.add("fade-wrap");
-  const baslikEl = document.getElementById("kanalBaslik");
-  const u = ben();
-
-  if(AKTIF_KANAL === "tanitim"){ baslikEl.textContent="Tanıtım"; return cizTanitim(icerik,u); }
-  if(AKTIF_KANAL === "kurucu-girisi"){ baslikEl.textContent="Kurucu Girişi"; return cizKurucuGirisi(icerik,u); }
-  if(AKTIF_KANAL === "kod-deposu"){ baslikEl.textContent="Kod Deposu"; return cizKodDeposu(icerik,u); }
-  if(AKTIF_KANAL === "kurallar"){ baslikEl.textContent="Kurallar"; return cizKurallar(icerik); }
-
-  const genelTanim = GENEL_KANALLAR.find(k=>k.id===AKTIF_KANAL);
-  let ad = AKTIF_KANAL, yazabilir = true, ssNotu=false, limit=null;
-  if(genelTanim){
-    ad = genelTanim.ad;
-    ssNotu = !!genelTanim.ssNotu;
-    limit = genelTanim.limit || null;
-    yazabilir = genelTanim.readOnly ? false
-      : genelTanim.sadeceUstYazar ? ustYetkiliMi(u)
-      : genelTanim.sadeceYetkiliYazar ? yetkiliMi(u)
-      : true;
-  } else {
-    const [takimKey, altKanal] = AKTIF_KANAL.split("_");
-    const t = TAKIMLAR[takimKey];
-    ad = t ? `${t.isim} / ${altKanal}` : AKTIF_KANAL;
-    yazabilir = altKanal === "duyurular" ? yetkiliMi(u) : true;
-  }
-  baslikEl.textContent = ad;
-  cizMesajKanali(icerik, AKTIF_KANAL, yazabilir, ssNotu, limit);
-}
-
-/* ============================================================
-   10) MESAJ KANALI
-   ============================================================ */
-function cizMesajKanali(icerik, kanalId, yazabilir, ssNotu, limit){
-  const liste = VERI.mesajlar[kanalId] || [];
-  icerik.innerHTML = `
-    <div id="mesajListe">${liste.map(mesajHtml).join("") || '<div class="locked">Henüz mesaj yok.</div>'}</div>
-    ${yazabilir ? `
-      ${ssNotu ? '<p style="color:var(--dim);font-size:.85em">Buraya sadece ekran görüntüsü açıklaması ve ne için olduğunu yaz.</p>' : ''}
-      <div class="composer">
-        <textarea id="yeniMesaj" placeholder="Mesajını yaz..."></textarea>
-        <button id="gonderMesaj">Gönder</button>
-      </div>` : `<div class="locked">Bu kanala sadece yetkililer yazabilir.</div>`}
-  `;
-  if(yazabilir) document.getElementById("gonderMesaj").onclick = ()=> mesajGonder(kanalId, limit);
-}
-function mesajHtml(m){
-  return `<div class="msg"><div class="meta"><b>${m.yazan}</b> — ${m.tarih}</div>${escapeHtml(m.metin)}</div>`;
-}
-function escapeHtml(s){
-  return (s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-}
-async function mesajGonder(kanalId, limit){
-  const alan = document.getElementById("yeniMesaj");
-  const metin = alan.value.trim();
-  if(!metin) return;
-  const u = ben();
-  VERI = await veriOku();
-  if(!VERI.mesajlar[kanalId]) VERI.mesajlar[kanalId] = [];
-  VERI.mesajlar[kanalId].push({yazan:u.ad, metin, tarih:new Date().toLocaleString("tr-TR")});
-  if(limit && VERI.mesajlar[kanalId].length >= limit){
-    VERI.mesajlar[kanalId] = [{yazan:"Sistem", metin:`🔄 ${limit} mesaja ulaşıldı, kanal sıfırlandı.`, tarih:new Date().toLocaleString("tr-TR")}];
-  }
-  await veriYaz(VERI);
-  cizKanalIcerik();
-}
-
-/* ============================================================
-   11) KURALLAR
-   ============================================================ */
-function cizKurallar(icerik){
-  icerik.innerHTML = `<div class="kutu"><h2>📜 HÜKÜM STUDİO Kuralları</h2>
-    <pre style="white-space:pre-wrap;font-family:inherit;line-height:1.7">${KURALLAR_METNI}</pre></div>`;
-}
-
-/* ============================================================
-   12) TANITIM
-   ============================================================ */
-function cizTanitim(icerik,u){
-  icerik.innerHTML = `
-    <div class="kutu" style="margin-bottom:18px">
-      <h2>İş Kollarımız</h2>
-      <p style="color:var(--dim)">Sana uygun olan(lar)a tıkla, ilgili kanallar açılsın. Ayrılmak için tekrar tıkla.</p>
-    </div>
-    <div class="is-grid stagger">
-      ${Object.entries(TAKIMLAR).map(([key,t])=>{
-        const katildi = u.roller.includes(key);
-        return `<div class="is-card ${katildi?'joined':''}">
-          <h3>${t.isim}</h3><p>${t.aciklama}</p>
-          <button data-key="${key}" class="${katildi?'ghost':''}">${katildi?'Ayrıl':'Katıl'}</button>
-        </div>`;
-      }).join("")}
-    </div>`;
-  icerik.querySelectorAll("button[data-key]").forEach(b=>{
-    b.onclick = async ()=>{
-      const key = b.dataset.key;
-      VERI = await veriOku();
-      const uu = VERI.kullanicilar[AKTIF_KULLANICI];
-      if(uu.roller.includes(key)) uu.roller = uu.roller.filter(r=>r!==key);
-      else uu.roller.push(key);
-      await veriYaz(VERI);
-      cizUygulama();
-    };
-  });
-}
-
-/* ============================================================
-   13) KURUCU GİRİŞİ
-   ============================================================ */
-function normalize(s){ return (s||"").trim().toLocaleLowerCase("tr-TR"); }
-function icerirMi(cevap, ...anahtarlar){ const n = normalize(cevap); return anahtarlar.every(a=>n.includes(a)); }
-
-function cizKurucuGirisi(icerik,u){
-  if(VERI.kurucuTamamlandi){
-    icerik.innerHTML = `<div class="locked">🔒 Bu giriş zaten tamamlandı ve kalıcı olarak kapatıldı.</div>`;
-    return;
-  }
-  icerik.innerHTML = `
-    <div class="kutu">
-      <h2>👑 Kurucu Girişi</h2>
-      <p style="color:var(--dim)">© EYO PAŞA TARAFINDAN — 5 soruyu doğru cevaplarsan Kurucu rolü otomatik verilir. Bu giriş tek seferliktir.</p>
-      <div class="soru"><label>1) EYO PAŞA'nın isim soyismi nedir?</label><input id="s1"></div>
-      <div class="soru"><label>2) Eyo Paşa kaç yıldır sanalcıdır?</label><input id="s2"></div>
-      <div class="soru"><label>3) Projelerinin başında neden "Hüküm" yazar?</label><textarea id="s3"></textarea></div>
-      <div class="soru"><label>4) Eyo Paşa'nın ilk projesi nedir?</label><input id="s4"></div>
-      <div class="soru"><label>5) Eyo Paşa'nın en sevdiği şey nedir?</label><input id="s5"></div>
-      <button id="kontrolBtn">Gönder</button>
-      <div class="err" id="kgHata"></div>
-    </div>`;
-  document.getElementById("kontrolBtn").onclick = async ()=>{
-    const v1=document.getElementById("s1").value, v2=document.getElementById("s2").value,
-          v3=document.getElementById("s3").value, v4=document.getElementById("s4").value,
-          v5=document.getElementById("s5").value;
-    const dogru =
-      icerirMi(v1,"enver","eymen","öztürk") &&
-      icerirMi(v2,"6") &&
-      icerirMi(v3,"güç","otorite") && (icerirMi(v3,"yerli")||icerirMi(v3,"milli")) &&
-      icerirMi(v4,"hükümv45") &&
-      icerirMi(v5,"dostluk") && icerirMi(v5,"ekip");
-    if(!dogru){ document.getElementById("kgHata").textContent = "❌ Cevaplardan en az biri yanlış."; return; }
-    VERI = await veriOku();
-    if(VERI.kurucuTamamlandi){ cizKurucuGirisi(icerik, u); return; }
-    VERI.kullanicilar[AKTIF_KULLANICI].yetkiRolu = "Kurucu";
-    VERI.kurucuTamamlandi = true;
-    await veriYaz(VERI);
-    cizUygulama();
-  };
-}
-
-/* ============================================================
-   14) KOD DEPOSU
-   ============================================================ */
-function rastgeleId(){ return Math.random().toString(36).slice(2,9); }
-
-function cizKodDeposu(icerik,u){
-  if(!yetkiliMi(u)){ icerik.innerHTML = `<div class="locked">Bu kanal sadece yetkililere açıktır.</div>`; return; }
-  const kodlar = VERI.kodlar || [];
-  icerik.innerHTML = `
-    <div class="kutu" style="margin-bottom:18px">
-      <h2>💾 Yeni Kod Ekle</h2>
-      <div class="field"><label>Başlık</label><input id="kBaslik"></div>
-      <div class="field"><label>Kod</label><textarea id="kKod" style="min-height:160px;font-family:monospace"></textarea></div>
-      <button id="kodEkleBtn">Kaydet ve Link Üret</button>
-    </div>
-    <h3>Paylaşılan Kodlar</h3>
-    <div id="kodListe">${kodlar.slice().reverse().map(kodKartiHtml).join("") || '<div class="locked">Henüz kod yok.</div>'}</div>
-  `;
-  document.getElementById("kodEkleBtn").onclick = async ()=>{
-    const baslik = document.getElementById("kBaslik").value.trim() || "İsimsiz";
-    const kod = document.getElementById("kKod").value;
-    if(!kod.trim()) return;
-    const id = rastgeleId();
-    VERI = await veriOku();
-    if(!VERI.kodlar) VERI.kodlar = [];
-    VERI.kodlar.push({id, baslik, kod, yazan:u.ad, tarih:new Date().toLocaleString("tr-TR")});
-    await veriYaz(VERI);
-    cizKanalIcerik();
-  };
-  icerik.querySelectorAll("button[data-link]").forEach(b=>{
-    b.onclick = ()=>{
-      const link = location.origin + location.pathname + "?kod=" + b.dataset.link;
-      navigator.clipboard.writeText(link);
-      b.textContent = "Kopyalandı ✓";
-      setTimeout(()=> b.textContent = "Linki Kopyala", 1500);
-    };
-  });
-}
-function kodKartiHtml(k){
-  return `<div class="msg">
-    <div class="meta"><b>${k.baslik}</b> — ${k.yazan}, ${k.tarih}</div>
-    <button data-link="${k.id}" class="ghost">Linki Kopyala</button>
-  </div>`;
-}
-
-/* ============================================================
-   15) PAYLAŞILAN KOD LİNKİ — girişsiz görüntüleme
-   ============================================================ */
-async function kodLinkiGosterVarsa(){
-  const params = new URLSearchParams(location.search);
-  const id = params.get("kod");
-  if(!id) return false;
-  const veri = await veriOku();
-  const kod = (veri.kodlar||[]).find(k=>k.id===id);
-  const root = document.getElementById("root");
-  root.className = "fade-wrap";
-  if(!kod){
-    root.innerHTML = `<div class="center-screen"><div class="card"><h2>Kod bulunamadı</h2></div></div>`;
-  } else {
-    root.innerHTML = `<div class="center-screen" style="align-items:flex-start;padding-top:60px">
-      <div class="card" style="max-width:640px">
-        <div class="seal-small">HÜKÜM STUDİO — Paylaşılan Kod</div>
-        <h2>${kod.baslik}</h2>
-        <p style="color:var(--dim);font-size:.85em">${kod.yazan} — ${kod.tarih}</p>
-        <pre style="white-space:pre-wrap;background:var(--panel2);padding:14px;border-radius:8px;font-family:monospace;overflow-x:auto">${escapeHtml(kod.kod)}</pre>
-        <a href="${location.pathname}">← Siteye dön</a>
-      </div>
-    </div>`;
-  }
-  return true;
-}
-
-/* ============================================================
-   16) ÇALIŞTIR
-   ============================================================ */
-(async ()=>{
-  const gosterildi = await kodLinkiGosterVarsa();
-  if(!gosterildi) basla();
+/* ====== BAŞLAT ====== */
+setInterval(async()=>{if(!ME||document.hidden)return;const c=chList().find(c=>c.id==CH);if(!c||!(c.t=='chat'||c.t=='feed')||document.activeElement&&document.activeElement.id=='mi'&&$('mi').value)return;try{const d=await load();if(JSON.stringify(d.msgs[CH])!=JSON.stringify(DB.msgs[CH])){DB=d;const l=$('list');if(l){l.innerHTML=listHtml(c,me());l.scrollTop=l.scrollHeight}}else DB=d}catch(e){}},6000);
+(async function(){
+ if(location.hash.startsWith('#/k/'))return viewer(location.hash.slice(4));
+ try{DB=await load()}catch(e){$('aerr').textContent='⚠ '+e.message;$('aerr').style.display='block';return}
+ if(DB.locked)$('fl').style.display='none';
+ const s=JSON.parse(localStorage.getItem('hs_me')||'null');
+ if(s&&DB.users[uk(s.n)]&&DB.users[uk(s.n)].h==s.h){ME={name:DB.users[uk(s.n)].name};enter()}
 })();
-</script>
-</body>
-</html>
+</script></body></html>
