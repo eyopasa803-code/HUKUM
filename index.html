@@ -2,697 +2,526 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HÜKÜM Studio</title>
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HÜKÜM STUDİO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121014; --panel:#1b181d; --panel2:#221e24; --border:#332c2f;
+    --gold:#c9a227; --red:#8a2424; --text:#ece6de; --dim:#a79c8e;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
+  h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:700;margin:0 0 .4em;}
+  a{color:var(--gold);}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:6px;padding:.6em 1.1em;
+    background:var(--gold);color:#1a1510;font-weight:600;}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--border);}
+  button.danger{background:var(--red);color:#fff;}
+  input,textarea{font-family:inherit;background:var(--panel2);border:1px solid var(--border);
+    color:var(--text);border-radius:6px;padding:.6em .8em;width:100%;}
+  textarea{resize:vertical;min-height:80px;}
+  .center-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:28px;max-width:380px;width:100%;}
+  .seal{text-align:center;color:var(--gold);letter-spacing:.08em;font-size:.75em;margin-bottom:6px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:.85em;color:var(--dim);margin-bottom:5px;}
+  .err{color:#e06060;font-size:.85em;margin-top:8px;}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;}
+  .tabs button{flex:1;background:var(--panel2);color:var(--dim);}
+  .tabs button.active{background:var(--gold);color:#1a1510;}
+
+  .app{display:flex;min-height:100vh;}
+  .sidebar{width:250px;background:var(--panel);border-right:1px solid var(--border);
+    padding:18px 0;flex-shrink:0;overflow-y:auto;}
+  .brand{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;}
+  .brand h1{font-size:1.5em;color:var(--gold);}
+  .brand small{color:var(--dim);}
+  .grp-title{font-size:.72em;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);
+    padding:10px 18px 4px;}
+  .chan{display:block;width:100%;text-align:left;background:none;color:var(--text);
+    border-radius:0;padding:7px 18px;font-weight:400;font-size:.95em;}
+  .chan:hover{background:var(--panel2);}
+  .chan.active{background:var(--panel2);border-left:3px solid var(--gold);color:var(--gold);}
+  .userbox{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border);font-size:.85em;}
+  .userbox .ad{color:var(--gold);font-weight:600;}
+  .userbox .rol{color:var(--dim);}
+
+  .main{flex:1;display:flex;flex-direction:column;min-width:0;}
+  .topbar{padding:16px 24px;border-bottom:1px solid var(--border);background:var(--panel);}
+  .content{flex:1;padding:24px;max-width:760px;width:100%;margin:0 auto;overflow-y:auto;}
+  .msg{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:10px;}
+  .msg .meta{font-size:.78em;color:var(--dim);margin-bottom:4px;}
+  .msg .meta b{color:var(--gold);}
+  .composer{display:flex;gap:10px;margin-top:16px;}
+  .composer textarea{flex:1;}
+  .locked{color:var(--dim);font-style:italic;padding:20px;text-align:center;}
+
+  .is-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .is-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;}
+  .is-card h3{font-size:1.1em;}
+  .is-card p{font-size:.85em;color:var(--dim);margin:6px 0 10px;}
+  .is-card button{width:100%;}
+  .is-card.joined{border-color:var(--gold);}
+
+  .soru{margin-bottom:12px;}
+  .kutu{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px;}
+  .kutu h2{color:var(--gold);}
+
+  @media(max-width:760px){
+    .app{flex-direction:column;}
+    .sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);max-height:220px;}
+    .is-grid{grid-template-columns:1fr;}
+  }
+</style>
 </head>
 <body>
-
-<div id="bakim-ekrani" class="gizli">
-  <h2>🛠️ Bakım Modundayız</h2>
-  <p id="bakim-mesaj">Site şu anda bakımda, birazdan döneceğiz.</p>
-  <p style="font-size:11px;color:#555;margin-top:30px" id="bakim-debug"></p>
-</div>
-
-<div class="sidebar">
-  <h1>👑 HÜKÜM STUDIO</h1>
-  <div id="profil-ozet-alani"></div>
-
-  <div class="grup">GENEL</div>
-  <a onclick="sekmeAc('ana-sayfa', this)" class="active">🏠 Ana Sayfa</a>
-  <a onclick="sekmeAc('duyurular', this)">📢 Duyurular</a>
-  <a onclick="sekmeAc('icraatlar', this)">⚡ İcraatlarımız</a>
-  <a onclick="sekmeAc('projeler', this)">🚀 Projelerimiz</a>
-  <a onclick="sekmeAc('sss', this)">❓ SSS</a>
-  <a onclick="sekmeAc('changelog', this)">📝 Değişiklik Günlüğü</a>
-
-  <div class="grup">TOPLULUK</div>
-  <a onclick="sohbetAcAyri()">💬 Global Sohbet</a>
-  <a onclick="sekmeAc('yonetim', this)">👑 Yönetim Ekibi</a>
-
-  <div class="grup">ÜYELİK</div>
-  <a onclick="sekmeAc('hesap', this)" id="hesap-link">👤 Kayıt Ol / Giriş Yap</a>
-  <a onclick="sekmeAc('siralama', this)">🏆 Kullanıcı Sıralaması</a>
-  <a onclick="sekmeAc('magaza', this)">🛒 Mağaza</a>
-  <a onclick="sekmeAc('mini-oyunlar', this)">🎲 Mini Oyunlar</a>
-  <a onclick="sekmeAc('dosyalar', this)">📁 Dosya Paylaşımı</a>
-  <a onclick="sekmeAc('oyunlar', this)">🎮 Oyunlar</a>
-
-  <div class="grup">SUNUCU</div>
-  <a onclick="sekmeAc('sunucu-roller', this)">🎭 Sunucu Rolleri</a>
-  <a onclick="sekmeAc('sunucu-kanallar', this)">📡 Sunucu Kanalları</a>
-
-  <div class="grup">SİSTEMLER</div>
-  <a href="admin.html">⚙️ Site Kontrol</a>
-  <div style="padding:14px 20px 0;font-size:10px;color:var(--muted)">Sürüm: v6 (SIFIRDAN)</div>
-</div>
-
-<div class="content">
-
-  <div id="banner-alani"></div>
-
-  <div id="ana-sayfa" class="tab-icerik aktif">
-    <h2>🏠 Ana Sayfa</h2>
-    <p>HÜKÜM Studio resmi web platformuna hoş geldiniz.</p>
-    <div class="istatistik-grid" id="istatistik-alani"></div>
-  </div>
-
-  <div id="duyurular" class="tab-icerik">
-    <h2>📢 Duyurular</h2>
-    <div id="duyuru-liste"></div>
-  </div>
-
-  <div id="icraatlar" class="tab-icerik">
-    <h2>⚡ İcraatlarımız</h2>
-    <div id="icraat-liste"></div>
-  </div>
-
-  <div id="projeler" class="tab-icerik">
-    <h2>🚀 Projelerimiz</h2>
-    <div id="proje-liste"></div>
-  </div>
-
-  <div id="sss" class="tab-icerik">
-    <h2>❓ Sıkça Sorulan Sorular</h2>
-    <div id="sss-liste"></div>
-  </div>
-
-  <div id="changelog" class="tab-icerik">
-    <h2>📝 Değişiklik Günlüğü</h2>
-    <div id="changelog-liste"></div>
-  </div>
-
-  <div id="sohbet" class="tab-icerik">
-    <h2>💬 Global Sohbet</h2>
-    <p class="sohbet-uyari">Bu sohbet anlık değildir — yeni mesajları görmek için "Yenile" butonuna bas. Sadece giriş yapmış üyeler mesaj atabilir.</p>
-    <div class="sohbet-kutu">
-      <div class="sohbet-mesajlar" id="sohbet-mesajlar"></div>
-      <div id="sohbet-yazma-alani" class="sohbet-yazma gizli">
-        <input id="sohbet-input" placeholder="Bir şeyler yaz..." maxlength="300">
-        <button onclick="mesajGonder()">Gönder</button>
-      </div>
-      <p id="sohbet-giris-uyari" class="sohbet-uyari">Mesaj atmak için <a style="color:var(--info)" onclick="sekmeAc('hesap', document.getElementById('hesap-link'))">giriş yapmalısın</a>.</p>
-    </div>
-    <button class="ikincil" style="margin-top:10px" onclick="sohbetYenile()">🔄 Yenile</button>
-  </div>
-
-  <div id="yonetim" class="tab-icerik">
-    <h2>👑 Yönetim Ekibi</h2>
-    <div id="yonetim-liste"></div>
-  </div>
-
-  <div id="siralama" class="tab-icerik">
-    <h2>🏆 Kullanıcı Sıralaması</h2>
-    <div id="siralama-liste"></div>
-  </div>
-
-  <div id="mini-oyunlar" class="tab-icerik">
-    <h2>🎲 Mini Oyunlar</h2>
-    <p class="sohbet-uyari">Puanınla oyna, kazanırsan puanın artar, kaybedersen azalır. Sadece eğlence için — gerçek para değil.</p>
-
-    <div class="kart">
-      <div class="baslik">🪙 Yazı Tura (%50 şans, 2 katı kazanç)</div>
-      <label>Bahis (puan)</label>
-      <input id="yt-bahis" type="number" value="10" min="1">
-      <button onclick="yaziTuraOyna('yazi')">Yazı</button>
-      <button onclick="yaziTuraOyna('tura')">Tura</button>
-      <p id="yt-sonuc" style="font-size:13px;margin-top:8px"></p>
-    </div>
-
-    <div class="kart">
-      <div class="baslik">🎲 Zar At (6 üstü gelirse 1.5 katı kazanç)</div>
-      <label>Bahis (puan)</label>
-      <input id="zar-bahis" type="number" value="10" min="1">
-      <button onclick="zarAt()">Zar At</button>
-      <p id="zar-sonuc" style="font-size:13px;margin-top:8px"></p>
-    </div>
-  </div>
-
-  <div id="magaza" class="tab-icerik">
-    <h2>🛒 Mağaza</h2>
-    <p class="sohbet-uyari">Puanlarınla ürün satın alabilirsin. Puan/bakiye sıralama sekmesinde görünür.</p>
-    <div id="magaza-liste"></div>
-  </div>
-
-  <div id="sunucu-roller" class="tab-icerik">
-    <h2>🎭 Sunucu Rolleri</h2>
-    <p class="sohbet-uyari">Bot tarafından otomatik senkronize edilir, elle düzenlenmez.</p>
-    <div id="sunucu-roller-liste"></div>
-  </div>
-
-  <div id="sunucu-kanallar" class="tab-icerik">
-    <h2>📡 Sunucu Kanalları</h2>
-    <p class="sohbet-uyari">Bot tarafından otomatik senkronize edilir.</p>
-    <div id="sunucu-kanallar-liste"></div>
-  </div>
-
-  <div id="dosyalar" class="tab-icerik">
-    <h2>📁 Dosya Paylaşımı</h2>
-    <div id="dosya-ekleme-alani"></div>
-    <div id="dosya-liste"></div>
-  </div>
-
-  <div id="oyunlar" class="tab-icerik">
-    <h2>🎮 Oyunlar</h2>
-    <div id="oyun-ekleme-alani"></div>
-    <div id="oyun-liste" class="oyun-grid"></div>
-  </div>
-
-  <div id="hesap" class="tab-icerik">
-    <div id="hesap-giris-alani">
-      <h2>👤 Üyelik</h2>
-      <p style="color:var(--muted);font-size:13px">
-        ⚠️ Burası basit bir rumuz sistemidir, gerçek bir şifre koruması sağlamaz.
-        Başka yerlerde kullandığın gerçek şifreni buraya yazma — sadece hatırlayacağın 4 haneli bir kod seç.
-      </p>
-      <div class="form-sekme">
-        <button id="sekme-giris-btn" class="secili" onclick="hesapSekmeAc('giris')">Giriş Yap</button>
-        <button id="sekme-kayit-btn" onclick="hesapSekmeAc('kayit')">Kayıt Ol</button>
-      </div>
-      <div id="form-giris">
-        <label>Kullanıcı Adı</label>
-        <input id="giris-isim">
-        <label>Kod (4 hane)</label>
-        <input id="giris-kod" type="password" maxlength="4" inputmode="numeric">
-        <button onclick="girisYapUye()">Giriş Yap</button>
-        <p id="giris-hata" style="color:var(--danger);font-size:13px"></p>
-      </div>
-      <div id="form-kayit" class="gizli">
-        <div class="avatar-secici">
-          <img id="kayit-avatar-onizleme" class="avatar-buyuk" src="" style="display:none">
-          <div id="kayit-avatar-bos" class="avatar-buyuk" style="display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">Fotoğraf yok</div>
-          <label for="kayit-dosya-input" class="dosya-btn">📷 Galeriden Seç</label>
-          <input type="file" id="kayit-dosya-input" accept="image/*" style="display:none" onchange="dosyaSecildi(this,'kayit')">
-          <p id="kayit-yukleniyor" class="yukleniyor-yazi gizli">Yükleniyor...</p>
-          <label style="margin-top:10px">veya resim linki yapıştır</label>
-          <input id="kayit-resim-link" placeholder="https://...">
-        </div>
-        <label>Kullanıcı Adı</label>
-        <input id="kayit-isim">
-        <label>Kod Belirle (4 hane)</label>
-        <input id="kayit-kod" type="password" maxlength="4" inputmode="numeric">
-        <button onclick="kayitOl()">Kayıt Ol</button>
-        <p id="kayit-hata" style="color:var(--danger);font-size:13px"></p>
-      </div>
-    </div>
-
-    <div id="hesap-profil-alani" class="gizli">
-      <h2>👤 Profilim</h2>
-      <div class="avatar-secici">
-        <img id="profil-avatar-onizleme" class="avatar-buyuk" src="" style="display:none">
-        <div id="profil-avatar-bos" class="avatar-buyuk" style="display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">Fotoğraf yok</div>
-        <label for="profil-dosya-input" class="dosya-btn">📷 Fotoğrafı Değiştir</label>
-        <input type="file" id="profil-dosya-input" accept="image/*" style="display:none" onchange="dosyaSecildi(this,'profil')">
-        <p id="profil-yukleniyor" class="yukleniyor-yazi gizli">Yükleniyor...</p>
-        <label style="margin-top:10px">veya resim linki yapıştır</label>
-        <input id="profil-resim-link" placeholder="https://...">
-      </div>
-      <label>Kullanıcı Adı</label>
-      <input id="profil-isim">
-      <button onclick="profilKaydet()">Kaydet</button>
-      <button class="ikincil" onclick="cikisYap()">Çıkış Yap</button>
-      <p id="profil-mesaj" style="color:var(--ok);font-size:13px"></p>
-    </div>
-  </div>
-
-</div>
+<div id="root"></div>
 
 <script>
-const JSONBIN_ID  = "6ab4ff86ffd5d160532a06e6";
-const JSONBIN_KEY = "$2a$10$er0sdkCga7cQosz.G3MBDebUxm2k3JDpu1b5Slpu1qKW.sJ/zONyW";
-const JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
-const IMGBB_KEY = "BURAYA_IMGBB_API_ANAHTARINI_YAPISTIR";
-const SOHBET_MESAJ_LIMIT = 50;
+/* ============================================================
+   0) JSONBIN AYARLARI
+   ============================================================ */
+const JSONBIN_ID = "6ab4ff86ffd5d160532a06e6";
+const JSONBIN_KEY = "$2a$10$KZk6tJKQc1ZgnkKrdRU80ex6YHybL2EZXS1C8.7MMLOJKVHtutajK";
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
 
-let veri = { duyurular:[], icraatlar:[], yonetim:[], projeler:[], siralama:[], dosyalar:[], oyunlar:[], bakiyeler:[], uyeler:[], sss:[], changelog:[], mesajlar:[], roller:[], site_bildirim:{aktif:false,mesaj:""}, bakim_modu:{aktif:false,mesaj:""} };
-let oturum = null;
-
-function sekmeAc(id, el){
-  document.querySelectorAll('.tab-icerik').forEach(e=>e.classList.remove('aktif'));
-  document.getElementById(id).classList.add('aktif');
-  document.querySelectorAll('.sidebar a').forEach(a=>a.classList.remove('active'));
-  if(el) el.classList.add('active');
+async function veriOku(){
+  const r = await fetch(JSONBIN_URL + "/latest", {headers:{"X-Master-Key":JSONBIN_KEY}});
+  const j = await r.json();
+  return j.record;
 }
-function sohbetAcAyri(){ sekmeAc('sohbet', null); }
-
-function normalizeVeri(){
-  if(!veri.icraatlar) veri.icraatlar = [];
-  if(!veri.siralama) veri.siralama = [];
-  if(!veri.dosyalar) veri.dosyalar = [];
-  if(!veri.oyunlar) veri.oyunlar = [];
-  if(!veri.bakiyeler) veri.bakiyeler = [];
-  if(!veri.uyeler) veri.uyeler = [];
-  if(!veri.sss) veri.sss = [];
-  if(!veri.changelog) veri.changelog = [];
-  if(!veri.mesajlar) veri.mesajlar = [];
-  if(!veri.roller) veri.roller = [];
-  if(!veri.site_bildirim) veri.site_bildirim = { aktif:false, mesaj:"" };
-  if(!veri.bakim_modu) veri.bakim_modu = { aktif:false, mesaj:"Site şu anda bakımda." };
-  if(!veri.kanallar) veri.kanallar = [];
-  if(!veri.sunucu_rolleri) veri.sunucu_rolleri = [];
-  if(!veri.komut_kuyrugu) veri.komut_kuyrugu = [];
-  if(!veri.magaza) veri.magaza = [];
-  if(!veri.market_gecmisi) veri.market_gecmisi = [];
-  if(!veri.uye_rol_haritasi) veri.uye_rol_haritasi = {};
-}
-
-function yeniId(dizi){ return dizi.length ? Math.max(...dizi.map(x=>x.id)) + 1 : 1; }
-
-fetch(JSONBIN_URL + '/latest?_=' + Date.now(), { cache: 'no-store', headers: { 'X-Master-Key': JSONBIN_KEY } })
-  .then(r => r.json())
-  .then(d => {
-    veri = d.record;
-    normalizeVeri();
-    if(veri.bakim_modu && veri.bakim_modu.aktif){
-      document.getElementById('bakim-mesaj').innerText = veri.bakim_modu.mesaj || 'Site şu anda bakımda.';
-      document.getElementById('bakim-debug').innerText = 'Debug — sunucudan gelen aktif değeri: ' + JSON.stringify(veri.bakim_modu.aktif) + ' | Bin ID: ' + JSONBIN_ID + ' | Saat: ' + new Date().toLocaleTimeString();
-      document.getElementById('bakim-ekrani').classList.remove('gizli');
-      return;
-    }
-    ciz();
-    oturumKontrol();
-  })
-  .catch(() => {
-    document.getElementById('bakim-mesaj').innerText = 'Veri sunucusuna ulaşılamadı (bağlantı hatası).';
-    document.getElementById('bakim-debug').innerText = 'Debug — JSONBin isteği başarısız oldu. Bin ID: ' + JSONBIN_ID;
-    document.getElementById('bakim-ekrani').classList.remove('gizli');
-  });
-
-function veriKaydet(){
-  return fetch(JSONBIN_URL, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
-    body: JSON.stringify(veri)
+async function veriYaz(veri){
+  await fetch(JSONBIN_URL, {
+    method:"PUT",
+    headers:{"Content-Type":"application/json","X-Master-Key":JSONBIN_KEY},
+    body:JSON.stringify(veri)
   });
 }
-
-function rutbeRozetiGetir(rolAdi, kullaniciAdi){
-  // Önce Discord'dan bot tarafından senkronize edilen gerçek rolü kontrol et
-  if(kullaniciAdi && veri.uye_rol_haritasi && veri.uye_rol_haritasi[kullaniciAdi.toLowerCase()]){
-    const discordRolAdi = veri.uye_rol_haritasi[kullaniciAdi.toLowerCase()];
-    const discordRol = veri.sunucu_rolleri.find(r => r.isim === discordRolAdi);
-    if(discordRol) return `<span class="rutbe-rozet" style="background:${discordRol.renk}">🔗 ${discordRol.isim}</span>`;
-  }
-  if(!rolAdi) return '';
-  const rol = veri.roller.find(r => r.isim === rolAdi);
-  if(!rol) return '';
-  return `<span class="rutbe-rozet" style="background:${rol.renk}">${rol.isim}</span>`;
+function bosVeri(){
+  return {
+    kurucuTamamlandi:false,
+    kullanicilar:{},
+    mesajlar:{},
+    kodlar:[]
+  };
 }
 
-function kullaniciBakiyeKaydi(){
-  if(!oturum) return null;
-  let kayit = veri.bakiyeler.find(b => b.isim.toLowerCase() === oturum.kullaniciAdi.toLowerCase());
-  if(!kayit){ kayit = { id: yeniId(veri.bakiyeler), isim: oturum.kullaniciAdi, bakiye: 0 }; veri.bakiyeler.push(kayit); }
-  return kayit;
-}
+/* ============================================================
+   1) İŞ KOLLARI
+   ============================================================ */
+const TAKIMLAR = {
+  bot_yazilim:{isim:"Bot & Yazılım Geliştirme",aciklama:"Discord/Telegram botu, otomasyon scriptleri, eklenti geliştirme."},
+  web_app:{isim:"Web & Uygulama Geliştirme",aciklama:"Kurumsal site, e-ticaret kurulumu, mobil uygulama, API entegrasyonu."},
+  altyapi:{isim:"Sunucu & Altyapı Yönetimi",aciklama:"VPS kurulumu, oyun sunucusu hostlama, güvenlik taraması ve bakım."},
+  saas_urun:{isim:"Ürün & SaaS Geliştirme",aciklama:"SaaS araçları, UI/UX şablonları, stok kod satışı."},
+  icerik:{isim:"İçerik Üretimi",aciklama:"YouTube, Twitch, TikTok/Instagram içerikleri, podcast, blog."},
+  topluluk:{isim:"Topluluk & Platform Yönetimi",aciklama:"Topluluk yönetimi, üyelik sistemleri, dışarıya topluluk hizmeti."},
+  pazarlama:{isim:"Pazarlama & Affiliate",aciklama:"Affiliate pazarlama, bayilik komisyonu, reklam/sponsorluk."},
+  freelance:{isim:"Freelance Hizmetler",aciklama:"Kodlama, çeviri, veri girişi, sanal asistanlık."},
+  tasarim:{isim:"Tasarım & Medya",aciklama:"Grafik tasarım, video editörlüğü, ses/müzik prodüksiyonu."},
+  oyun:{isim:"Oyun & Esports",aciklama:"Oyun sunucusu işletmeciliği, esports turnuva organizasyonu."},
+  danismanlik:{isim:"Danışmanlık & Eğitim",aciklama:"1:1 mentorluk, kurumsal teknik eğitim, dokümantasyon."},
+  dijital_urun:{isim:"Diğer Dijital Ürünler",aciklama:"Print-on-demand, teknik destek/bakım aboneliği."},
+};
 
-function yaziTuraOyna(secim){
-  if(!oturum){ alert('Önce giriş yapmalısın.'); return; }
-  const bahis = parseInt(document.getElementById('yt-bahis').value) || 0;
-  const kayit = kullaniciBakiyeKaydi();
-  if(bahis <= 0 || bahis > kayit.bakiye){ document.getElementById('yt-sonuc').innerText = 'Geçersiz bahis (mevcut puanın: ' + kayit.bakiye + ')'; return; }
-  const sonuc = Math.random() < 0.5 ? 'yazi' : 'tura';
-  const kazandi = sonuc === secim;
-  kayit.bakiye += kazandi ? bahis : -bahis;
-  document.getElementById('yt-sonuc').innerText = (kazandi ? '🎉 Kazandın! ' : '😢 Kaybettin. ') + 'Sonuç: ' + sonuc + ' | Puanın: ' + kayit.bakiye;
-  veriKaydet().then(() => ciz());
-}
+const YETKILI_ROLLERI = ["Kurucu","Owner","Co Owner","Baş Admin","Kıdemli Admin","Admin Denetmeni","Admin","Stajyer Admin"];
 
-function zarAt(){
-  if(!oturum){ alert('Önce giriş yapmalısın.'); return; }
-  const bahis = parseInt(document.getElementById('zar-bahis').value) || 0;
-  const kayit = kullaniciBakiyeKaydi();
-  if(bahis <= 0 || bahis > kayit.bakiye){ document.getElementById('zar-sonuc').innerText = 'Geçersiz bahis (mevcut puanın: ' + kayit.bakiye + ')'; return; }
-  const zar1 = Math.floor(Math.random()*6)+1;
-  const zar2 = Math.floor(Math.random()*6)+1;
-  const toplam = zar1 + zar2;
-  const kazandi = toplam > 6;
-  kayit.bakiye += kazandi ? Math.floor(bahis*1.5) : -bahis;
-  document.getElementById('zar-sonuc').innerText = '🎲 ' + zar1 + ' + ' + zar2 + ' = ' + toplam + ' — ' + (kazandi ? '🎉 Kazandın!' : '😢 Kaybettin.') + ' Puanın: ' + kayit.bakiye;
-  veriKaydet().then(() => ciz());
-}
+const GENEL_KANALLAR = [
+  {id:"duyurular",ad:"Duyurular",sadeceYetkiliYazar:true},
+  {id:"sohbet",ad:"Sohbet",limit:50},
+  {id:"tanitim",ad:"Tanıtım",ozel:"tanitim"},
+  {id:"yetkili-kadromuz",ad:"Yetkili Kadromuz",sadeceYetkiliYazar:true},
+  {id:"yaptiklarimiz",ad:"Yaptıklarımız",sadeceYetkiliYazar:true,ssNotu:true},
+  {id:"hakkimizda",ad:"Hakkımızda",sadeceYetkiliYazar:true},
+  {id:"sosyal-medya",ad:"Sosyal Medya",sadeceUstYazar:true},
+  {id:"kurallar",ad:"Kurallar",readOnly:true},
+  {id:"kurucu-girisi",ad:"Kurucu Girişi",ozel:"kurucu"},
+  {id:"kod-deposu",ad:"Kod Deposu",ozel:"kod",sadeceYetkiliGorur:true},
+];
 
-function magazaCiz(){
-  document.getElementById('magaza-liste').innerHTML = veri.magaza.length
-    ? veri.magaza.map(m => `
-      <div class="kart">
-        ${m.resim ? `<img src="${m.resim}" style="max-width:100%;border-radius:6px;margin-bottom:10px">` : ''}
-        <div class="baslik">${m.isim}</div><div>${m.aciklama||''}</div>
-        <div style="color:var(--accent);font-weight:700;margin-top:6px">${m.fiyat} puan</div>
-        ${oturum ? `<button style="margin-top:10px" onclick="magazaSatinAl(${m.id})">🛒 Satın Al</button>` : ''}
-      </div>`).join('')
-    : '<p>Mağazada henüz ürün yok.</p>';
-}
+const KURALLAR_METNI = [
+  "1. Herkese saygılı ol, hakaret ve ayrımcılık yasaktır.",
+  "2. Spam, flood ve alakasız reklam yasaktır.",
+  "3. Kanalları amacı dışında kullanma.",
+  "4. Yetkililerin kararlarına saygı göster, itirazını doğru kanaldan ilet.",
+  "5. Başka üyenin kişisel bilgisini izinsiz paylaşma.",
+  "6. Yasa dışı veya zararlı içerik paylaşımı kesinlikle yasaktır.",
+].join("\n");
 
-function magazaSatinAl(id){
-  if(!oturum) return;
-  const urun = veri.magaza.find(m => m.id === id);
-  if(!urun) return;
-  const bakiyeKaydi = veri.bakiyeler.find(b => b.isim.toLowerCase() === oturum.kullaniciAdi.toLowerCase());
-  const mevcutPuan = bakiyeKaydi ? bakiyeKaydi.bakiye : 0;
-  if(mevcutPuan < urun.fiyat){ alert('Yetersiz puan. Mevcut: ' + mevcutPuan + ', gerekli: ' + urun.fiyat); return; }
-  if(!confirm(urun.isim + ' ürününü ' + urun.fiyat + ' puana satın almak istediğine emin misin?')) return;
-  if(bakiyeKaydi) bakiyeKaydi.bakiye -= urun.fiyat;
-  else veri.bakiyeler.push({ id: yeniId(veri.bakiyeler), isim: oturum.kullaniciAdi, bakiye: -urun.fiyat });
-  veri.market_gecmisi.push({ id: yeniId(veri.market_gecmisi), kullaniciAdi: oturum.kullaniciAdi, urun: urun.isim, fiyat: urun.fiyat, tarih: new Date().toISOString().slice(0,10) });
-  veriKaydet().then(() => { alert('Satın alındı! Teslimat için yönetime ulaş.'); ciz(); });
-}
+/* ============================================================
+   2) DURUM (STATE)
+   ============================================================ */
+let VERI = null;
+let AKTIF_KULLANICI = localStorage.getItem("hs_kullanici") || null;
+let AKTIF_KANAL = "tanitim";
 
-function sunucuRolCiz(){
-  document.getElementById('sunucu-roller-liste').innerHTML = veri.sunucu_rolleri.length
-    ? veri.sunucu_rolleri.map(r => `
-      <div class="kart"><span class="rutbe-rozet" style="background:${r.renk}">${r.isim}</span>
-      <div class="tarih">${r.uye_sayisi || 0} üye</div></div>`).join('')
-    : '<p>Bot henüz rol senkronu yapmadı — bot sahibi <code>/sunucu_senkron</code> komutunu çalıştırmalı.</p>';
-}
+function ben(){ return VERI.kullanicilar[AKTIF_KULLANICI]; }
+function yetkiliMi(u){ return !!(u && u.yetkiRolu); }
+function ustYetkiliMi(u){ return !!(u && ["Kurucu","Owner","Co Owner"].includes(u.yetkiRolu)); }
 
-function sunucuKanalCiz(){
-  document.getElementById('sunucu-kanallar-liste').innerHTML = veri.kanallar.length
-    ? veri.kanallar.map(k => `
-      <div class="kart"><div class="baslik">#${k.isim}</div><div class="tarih">${k.tur || 'metin'}</div></div>`).join('')
-    : '<p>Bot henüz kanal senkronu yapmadı.</p>';
-}
-
-function ciz(){
-  if(veri.site_bildirim && veri.site_bildirim.aktif && veri.site_bildirim.mesaj){
-    document.getElementById('banner-alani').innerHTML = `<div class="banner-bildirim">🔔 ${veri.site_bildirim.mesaj}</div>`;
-  }
-
-  document.getElementById('istatistik-alani').innerHTML = `
-    <div class="istatistik-kutu"><div class="sayi">${veri.uyeler.length}</div><div class="etiket-alt">Üye</div></div>
-    <div class="istatistik-kutu"><div class="sayi">${veri.projeler.length}</div><div class="etiket-alt">Proje</div></div>
-    <div class="istatistik-kutu"><div class="sayi">${veri.dosyalar.length}</div><div class="etiket-alt">Dosya</div></div>
-    <div class="istatistik-kutu"><div class="sayi">${veri.duyurular.length}</div><div class="etiket-alt">Duyuru</div></div>
-  `;
-
-  const gercekSirali = veri.duyurular.slice().reverse().sort((a,b)=>(b.sabit?1:0)-(a.sabit?1:0));
-  document.getElementById('duyuru-liste').innerHTML = gercekSirali.length
-    ? gercekSirali.map(d => `
-      <div class="kart ${d.sabit ? 'sabit-kart' : ''}">
-        <div class="baslik">${d.baslik} ${d.sabit ? '<span class="etiket etiket-sabit">📌 Sabit</span>' : ''}</div>
-        <div>${d.metin}</div><div class="tarih">${d.tarih}</div>
-      </div>`).join('')
-    : '<p>Henüz duyuru yok.</p>';
-
-  document.getElementById('icraat-liste').innerHTML = veri.icraatlar.length
-    ? veri.icraatlar.slice().reverse().map(i => `<div class="kart"><div class="baslik">${i.baslik}</div><div>${i.aciklama}</div><div class="tarih">${i.tarih}</div></div>`).join('')
-    : '<p>Henüz icraat eklenmedi.</p>';
-
-  document.getElementById('proje-liste').innerHTML = veri.projeler.length
-    ? veri.projeler.map(p => `
-      <div class="kart">
-        ${p.resim ? `<img src="${p.resim}" style="max-width:100%;border-radius:6px;margin-bottom:10px">` : ''}
-        <div class="baslik">${p.isim}</div><div>${p.tanitim}</div>
-        <div style="color:#8b949e;margin-top:6px">Amaç: ${p.amac}</div>
-      </div>`).join('')
-    : '<p>Henüz proje yok.</p>';
-
-  document.getElementById('sss-liste').innerHTML = veri.sss.length
-    ? veri.sss.map((s,idx) => `
-      <div class="sss-satir" id="sss-${idx}">
-        <div class="sss-soru" onclick="sssAcKapat(${idx})">${s.soru} <span class="sss-ok">▾</span></div>
-        <div class="sss-cevap">${s.cevap}</div>
-      </div>`).join('')
-    : '<p>Henüz soru eklenmedi.</p>';
-
-  document.getElementById('changelog-liste').innerHTML = veri.changelog.length
-    ? veri.changelog.slice().reverse().map(c => `
-      <div class="changelog-satir"><div class="changelog-surum">${c.surum}</div><div class="changelog-tarih">${c.tarih}</div><div>${c.notlar}</div></div>`).join('')
-    : '<p>Henüz değişiklik kaydı yok.</p>';
-
-  document.getElementById('yonetim-liste').innerHTML = veri.yonetim.length
-    ? veri.yonetim.map(y => `
-      <div class="kart" style="display:flex;align-items:center;gap:14px">
-        ${y.resim ? `<img src="${y.resim}" style="width:50px;height:50px;border-radius:50%">` : '<div style="width:50px;height:50px;border-radius:50%;background:#21262d"></div>'}
-        <div>
-          <div class="baslik">${y.isim}</div><span class="rozet">${y.rol}</span>
-          ${y.sosyal ? `<br><a class="sosyal-link" href="${y.sosyal}" target="_blank">🔗 Sosyal Medya</a>` : ''}
-        </div>
-      </div>`).join('')
-    : '<p>Henüz yönetim ekibi eklenmedi.</p>';
-
-  const siraliListe = veri.siralama.slice().sort((a,b)=>b.puan-a.puan);
-  document.getElementById('siralama-liste').innerHTML = siraliListe.length
-    ? siraliListe.map((s,idx) => `
-      <div class="siralama-satir">
-        <div class="siralama-sira">${idx+1}</div>
-        <div class="siralama-isim">${s.isim} ${s.rozet ? `<span class="uye-rozet">${s.rozet}</span>` : ''}</div>
-        <div class="siralama-puan">${s.puan} puan</div>
-      </div>`).join('')
-    : '<p>Henüz sıralamada kimse yok.</p>';
-
-  document.getElementById('dosya-ekleme-alani').innerHTML = oturum ? `
-    <div class="ekleme-kutusu">
-      <label>Dosya / Paylaşım İsmi</label>
-      <input id="pd-isim">
-      <label>Açıklama</label>
-      <textarea id="pd-aciklama" rows="2"></textarea>
-      <label>Dosya Linki</label>
-      <input id="pd-link" placeholder="https://...">
-      <button onclick="dosyaEklePublic()">📁 Ekle</button>
-    </div>` : `<p class="sohbet-uyari">Dosya eklemek için <a style="color:var(--info)" onclick="sekmeAc('hesap', document.getElementById('hesap-link'))">giriş yapmalısın</a>.</p>`;
-
-  document.getElementById('dosya-liste').innerHTML = veri.dosyalar.length
-    ? veri.dosyalar.slice().reverse().map(f => `
-      <div class="kart dosya-kart">
-        <div><div class="baslik">${f.isim}</div><div>${f.aciklama||''}</div>${f.ekleyen ? `<div class="tarih">Ekleyen: ${f.ekleyen}</div>` : ''}</div>
-        <a href="${f.link}" target="_blank">İndir / Aç ↗</a>
-      </div>`).join('')
-    : '<p>Henüz paylaşılan dosya yok.</p>';
-
-  document.getElementById('oyun-ekleme-alani').innerHTML = oturum ? `
-    <div class="ekleme-kutusu">
-      <label>Oyun İsmi</label>
-      <input id="po-isim">
-      <label>Açıklama</label>
-      <textarea id="po-aciklama" rows="2"></textarea>
-      <label>Görsel URL (opsiyonel)</label>
-      <input id="po-resim" placeholder="https://...">
-      <button onclick="oyunEklePublic()">🎮 Ekle</button>
-    </div>` : `<p class="sohbet-uyari">Oyun eklemek için <a style="color:var(--info)" onclick="sekmeAc('hesap', document.getElementById('hesap-link'))">giriş yapmalısın</a>.</p>`;
-
-  document.getElementById('oyun-liste').innerHTML = veri.oyunlar.length
-    ? veri.oyunlar.map(o => `
-      <div class="oyun-kart">
-        <img src="${o.resim||''}">
-        <div class="oyun-govde">
-          <div class="baslik">${o.isim} ${o.ucretli ? '<span class="etiket etiket-ucretli">Ücretli</span>' : '<span class="etiket etiket-yeni">Ücretsiz</span>'}</div>
-          <div>${o.aciklama||''}</div>
-          ${o.ekleyen ? `<div class="tarih">Ekleyen: ${o.ekleyen}</div>` : ''}
-        </div>
-      </div>`).join('')
-    : '<p>Henüz oyun eklenmedi.</p>';
-
-  magazaCiz();
-  sunucuRolCiz();
-  sunucuKanalCiz();
-  sohbetCiz();
-}
-
-function sssAcKapat(idx){ document.getElementById('sss-' + idx).classList.toggle('acik'); }
-
-function sohbetCiz(){
-  document.getElementById('sohbet-mesajlar').innerHTML = veri.mesajlar.length
-    ? veri.mesajlar.slice().reverse().map(m => `
-      <div class="sohbet-mesaj"><span class="kimden">${m.kullaniciAdi}</span>${m.mesaj}<span class="saat">${m.saat}</span></div>`).join('')
-    : '<p style="color:var(--muted);font-size:13px">Henüz mesaj yok, ilk mesajı sen at.</p>';
-
-  if(oturum){
-    document.getElementById('sohbet-yazma-alani').classList.remove('gizli');
-    document.getElementById('sohbet-giris-uyari').classList.add('gizli');
+/* ============================================================
+   3) BAŞLANGIÇ
+   ============================================================ */
+async function basla(){
+  const root = document.getElementById("root");
+  root.innerHTML = `<div class="center-screen"><div class="card"><div class="seal">HÜKÜM STUDİO</div>
+    <h2 style="text-align:center">Yükleniyor...</h2></div></div>`;
+  VERI = await veriOku();
+  if(!VERI || typeof VERI !== "object" || Array.isArray(VERI)){ VERI = bosVeri(); await veriYaz(VERI); }
+  if(AKTIF_KULLANICI && VERI.kullanicilar[AKTIF_KULLANICI]){
+    cizUygulama();
   } else {
-    document.getElementById('sohbet-yazma-alani').classList.add('gizli');
-    document.getElementById('sohbet-giris-uyari').classList.remove('gizli');
+    AKTIF_KULLANICI = null;
+    cizGiris();
   }
 }
 
-function mesajGonder(){
-  if(!oturum) return;
-  const input = document.getElementById('sohbet-input');
-  const metin = input.value.trim();
-  if(!metin) return;
-  const simdi = new Date();
-  veri.mesajlar.push({
-    id: yeniId(veri.mesajlar),
-    kullaniciAdi: oturum.kullaniciAdi,
-    mesaj: metin,
-    saat: simdi.getHours().toString().padStart(2,'0') + ':' + simdi.getMinutes().toString().padStart(2,'0')
-  });
-  if(veri.mesajlar.length > SOHBET_MESAJ_LIMIT){
-    veri.mesajlar = veri.mesajlar.slice(veri.mesajlar.length - SOHBET_MESAJ_LIMIT);
-  }
-  input.value = '';
-  sohbetCiz();
-  veriKaydet();
+/* ============================================================
+   4) GİRİŞ / KAYIT EKRANI
+   ============================================================ */
+function cizGiris(sekme="giris", hata=""){
+  const root = document.getElementById("root");
+  root.innerHTML = `
+  <div class="center-screen">
+    <div class="card">
+      <div class="seal">© HÜKÜM STUDİO</div>
+      <h2 style="text-align:center">Ekip Girişi</h2>
+      <div class="tabs">
+        <button id="tabGiris" class="${sekme==='giris'?'active':''}">Giriş Yap</button>
+        <button id="tabKayit" class="${sekme==='kayit'?'active':''}">Kayıt Ol</button>
+      </div>
+      <div class="field"><label>Kullanıcı adı</label><input id="kadi" autocomplete="off"></div>
+      <div class="field"><label>Giriş kodu (gerçek şifre KULLANMA, basit bir kod yeter)</label><input id="kkod" type="password"></div>
+      ${sekme==='kayit' ? '<div class="field"><label>Görünen ad</label><input id="gad"></div>' : ''}
+      <button id="gonderBtn" style="width:100%">${sekme==='giris'?'Giriş Yap':'Kayıt Ol'}</button>
+      ${hata ? `<div class="err">${hata}</div>` : ''}
+    </div>
+  </div>`;
+  document.getElementById("tabGiris").onclick=()=>cizGiris("giris");
+  document.getElementById("tabKayit").onclick=()=>cizGiris("kayit");
+  document.getElementById("gonderBtn").onclick=()=> sekme==='giris' ? girisYap() : kayitOl();
 }
 
-function sohbetYenile(){
-  fetch(JSONBIN_URL + '/latest?_=' + Date.now(), { cache: 'no-store', headers: { 'X-Master-Key': JSONBIN_KEY } })
-    .then(r => r.json())
-    .then(d => { veri = d.record; normalizeVeri(); sohbetCiz(); })
-    .catch(() => {});
+async function kayitOl(){
+  const kadi = document.getElementById("kadi").value.trim().toLowerCase();
+  const kkod = document.getElementById("kkod").value;
+  const gad = document.getElementById("gad").value.trim() || kadi;
+  if(!kadi || !kkod) return cizGiris("kayit","Kullanıcı adı ve kod gerekli.");
+  VERI = await veriOku();
+  if(VERI.kullanicilar[kadi]) return cizGiris("kayit","Bu kullanıcı adı zaten alınmış.");
+  VERI.kullanicilar[kadi] = {ad:gad, kod:kkod, roller:[], yetkiRolu:null};
+  await veriYaz(VERI);
+  AKTIF_KULLANICI = kadi;
+  localStorage.setItem("hs_kullanici", kadi);
+  cizUygulama();
 }
 
-function dosyaEklePublic(){
-  const isim = document.getElementById('pd-isim').value.trim();
-  const link = document.getElementById('pd-link').value.trim();
-  const aciklama = document.getElementById('pd-aciklama').value.trim();
-  if(!isim || !link){ alert('Dosya ismi ve link boş olamaz.'); return; }
-  veri.dosyalar.push({ id: yeniId(veri.dosyalar), isim, aciklama, link, tarih: new Date().toISOString().slice(0,10), ekleyen: oturum.kullaniciAdi });
-  veriKaydet().then(() => ciz());
-}
-
-function oyunEklePublic(){
-  const isim = document.getElementById('po-isim').value.trim();
-  const aciklama = document.getElementById('po-aciklama').value.trim();
-  const resim = document.getElementById('po-resim').value.trim();
-  if(!isim){ alert('Oyun ismi boş olamaz.'); return; }
-  veri.oyunlar.push({ id: yeniId(veri.oyunlar), isim, aciklama, resim, ucretli:false, ekleyen: oturum.kullaniciAdi });
-  veriKaydet().then(() => ciz());
-}
-
-function hesapSekmeAc(hangisi){
-  const g = document.getElementById('form-giris');
-  const k = document.getElementById('form-kayit');
-  const gb = document.getElementById('sekme-giris-btn');
-  const kb = document.getElementById('sekme-kayit-btn');
-  if(hangisi === 'giris'){ g.classList.remove('gizli'); k.classList.add('gizli'); gb.classList.add('secili'); kb.classList.remove('secili'); }
-  else { k.classList.remove('gizli'); g.classList.add('gizli'); kb.classList.add('secili'); gb.classList.remove('secili'); }
-}
-
-function dosyaSecildi(input, hangiForm){
-  const dosya = input.files[0];
-  if(!dosya) return;
-  if(IMGBB_KEY === "BURAYA_IMGBB_API_ANAHTARINI_YAPISTIR"){
-    alert('Resim yükleme henüz açılmadı — site sahibi ImgBB anahtarını eklemeli. Şimdilik resim linki kullanabilirsin.');
-    return;
-  }
-  const yukleniyorYazi = document.getElementById(hangiForm + '-yukleniyor');
-  yukleniyorYazi.classList.remove('gizli');
-  const formData = new FormData();
-  formData.append('image', dosya);
-  fetch('https://api.imgbb.com/1/upload?key=' + IMGBB_KEY, { method:'POST', body: formData })
-    .then(r => r.json())
-    .then(d => {
-      yukleniyorYazi.classList.add('gizli');
-      if(d.success){
-        const url = d.data.display_url;
-        if(hangiForm === 'kayit'){
-          document.getElementById('kayit-resim-link').value = url;
-          const img = document.getElementById('kayit-avatar-onizleme');
-          img.src = url; img.style.display='block'; document.getElementById('kayit-avatar-bos').style.display='none';
-        } else {
-          document.getElementById('profil-resim-link').value = url;
-          const img = document.getElementById('profil-avatar-onizleme');
-          img.src = url; img.style.display='block'; document.getElementById('profil-avatar-bos').style.display='none';
-        }
-      } else { alert('Resim yüklenemedi, tekrar dene.'); }
-    })
-    .catch(() => { yukleniyorYazi.classList.add('gizli'); alert('Resim yüklenemedi, tekrar dene.'); });
-}
-
-function kayitOl(){
-  const isim = document.getElementById('kayit-isim').value.trim();
-  const kod = document.getElementById('kayit-kod').value.trim();
-  const resim = document.getElementById('kayit-resim-link').value.trim();
-  const hataAlani = document.getElementById('kayit-hata');
-  hataAlani.innerText = '';
-  if(!isim || !kod){ hataAlani.innerText = 'Kullanıcı adı ve kod boş olamaz.'; return; }
-  if(!/^\d{4}$/.test(kod)){ hataAlani.innerText = 'Kod tam olarak 4 haneli rakam olmalı.'; return; }
-  if(veri.uyeler.some(u => u.kullaniciAdi.toLowerCase() === isim.toLowerCase())){ hataAlani.innerText = 'Bu kullanıcı adı zaten alınmış.'; return; }
-  const yeniUye = { id: yeniId(veri.uyeler), kullaniciAdi: isim, kod: kod, profilResmi: resim, kayitTarihi: new Date().toISOString().slice(0,10), rutbe: "" };
-  veri.uyeler.push(yeniUye);
-  veriKaydet().then(() => oturumBaslat(yeniUye)).catch(() => { hataAlani.innerText = 'Kayıt sırasında hata oluştu, tekrar dene.'; veri.uyeler.pop(); });
-}
-
-function girisYapUye(){
-  const isim = document.getElementById('giris-isim').value.trim();
-  const kod = document.getElementById('giris-kod').value.trim();
-  const hataAlani = document.getElementById('giris-hata');
-  hataAlani.innerText = '';
-  const bulunan = veri.uyeler.find(u => u.kullaniciAdi.toLowerCase() === isim.toLowerCase() && u.kod === kod);
-  if(!bulunan){ hataAlani.innerText = 'Kullanıcı adı veya kod hatalı.'; return; }
-  oturumBaslat(bulunan);
-}
-
-function oturumBaslat(uye){
-  oturum = uye;
-  localStorage.setItem('hukum_oturum', JSON.stringify({ id: uye.id, kullaniciAdi: uye.kullaniciAdi }));
-  profilEkraniniGoster();
-  profilOzetiCiz();
-  ciz();
-}
-
-function oturumKontrol(){
-  const kayitli = localStorage.getItem('hukum_oturum');
-  if(!kayitli) { profilOzetiCiz(); return; }
-  try{
-    const bilgi = JSON.parse(kayitli);
-    const bulunan = veri.uyeler.find(u => u.id === bilgi.id);
-    if(bulunan){ oturum = bulunan; profilEkraniniGoster(); }
-    else { localStorage.removeItem('hukum_oturum'); }
-  }catch(e){ localStorage.removeItem('hukum_oturum'); }
-  profilOzetiCiz();
-  ciz();
-}
-
-function profilEkraniniGoster(){
-  document.getElementById('hesap-giris-alani').classList.add('gizli');
-  document.getElementById('hesap-profil-alani').classList.remove('gizli');
-  document.getElementById('profil-isim').value = oturum.kullaniciAdi;
-  if(oturum.profilResmi){
-    document.getElementById('profil-avatar-onizleme').src = oturum.profilResmi;
-    document.getElementById('profil-avatar-onizleme').style.display = 'block';
-    document.getElementById('profil-avatar-bos').style.display = 'none';
-  }
-  document.getElementById('profil-resim-link').value = oturum.profilResmi || '';
-}
-
-function profilOzetiCiz(){
-  const alan = document.getElementById('profil-ozet-alani');
-  if(oturum){
-    alan.innerHTML = `
-      <div class="profil-ozet">
-        ${oturum.profilResmi ? `<img src="${oturum.profilResmi}">` : '<div class="avatar-bos"></div>'}
-        <div><div class="isim">${oturum.kullaniciAdi} ${rutbeRozetiGetir(oturum.rutbe, oturum.kullaniciAdi)}</div><div class="durum">● Giriş yapıldı</div></div>
-      </div>`;
-    document.getElementById('hesap-link').innerText = '👤 Profilim';
-  } else { alan.innerHTML = ''; }
-}
-
-function profilKaydet(){
-  const yeniIsim = document.getElementById('profil-isim').value.trim();
-  const yeniResim = document.getElementById('profil-resim-link').value.trim();
-  const mesajAlani = document.getElementById('profil-mesaj');
-  if(!yeniIsim){ mesajAlani.style.color='var(--danger)'; mesajAlani.innerText='İsim boş olamaz.'; return; }
-  if(veri.uyeler.some(u => u.id !== oturum.id && u.kullaniciAdi.toLowerCase() === yeniIsim.toLowerCase())){
-    mesajAlani.style.color='var(--danger)'; mesajAlani.innerText='Bu kullanıcı adı başkasına ait.'; return;
-  }
-  const uye = veri.uyeler.find(u => u.id === oturum.id);
-  uye.kullaniciAdi = yeniIsim;
-  uye.profilResmi = yeniResim;
-  oturum = uye;
-  veriKaydet().then(() => {
-    localStorage.setItem('hukum_oturum', JSON.stringify({ id: uye.id, kullaniciAdi: uye.kullaniciAdi }));
-    mesajAlani.style.color='var(--ok)'; mesajAlani.innerText='Kaydedildi ✓';
-    profilOzetiCiz();
-  }).catch(() => { mesajAlani.style.color='var(--danger)'; mesajAlani.innerText='Kaydedilemedi, tekrar dene.'; });
+async function girisYap(){
+  const kadi = document.getElementById("kadi").value.trim().toLowerCase();
+  const kkod = document.getElementById("kkod").value;
+  VERI = await veriOku();
+  const u = VERI.kullanicilar[kadi];
+  if(!u || u.kod !== kkod) return cizGiris("giris","Kullanıcı adı veya kod yanlış.");
+  AKTIF_KULLANICI = kadi;
+  localStorage.setItem("hs_kullanici", kadi);
+  cizUygulama();
 }
 
 function cikisYap(){
-  localStorage.removeItem('hukum_oturum');
-  oturum = null;
-  document.getElementById('hesap-giris-alani').classList.remove('gizli');
-  document.getElementById('hesap-profil-alani').classList.add('gizli');
-  document.getElementById('hesap-link').innerText = '👤 Kayıt Ol / Giriş Yap';
-  profilOzetiCiz();
-  hesapSekmeAc('giris');
-  ciz();
+  AKTIF_KULLANICI = null;
+  localStorage.removeItem("hs_kullanici");
+  cizGiris();
 }
-</script>
 
+/* ============================================================
+   5) ANA UYGULAMA İSKELETİ
+   ============================================================ */
+function kanalListesiIcinIsRolleri(u){
+  return Object.keys(TAKIMLAR).filter(k => u.roller.includes(k) || yetkiliMi(u));
+}
+
+function cizUygulama(){
+  const u = ben();
+  const root = document.getElementById("root");
+
+  let genelHtml = GENEL_KANALLAR.map(k=>{
+    if(k.id==="kod-deposu" && !yetkiliMi(u)) return "";
+    return `<button class="chan ${AKTIF_KANAL===k.id?'active':''}" data-kanal="${k.id}">${k.ad}</button>`;
+  }).join("");
+
+  let isRolleriHtml = kanalListesiIcinIsRolleri(u).map(key=>{
+    const t = TAKIMLAR[key];
+    const altlar = [["genel","Genel"],["gorevler","Görevler"],["duyurular","Duyurular"]];
+    return `<div class="grp-title">${t.isim}</div>` + altlar.map(([s,ad])=>{
+      const kid = key+"_"+s;
+      return `<button class="chan ${AKTIF_KANAL===kid?'active':''}" data-kanal="${kid}">${ad}</button>`;
+    }).join("");
+  }).join("");
+
+  root.innerHTML = `
+  <div class="app">
+    <div class="sidebar" style="display:flex;flex-direction:column;">
+      <div class="brand"><h1>HÜKÜM<br>STUDİO</h1><small>${u.yetkiRolu || "Üye"}</small></div>
+      <div class="grp-title">Genel</div>
+      ${genelHtml}
+      ${isRolleriHtml}
+      <div class="userbox">
+        <div class="ad">${u.ad}</div>
+        <div class="rol">${u.yetkiRolu || "Henüz yetkisiz"}</div>
+        <button class="ghost" style="margin-top:8px;width:100%" id="cikisBtn">Çıkış Yap</button>
+      </div>
+    </div>
+    <div class="main">
+      <div class="topbar"><h2 id="kanalBaslik" style="margin:0"></h2></div>
+      <div class="content" id="icerik"></div>
+    </div>
+  </div>`;
+
+  document.querySelectorAll(".chan").forEach(b=>{
+    b.onclick = ()=>{ AKTIF_KANAL = b.dataset.kanal; cizUygulama(); };
+  });
+  document.getElementById("cikisBtn").onclick = cikisYap;
+
+  cizKanalIcerik();
+}
+
+/* ============================================================
+   6) KANAL İÇERİĞİ YÖNLENDİRME
+   ============================================================ */
+function cizKanalIcerik(){
+  const icerik = document.getElementById("icerik");
+  const baslikEl = document.getElementById("kanalBaslik");
+  const u = ben();
+
+  if(AKTIF_KANAL === "tanitim"){ baslikEl.textContent="Tanıtım"; return cizTanitim(icerik,u); }
+  if(AKTIF_KANAL === "kurucu-girisi"){ baslikEl.textContent="Kurucu Girişi"; return cizKurucuGirisi(icerik,u); }
+  if(AKTIF_KANAL === "kod-deposu"){ baslikEl.textContent="Kod Deposu"; return cizKodDeposu(icerik,u); }
+  if(AKTIF_KANAL === "kurallar"){ baslikEl.textContent="Kurallar"; return cizKurallar(icerik); }
+
+  const genelTanim = GENEL_KANALLAR.find(k=>k.id===AKTIF_KANAL);
+  let ad = AKTIF_KANAL, yazabilir = true, ssNotu=false, limit=null;
+  if(genelTanim){
+    ad = genelTanim.ad;
+    ssNotu = !!genelTanim.ssNotu;
+    limit = genelTanim.limit || null;
+    yazabilir = genelTanim.readOnly ? false
+      : genelTanim.sadeceUstYazar ? ustYetkiliMi(u)
+      : genelTanim.sadeceYetkiliYazar ? yetkiliMi(u)
+      : true;
+  } else {
+    const [takimKey, altKanal] = AKTIF_KANAL.split("_");
+    const t = TAKIMLAR[takimKey];
+    ad = t ? `${t.isim} / ${altKanal}` : AKTIF_KANAL;
+    yazabilir = altKanal === "duyurular" ? yetkiliMi(u) : true;
+  }
+  baslikEl.textContent = ad;
+  cizMesajKanali(icerik, AKTIF_KANAL, yazabilir, ssNotu, limit);
+}
+
+/* ============================================================
+   7) MESAJ KANALI (genel sohbet tipi kanallar)
+   ============================================================ */
+function cizMesajKanali(icerik, kanalId, yazabilir, ssNotu, limit){
+  const liste = VERI.mesajlar[kanalId] || [];
+  icerik.innerHTML = `
+    <div id="mesajListe">${liste.map(mesajHtml).join("") || '<div class="locked">Henüz mesaj yok.</div>'}</div>
+    ${yazabilir ? `
+      ${ssNotu ? '<p style="color:var(--dim);font-size:.85em">Buraya sadece ekran görüntüsü açıklaması ve ne için olduğunu yaz.</p>' : ''}
+      <div class="composer">
+        <textarea id="yeniMesaj" placeholder="Mesajını yaz..."></textarea>
+        <button id="gonderMesaj">Gönder</button>
+      </div>` : `<div class="locked">Bu kanala sadece yetkililer yazabilir.</div>`}
+  `;
+  if(yazabilir){
+    document.getElementById("gonderMesaj").onclick = ()=> mesajGonder(kanalId, limit);
+  }
+}
+
+function mesajHtml(m){
+  return `<div class="msg"><div class="meta"><b>${m.yazan}</b> — ${m.tarih}</div>${escapeHtml(m.metin)}</div>`;
+}
+function escapeHtml(s){
+  return (s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+}
+
+async function mesajGonder(kanalId, limit){
+  const alan = document.getElementById("yeniMesaj");
+  const metin = alan.value.trim();
+  if(!metin) return;
+  const u = ben();
+  VERI = await veriOku();
+  if(!VERI.mesajlar[kanalId]) VERI.mesajlar[kanalId] = [];
+  VERI.mesajlar[kanalId].push({yazan:u.ad, metin, tarih:new Date().toLocaleString("tr-TR")});
+  if(limit && VERI.mesajlar[kanalId].length >= limit){
+    VERI.mesajlar[kanalId] = [{yazan:"Sistem", metin:`🔄 ${limit} mesaja ulaşıldı, kanal sıfırlandı.`, tarih:new Date().toLocaleString("tr-TR")}];
+  }
+  await veriYaz(VERI);
+  cizKanalIcerik();
+}
+
+/* ============================================================
+   8) KURALLAR
+   ============================================================ */
+function cizKurallar(icerik){
+  icerik.innerHTML = `<div class="kutu"><h2>📜 HÜKÜM STUDİO Kuralları</h2>
+    <pre style="white-space:pre-wrap;font-family:inherit;line-height:1.7">${KURALLAR_METNI}</pre></div>`;
+}
+
+/* ============================================================
+   9) TANITIM — iş kolu seçimi
+   ============================================================ */
+function cizTanitim(icerik,u){
+  icerik.innerHTML = `
+    <div class="kutu" style="margin-bottom:18px">
+      <h2>İş Kollarımız</h2>
+      <p style="color:var(--dim)">Sana uygun olan(lar)a tıkla, ilgili kanallar açılsın. Ayrılmak için tekrar tıkla.</p>
+    </div>
+    <div class="is-grid">
+      ${Object.entries(TAKIMLAR).map(([key,t])=>{
+        const katildi = u.roller.includes(key);
+        return `<div class="is-card ${katildi?'joined':''}">
+          <h3>${t.isim}</h3><p>${t.aciklama}</p>
+          <button data-key="${key}" class="${katildi?'ghost':''}">${katildi?'Ayrıl':'Katıl'}</button>
+        </div>`;
+      }).join("")}
+    </div>`;
+  icerik.querySelectorAll("button[data-key]").forEach(b=>{
+    b.onclick = async ()=>{
+      const key = b.dataset.key;
+      VERI = await veriOku();
+      const uu = VERI.kullanicilar[AKTIF_KULLANICI];
+      if(uu.roller.includes(key)) uu.roller = uu.roller.filter(r=>r!==key);
+      else uu.roller.push(key);
+      await veriYaz(VERI);
+      cizUygulama();
+    };
+  });
+}
+
+/* ============================================================
+   10) KURUCU GİRİŞİ — tek seferlik gizli doğrulama
+   ============================================================ */
+function normalize(s){ return (s||"").trim().toLocaleLowerCase("tr-TR"); }
+function icerirMi(cevap, ...anahtarlar){ const n = normalize(cevap); return anahtarlar.every(a=>n.includes(a)); }
+
+function cizKurucuGirisi(icerik,u){
+  if(VERI.kurucuTamamlandi){
+    icerik.innerHTML = `<div class="locked">🔒 Bu giriş zaten tamamlandı ve kalıcı olarak kapatıldı.</div>`;
+    return;
+  }
+  icerik.innerHTML = `
+    <div class="kutu">
+      <h2>👑 Kurucu Girişi</h2>
+      <p style="color:var(--dim)">© EYO PAŞA TARAFINDAN — 5 soruyu doğru cevaplarsan Kurucu rolü otomatik verilir. Bu giriş tek seferliktir.</p>
+      <div class="soru"><label>1) EYO PAŞA'nın isim soyismi nedir?</label><input id="s1"></div>
+      <div class="soru"><label>2) Eyo Paşa kaç yıldır sanalcıdır?</label><input id="s2"></div>
+      <div class="soru"><label>3) Projelerinin başında neden "Hüküm" yazar?</label><textarea id="s3"></textarea></div>
+      <div class="soru"><label>4) Eyo Paşa'nın ilk projesi nedir?</label><input id="s4"></div>
+      <div class="soru"><label>5) Eyo Paşa'nın en sevdiği şey nedir?</label><input id="s5"></div>
+      <button id="kontrolBtn">Gönder</button>
+      <div class="err" id="kgHata"></div>
+    </div>`;
+  document.getElementById("kontrolBtn").onclick = async ()=>{
+    const v1=document.getElementById("s1").value, v2=document.getElementById("s2").value,
+          v3=document.getElementById("s3").value, v4=document.getElementById("s4").value,
+          v5=document.getElementById("s5").value;
+    const dogru =
+      icerirMi(v1,"enver","eymen","öztürk") &&
+      icerirMi(v2,"6") &&
+      icerirMi(v3,"güç","otorite") && (icerirMi(v3,"yerli")||icerirMi(v3,"milli")) &&
+      icerirMi(v4,"hükümv45") &&
+      icerirMi(v5,"dostluk") && icerirMi(v5,"ekip");
+    if(!dogru){ document.getElementById("kgHata").textContent = "❌ Cevaplardan en az biri yanlış."; return; }
+    VERI = await veriOku();
+    if(VERI.kurucuTamamlandi){ cizKurucuGirisi(icerik, u); return; }
+    VERI.kullanicilar[AKTIF_KULLANICI].yetkiRolu = "Kurucu";
+    VERI.kurucuTamamlandi = true;
+    await veriYaz(VERI);
+    cizUygulama();
+  };
+}
+
+/* ============================================================
+   11) KOD DEPOSU
+   ============================================================ */
+function rastgeleId(){ return Math.random().toString(36).slice(2,9); }
+
+function cizKodDeposu(icerik,u){
+  if(!yetkiliMi(u)){ icerik.innerHTML = `<div class="locked">Bu kanal sadece yetkililere açıktır.</div>`; return; }
+  const kodlar = VERI.kodlar || [];
+  icerik.innerHTML = `
+    <div class="kutu" style="margin-bottom:18px">
+      <h2>💾 Yeni Kod Ekle</h2>
+      <div class="field"><label>Başlık</label><input id="kBaslik"></div>
+      <div class="field"><label>Kod</label><textarea id="kKod" style="min-height:160px;font-family:monospace"></textarea></div>
+      <button id="kodEkleBtn">Kaydet ve Link Üret</button>
+    </div>
+    <h3>Paylaşılan Kodlar</h3>
+    <div id="kodListe">${kodlar.slice().reverse().map(kodKartiHtml).join("") || '<div class="locked">Henüz kod yok.</div>'}</div>
+  `;
+  document.getElementById("kodEkleBtn").onclick = async ()=>{
+    const baslik = document.getElementById("kBaslik").value.trim() || "İsimsiz";
+    const kod = document.getElementById("kKod").value;
+    if(!kod.trim()) return;
+    const id = rastgeleId();
+    VERI = await veriOku();
+    if(!VERI.kodlar) VERI.kodlar = [];
+    VERI.kodlar.push({id, baslik, kod, yazan:u.ad, tarih:new Date().toLocaleString("tr-TR")});
+    await veriYaz(VERI);
+    cizKanalIcerik();
+  };
+  icerik.querySelectorAll("button[data-link]").forEach(b=>{
+    b.onclick = ()=>{
+      const link = location.origin + location.pathname + "?kod=" + b.dataset.link;
+      navigator.clipboard.writeText(link);
+      b.textContent = "Kopyalandı ✓";
+      setTimeout(()=> b.textContent = "Linki Kopyala", 1500);
+    };
+  });
+}
+
+function kodKartiHtml(k){
+  return `<div class="msg">
+    <div class="meta"><b>${k.baslik}</b> — ${k.yazan}, ${k.tarih}</div>
+    <button data-link="${k.id}" class="ghost">Linki Kopyala</button>
+  </div>`;
+}
+
+/* ============================================================
+   12) PAYLAŞILAN KOD LİNKİ — girişsiz görüntüleme
+   ============================================================ */
+async function kodLinkiGosterVarsa(){
+  const params = new URLSearchParams(location.search);
+  const id = params.get("kod");
+  if(!id) return false;
+  const veri = await veriOku();
+  const kod = (veri.kodlar||[]).find(k=>k.id===id);
+  const root = document.getElementById("root");
+  if(!kod){
+    root.innerHTML = `<div class="center-screen"><div class="card"><h2>Kod bulunamadı</h2></div></div>`;
+  } else {
+    root.innerHTML = `<div class="center-screen" style="align-items:flex-start;padding-top:60px">
+      <div class="card" style="max-width:640px">
+        <div class="seal">HÜKÜM STUDİO — Paylaşılan Kod</div>
+        <h2>${kod.baslik}</h2>
+        <p style="color:var(--dim);font-size:.85em">${kod.yazan} — ${kod.tarih}</p>
+        <pre style="white-space:pre-wrap;background:var(--panel2);padding:14px;border-radius:8px;font-family:monospace;overflow-x:auto">${escapeHtml(kod.kod)}</pre>
+        <a href="${location.pathname}">← Siteye dön</a>
+      </div>
+    </div>`;
+  }
+  return true;
+}
+
+/* ============================================================
+   13) ÇALIŞTIR
+   ============================================================ */
+(async ()=>{
+  const gosterildi = await kodLinkiGosterVarsa();
+  if(!gosterildi) basla();
+})();
+</script>
 </body>
 </html>
