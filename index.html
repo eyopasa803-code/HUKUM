@@ -5,45 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HÜKÜM STUDİO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#121014; --panel:#1b181d; --panel2:#221e24; --border:#332c2f;
-    --gold:#c9a227; --red:#8a2424; --text:#ece6de; --dim:#a79c8e;
+    --bg:#0e0c10; --panel:#1b171c; --panel2:#231e25; --border:#36303a;
+    --gold:#d4af37; --gold2:#f4d78a; --red:#7a1f2b; --text:#efe8de; --dim:#a79c8e;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
-  h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:700;margin:0 0 .4em;}
+  html,body{margin:0;height:100%;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;}
+  h1,h2,h3{font-family:'Cinzel',serif;margin:0 0 .4em;letter-spacing:.02em;}
   a{color:var(--gold);}
-  button{font-family:inherit;cursor:pointer;border:none;border-radius:6px;padding:.6em 1.1em;
-    background:var(--gold);color:#1a1510;font-weight:600;}
-  button.ghost{background:transparent;color:var(--text);border:1px solid var(--border);}
-  button.danger{background:var(--red);color:#fff;}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:8px;padding:.7em 1.3em;
+    background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1510;font-weight:700;
+    transition:transform .15s ease, box-shadow .15s ease;}
+  button:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(212,175,55,.25);}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--border);box-shadow:none;}
+  button.ghost:hover{border-color:var(--gold);box-shadow:none;}
+  button.danger{background:linear-gradient(135deg,#a23344,var(--red));color:#fff;}
   input,textarea{font-family:inherit;background:var(--panel2);border:1px solid var(--border);
-    color:var(--text);border-radius:6px;padding:.6em .8em;width:100%;}
+    color:var(--text);border-radius:8px;padding:.7em .9em;width:100%;outline:none;transition:border-color .15s;}
+  input:focus,textarea:focus{border-color:var(--gold);}
   textarea{resize:vertical;min-height:80px;}
-  .center-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:28px;max-width:380px;width:100%;}
-  .seal{text-align:center;color:var(--gold);letter-spacing:.08em;font-size:.75em;margin-bottom:6px;}
+
+  /* ---------- geçiş efektleri ---------- */
+  html{scroll-behavior:smooth;}
+  #root{min-height:100vh;}
+  .fade-wrap{animation:fadeIn .55s cubic-bezier(.22,1,.36,1) both;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(16px) scale(.99);} to{opacity:1;transform:translateY(0) scale(1);}}
+  .fade-out{animation:fadeOut .3s cubic-bezier(.4,0,1,1) both;}
+  @keyframes fadeOut{to{opacity:0;transform:translateY(-10px) scale(.99);}}
+  .shimmer{background:linear-gradient(90deg,var(--gold) 0%,var(--gold2) 25%,var(--gold) 50%,var(--gold2) 75%,var(--gold) 100%);
+    background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:shimmer 4s linear infinite;}
+  @keyframes shimmer{to{background-position:200% center;}}
+
+  .stagger > *{animation:stagIn .5s cubic-bezier(.22,1,.36,1) both;}
+  .stagger > *:nth-child(1){animation-delay:.03s;} .stagger > *:nth-child(2){animation-delay:.08s;}
+  .stagger > *:nth-child(3){animation-delay:.13s;} .stagger > *:nth-child(4){animation-delay:.18s;}
+  .stagger > *:nth-child(5){animation-delay:.23s;} .stagger > *:nth-child(6){animation-delay:.28s;}
+  .stagger > *:nth-child(7){animation-delay:.33s;} .stagger > *:nth-child(8){animation-delay:.38s;}
+  .stagger > *:nth-child(9){animation-delay:.43s;} .stagger > *:nth-child(10){animation-delay:.48s;}
+  .stagger > *:nth-child(11){animation-delay:.53s;} .stagger > *:nth-child(12){animation-delay:.58s;}
+  @keyframes stagIn{from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- toast bildirimleri ---------- */
+  #toastKutu{position:fixed;top:16px;right:16px;z-index:999;display:flex;flex-direction:column;gap:8px;}
+  .toast{background:var(--panel);border:1px solid var(--gold);border-radius:8px;padding:12px 16px;
+    color:var(--text);font-size:.9em;box-shadow:0 10px 30px rgba(0,0,0,.4);animation:toastIn .35s cubic-bezier(.22,1,.36,1) both;max-width:300px;}
+  .toast.err{border-color:#ef7a7a;}
+  @keyframes toastIn{from{opacity:0;transform:translateX(40px);} to{opacity:1;transform:translateX(0);}}
+  .toast.hide{animation:toastOut .3s ease both;}
+  @keyframes toastOut{to{opacity:0;transform:translateX(40px);}}
+
+  /* ---------- hero / karşılama ---------- */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;text-align:center;overflow:hidden;padding:20px;}
+  .hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+  .hero-inner{position:relative;z-index:1;max-width:560px;}
+  .hero .seal{width:72px;height:72px;margin:0 auto 18px;border:2px solid var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;color:var(--gold);
+    font-size:1.6em;font-weight:900;animation:pulseSeal 3s ease-in-out infinite;}
+  @keyframes pulseSeal{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.35);} 50%{box-shadow:0 0 0 14px rgba(212,175,55,0);}}
+  .hero h1{font-size:clamp(2.2em,7vw,3.4em);margin-bottom:.15em;}
+  .hero .alt{color:var(--dim);font-size:1.05em;max-width:440px;margin:0 auto 30px;line-height:1.6;}
+  .hero .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .hero .btns button{min-width:150px;}
+  .feature-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+    max-width:720px;margin:46px auto 0;padding:0 10px;}
+  .feature-card{background:rgba(27,23,28,.75);backdrop-filter:blur(6px);border:1px solid var(--border);
+    border-radius:12px;padding:18px;text-align:left;transition:border-color .2s,transform .2s;}
+  .feature-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+  .feature-card .ikon{font-size:1.5em;margin-bottom:8px;}
+  .feature-card h3{font-size:1em;margin-bottom:4px;}
+  .feature-card p{font-size:.82em;color:var(--dim);margin:0;line-height:1.5;}
+
+  /* ---------- auth kartı ---------- */
+  .center-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;z-index:1;}
+  .card{background:rgba(27,23,28,.9);backdrop-filter:blur(6px);border:1px solid var(--border);
+    border-radius:14px;padding:30px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+  .seal-small{text-align:center;color:var(--gold);letter-spacing:.1em;font-size:.72em;margin-bottom:8px;text-transform:uppercase;}
   .field{margin-bottom:14px;}
   .field label{display:block;font-size:.85em;color:var(--dim);margin-bottom:5px;}
-  .err{color:#e06060;font-size:.85em;margin-top:8px;}
+  .err{color:#ef7a7a;font-size:.85em;margin-top:10px;}
   .tabs{display:flex;gap:8px;margin-bottom:18px;}
-  .tabs button{flex:1;background:var(--panel2);color:var(--dim);}
-  .tabs button.active{background:var(--gold);color:#1a1510;}
+  .tabs button{flex:1;background:var(--panel2);color:var(--dim);box-shadow:none;}
+  .tabs button.active{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1510;}
+  .geri{background:none;color:var(--dim);box-shadow:none;padding:.4em 0;margin-bottom:10px;font-size:.85em;}
+  .geri:hover{color:var(--gold);transform:none;}
 
+  /* ---------- uygulama kabuğu ---------- */
   .app{display:flex;min-height:100vh;}
-  .sidebar{width:250px;background:var(--panel);border-right:1px solid var(--border);
-    padding:18px 0;flex-shrink:0;overflow-y:auto;}
+  .sidebar{width:260px;background:var(--panel);border-right:1px solid var(--border);
+    padding:18px 0;flex-shrink:0;overflow-y:auto;display:flex;flex-direction:column;}
   .brand{padding:0 18px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;}
-  .brand h1{font-size:1.5em;color:var(--gold);}
+  .brand h1{font-size:1.4em;color:var(--gold);line-height:1.1;}
   .brand small{color:var(--dim);}
-  .grp-title{font-size:.72em;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);
-    padding:10px 18px 4px;}
-  .chan{display:block;width:100%;text-align:left;background:none;color:var(--text);
-    border-radius:0;padding:7px 18px;font-weight:400;font-size:.95em;}
-  .chan:hover{background:var(--panel2);}
-  .chan.active{background:var(--panel2);border-left:3px solid var(--gold);color:var(--gold);}
+  .grp-title{font-size:.7em;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);padding:12px 18px 4px;}
+  .chan{display:block;width:100%;text-align:left;background:none;color:var(--text);box-shadow:none;
+    border-radius:0;padding:8px 18px;font-weight:400;font-size:.95em;transition:background .15s,color .15s,padding-left .15s;}
+  .chan:hover{background:var(--panel2);transform:none;padding-left:22px;}
+  .chan.active{background:var(--panel2);border-left:3px solid var(--gold);color:var(--gold);padding-left:15px;}
   .userbox{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border);font-size:.85em;}
   .userbox .ad{color:var(--gold);font-weight:600;}
   .userbox .rol{color:var(--dim);}
@@ -59,7 +121,8 @@
   .locked{color:var(--dim);font-style:italic;padding:20px;text-align:center;}
 
   .is-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .is-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;}
+  .is-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;transition:border-color .2s;}
+  .is-card:hover{border-color:var(--gold);}
   .is-card h3{font-size:1.1em;}
   .is-card p{font-size:.85em;color:var(--dim);margin:6px 0 10px;}
   .is-card button{width:100%;}
@@ -69,10 +132,27 @@
   .kutu{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px;}
   .kutu h2{color:var(--gold);}
 
+  .loader{display:flex;align-items:center;justify-content:center;min-height:60vh;}
+  .loader .seal{animation:spin 2.5s linear infinite, pulseSeal 3s ease-in-out infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .menuBtn{display:none;background:var(--panel2);color:var(--gold);box-shadow:none;padding:.5em .7em;font-size:1.1em;}
+  .backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;}
+  .backdrop.acik{display:block;animation:toastIn .25s ease both;}
+
   @media(max-width:760px){
-    .app{flex-direction:column;}
-    .sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);max-height:220px;}
+    .app{position:relative;}
+    .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:50;width:82%;max-width:300px;
+      transform:translateX(-105%);transition:transform .3s cubic-bezier(.22,1,.36,1);box-shadow:20px 0 50px rgba(0,0,0,.5);}
+    .sidebar.acik{transform:translateX(0);}
+    .main{width:100%;}
+    .menuBtn{display:inline-flex;align-items:center;gap:8px;margin-right:10px;}
+    .topbar{display:flex;align-items:center;}
     .is-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:1.9em;}
+    .hero .btns{flex-direction:column;align-items:stretch;}
+    .hero .btns button{width:100%;}
+    .feature-grid{grid-template-columns:1fr !important;}
   }
 </style>
 </head>
@@ -99,14 +179,7 @@ async function veriYaz(veri){
     body:JSON.stringify(veri)
   });
 }
-function bosVeri(){
-  return {
-    kurucuTamamlandi:false,
-    kullanicilar:{},
-    mesajlar:{},
-    kodlar:[]
-  };
-}
+function bosVeri(){ return {kurucuTamamlandi:false, kullanicilar:{}, mesajlar:{}, kodlar:[]}; }
 
 /* ============================================================
    1) İŞ KOLLARI
@@ -126,19 +199,17 @@ const TAKIMLAR = {
   dijital_urun:{isim:"Diğer Dijital Ürünler",aciklama:"Print-on-demand, teknik destek/bakım aboneliği."},
 };
 
-const YETKILI_ROLLERI = ["Kurucu","Owner","Co Owner","Baş Admin","Kıdemli Admin","Admin Denetmeni","Admin","Stajyer Admin"];
-
 const GENEL_KANALLAR = [
   {id:"duyurular",ad:"Duyurular",sadeceYetkiliYazar:true},
   {id:"sohbet",ad:"Sohbet",limit:50},
-  {id:"tanitim",ad:"Tanıtım",ozel:"tanitim"},
+  {id:"tanitim",ad:"Tanıtım"},
   {id:"yetkili-kadromuz",ad:"Yetkili Kadromuz",sadeceYetkiliYazar:true},
   {id:"yaptiklarimiz",ad:"Yaptıklarımız",sadeceYetkiliYazar:true,ssNotu:true},
   {id:"hakkimizda",ad:"Hakkımızda",sadeceYetkiliYazar:true},
   {id:"sosyal-medya",ad:"Sosyal Medya",sadeceUstYazar:true},
   {id:"kurallar",ad:"Kurallar",readOnly:true},
-  {id:"kurucu-girisi",ad:"Kurucu Girişi",ozel:"kurucu"},
-  {id:"kod-deposu",ad:"Kod Deposu",ozel:"kod",sadeceYetkiliGorur:true},
+  {id:"kurucu-girisi",ad:"Kurucu Girişi"},
+  {id:"kod-deposu",ad:"Kod Deposu"},
 ];
 
 const KURALLAR_METNI = [
@@ -151,56 +222,171 @@ const KURALLAR_METNI = [
 ].join("\n");
 
 /* ============================================================
-   2) DURUM (STATE)
+   2) DURUM
    ============================================================ */
 let VERI = null;
 let AKTIF_KULLANICI = localStorage.getItem("hs_kullanici") || null;
 let AKTIF_KANAL = "tanitim";
+let HEDEF_KANAL = null; // hero'dan "Kurucu Girişi" gibi bir kanala direkt yönlendirmek için
 
 function ben(){ return VERI.kullanicilar[AKTIF_KULLANICI]; }
 function yetkiliMi(u){ return !!(u && u.yetkiRolu); }
 function ustYetkiliMi(u){ return !!(u && ["Kurucu","Owner","Co Owner"].includes(u.yetkiRolu)); }
 
 /* ============================================================
-   3) BAŞLANGIÇ
+   3) GEÇİŞ YARDIMCISI
+   ============================================================ */
+function toast(metin, tur="ok"){
+  let kutu = document.getElementById("toastKutu");
+  if(!kutu){
+    kutu = document.createElement("div");
+    kutu.id = "toastKutu";
+    document.body.appendChild(kutu);
+  }
+  const el = document.createElement("div");
+  el.className = "toast" + (tur==="err" ? " err" : "");
+  el.textContent = metin;
+  kutu.appendChild(el);
+  setTimeout(()=>{ el.classList.add("hide"); setTimeout(()=>el.remove(), 300); }, 2800);
+}
+
+function gecis(cizFn){
+  const root = document.getElementById("root");
+  root.classList.add("fade-out");
+  setTimeout(()=>{
+    cizFn();
+    const r = document.getElementById("root");
+    r.classList.remove("fade-out");
+    r.classList.add("fade-wrap");
+  }, 220);
+}
+
+/* ============================================================
+   4) KOR / KIVILCIM ARKA PLAN ANİMASYONU (hero ekranı)
+   ============================================================ */
+let emberRAF = null;
+function emberBaslat(canvas){
+  const ctx = canvas.getContext("2d");
+  function boyutlandir(){ canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  boyutlandir();
+  window.addEventListener("resize", boyutlandir);
+  const sayi = window.innerWidth < 600 ? 28 : 60;
+  const parcacik = Array.from({length:sayi}, ()=>yeniParcacik(canvas));
+  function yeniParcacik(c){
+    return {
+      x: Math.random()*c.width, y: c.height + Math.random()*100,
+      r: 1 + Math.random()*2.2, hiz: .3 + Math.random()*.9,
+      sap: Math.random()*1.2 - .6, alfa: .15 + Math.random()*.5,
+      renk: Math.random()>.5 ? "212,175,55" : "122,31,43",
+    };
+  }
+  function kare(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    parcacik.forEach(p=>{
+      p.y -= p.hiz; p.x += p.sap;
+      if(p.y < -10){ Object.assign(p, yeniParcacik(canvas)); p.y = canvas.height + 10; }
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(${p.renk},${p.alfa})`;
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+    });
+    emberRAF = requestAnimationFrame(kare);
+  }
+  kare();
+}
+function emberDurdur(){ if(emberRAF) cancelAnimationFrame(emberRAF); emberRAF=null; }
+
+/* ============================================================
+   5) BAŞLANGIÇ
    ============================================================ */
 async function basla(){
   const root = document.getElementById("root");
-  root.innerHTML = `<div class="center-screen"><div class="card"><div class="seal">HÜKÜM STUDİO</div>
-    <h2 style="text-align:center">Yükleniyor...</h2></div></div>`;
+  root.innerHTML = `<div class="loader"><div class="seal" style="width:60px;height:60px;border:2px solid var(--gold);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Cinzel,serif;font-weight:900">H</div></div>`;
   VERI = await veriOku();
   if(!VERI || typeof VERI !== "object" || Array.isArray(VERI)){ VERI = bosVeri(); await veriYaz(VERI); }
   if(AKTIF_KULLANICI && VERI.kullanicilar[AKTIF_KULLANICI]){
-    cizUygulama();
+    gecis(cizUygulama);
   } else {
     AKTIF_KULLANICI = null;
-    cizGiris();
+    cizHero();
   }
 }
 
 /* ============================================================
-   4) GİRİŞ / KAYIT EKRANI
+   6) HERO / KARŞILAMA EKRANI
+   ============================================================ */
+function cizHero(){
+  emberDurdur();
+  const root = document.getElementById("root");
+  root.className = "fade-wrap";
+  root.innerHTML = `
+  <div class="hero">
+    <canvas id="emberCanvas"></canvas>
+    <div class="hero-inner">
+      <div class="seal">H</div>
+      <h1 class="shimmer">HÜKÜM STUDİO</h1>
+      <p class="alt">Güç, otorite, dostluk ve ekip çalışmasıyla kurulan bir çatı altında; yazılımdan
+      içerik üretimine, tasarımdan danışmanlığa kadar tüm iş kollarımız burada bir araya geliyor.</p>
+      <div class="btns">
+        <button id="girisBtn">Giriş Yap</button>
+        <button id="kayitBtn" class="ghost">Kayıt Ol</button>
+      </div>
+    </div>
+    <div class="feature-grid stagger">
+      <div class="feature-card"><div class="ikon">💼</div><h3>12 İş Kolu</h3><p>Yazılımdan içerik üretimine, her alanda kendi ekip kanalın.</p></div>
+      <div class="feature-card"><div class="ikon">🏷️</div><h3>Rol Tabanlı Erişim</h3><p>Sadece katıldığın iş kollarının kanallarını görürsün.</p></div>
+      <div class="feature-card"><div class="ikon">💾</div><h3>Kod Deposu</h3><p>Yetkililer kod paylaşıp link ile anında dağıtabilir.</p></div>
+    </div>
+    <a href="#" id="kurucuLink" style="display:inline-block;margin-top:28px;position:relative;z-index:1;
+      font-size:.85em;color:var(--dim);border-bottom:1px dashed var(--border);">👑 Kurucu Girişi</a>
+  </div>`;
+  emberBaslat(document.getElementById("emberCanvas"));
+  document.getElementById("girisBtn").onclick = ()=> gecis(()=>cizGiris("giris"));
+  document.getElementById("kayitBtn").onclick = ()=> gecis(()=>cizGiris("kayit"));
+  document.getElementById("kurucuLink").onclick = (e)=>{
+    e.preventDefault();
+    if(AKTIF_KULLANICI && VERI.kullanicilar[AKTIF_KULLANICI]){
+      AKTIF_KANAL = "kurucu-girisi";
+      gecis(cizUygulama);
+    } else {
+      HEDEF_KANAL = "kurucu-girisi";
+      gecis(()=>cizGiris("giris"));
+    }
+  };
+}
+
+/* ============================================================
+   7) GİRİŞ / KAYIT EKRANI
    ============================================================ */
 function cizGiris(sekme="giris", hata=""){
+  emberDurdur();
   const root = document.getElementById("root");
+  root.className = "fade-wrap";
   root.innerHTML = `
-  <div class="center-screen">
-    <div class="card">
-      <div class="seal">© HÜKÜM STUDİO</div>
-      <h2 style="text-align:center">Ekip Girişi</h2>
-      <div class="tabs">
-        <button id="tabGiris" class="${sekme==='giris'?'active':''}">Giriş Yap</button>
-        <button id="tabKayit" class="${sekme==='kayit'?'active':''}">Kayıt Ol</button>
+  <div class="hero">
+    <canvas id="emberCanvas2"></canvas>
+    <div class="center-screen">
+      <div class="card">
+        <button class="geri" id="geriBtn">← Ana sayfa</button>
+        <div class="seal-small">© HÜKÜM STUDİO</div>
+        <h2 style="text-align:center">Ekip Girişi</h2>
+        <div class="tabs">
+          <button id="tabGiris" class="${sekme==='giris'?'active':''}">Giriş Yap</button>
+          <button id="tabKayit" class="${sekme==='kayit'?'active':''}">Kayıt Ol</button>
+        </div>
+        <div class="field"><label>Kullanıcı adı</label><input id="kadi" autocomplete="off"></div>
+        <div class="field"><label>Giriş kodu (gerçek şifre KULLANMA)</label><input id="kkod" type="password"></div>
+        ${sekme==='kayit' ? '<div class="field"><label>Görünen ad</label><input id="gad"></div>' : ''}
+        <button id="gonderBtn" style="width:100%">${sekme==='giris'?'Giriş Yap':'Kayıt Ol'}</button>
+        ${hata ? `<div class="err">${hata}</div>` : ''}
       </div>
-      <div class="field"><label>Kullanıcı adı</label><input id="kadi" autocomplete="off"></div>
-      <div class="field"><label>Giriş kodu (gerçek şifre KULLANMA, basit bir kod yeter)</label><input id="kkod" type="password"></div>
-      ${sekme==='kayit' ? '<div class="field"><label>Görünen ad</label><input id="gad"></div>' : ''}
-      <button id="gonderBtn" style="width:100%">${sekme==='giris'?'Giriş Yap':'Kayıt Ol'}</button>
-      ${hata ? `<div class="err">${hata}</div>` : ''}
     </div>
   </div>`;
-  document.getElementById("tabGiris").onclick=()=>cizGiris("giris");
-  document.getElementById("tabKayit").onclick=()=>cizGiris("kayit");
+  emberBaslat(document.getElementById("emberCanvas2"));
+  document.getElementById("geriBtn").onclick = ()=> gecis(cizHero);
+  document.getElementById("tabGiris").onclick=()=>gecis(()=>cizGiris("giris"));
+  document.getElementById("tabKayit").onclick=()=>gecis(()=>cizGiris("kayit"));
   document.getElementById("gonderBtn").onclick=()=> sekme==='giris' ? girisYap() : kayitOl();
 }
 
@@ -208,14 +394,16 @@ async function kayitOl(){
   const kadi = document.getElementById("kadi").value.trim().toLowerCase();
   const kkod = document.getElementById("kkod").value;
   const gad = document.getElementById("gad").value.trim() || kadi;
-  if(!kadi || !kkod) return cizGiris("kayit","Kullanıcı adı ve kod gerekli.");
+  if(!kadi || !kkod){ toast("Kullanıcı adı ve kod gerekli.","err"); return gecis(()=>cizGiris("kayit","Kullanıcı adı ve kod gerekli.")); }
   VERI = await veriOku();
-  if(VERI.kullanicilar[kadi]) return cizGiris("kayit","Bu kullanıcı adı zaten alınmış.");
+  if(VERI.kullanicilar[kadi]){ toast("Bu kullanıcı adı zaten alınmış.","err"); return gecis(()=>cizGiris("kayit","Bu kullanıcı adı zaten alınmış.")); }
   VERI.kullanicilar[kadi] = {ad:gad, kod:kkod, roller:[], yetkiRolu:null};
   await veriYaz(VERI);
   AKTIF_KULLANICI = kadi;
   localStorage.setItem("hs_kullanici", kadi);
-  cizUygulama();
+  toast(`Hoş geldin, ${gad}!`);
+  if(HEDEF_KANAL){ AKTIF_KANAL = HEDEF_KANAL; HEDEF_KANAL = null; }
+  gecis(cizUygulama);
 }
 
 async function girisYap(){
@@ -223,28 +411,32 @@ async function girisYap(){
   const kkod = document.getElementById("kkod").value;
   VERI = await veriOku();
   const u = VERI.kullanicilar[kadi];
-  if(!u || u.kod !== kkod) return cizGiris("giris","Kullanıcı adı veya kod yanlış.");
+  if(!u || u.kod !== kkod){ toast("Kullanıcı adı veya kod yanlış.","err"); return gecis(()=>cizGiris("giris","Kullanıcı adı veya kod yanlış.")); }
   AKTIF_KULLANICI = kadi;
   localStorage.setItem("hs_kullanici", kadi);
-  cizUygulama();
+  toast(`Tekrar hoş geldin, ${u.ad}!`);
+  if(HEDEF_KANAL){ AKTIF_KANAL = HEDEF_KANAL; HEDEF_KANAL = null; }
+  gecis(cizUygulama);
 }
 
 function cikisYap(){
   AKTIF_KULLANICI = null;
   localStorage.removeItem("hs_kullanici");
-  cizGiris();
+  gecis(cizHero);
 }
 
 /* ============================================================
-   5) ANA UYGULAMA İSKELETİ
+   8) ANA UYGULAMA İSKELETİ
    ============================================================ */
 function kanalListesiIcinIsRolleri(u){
   return Object.keys(TAKIMLAR).filter(k => u.roller.includes(k) || yetkiliMi(u));
 }
 
 function cizUygulama(){
+  emberDurdur();
   const u = ben();
   const root = document.getElementById("root");
+  root.className = "fade-wrap";
 
   let genelHtml = GENEL_KANALLAR.map(k=>{
     if(k.id==="kod-deposu" && !yetkiliMi(u)) return "";
@@ -262,7 +454,8 @@ function cizUygulama(){
 
   root.innerHTML = `
   <div class="app">
-    <div class="sidebar" style="display:flex;flex-direction:column;">
+    <div class="backdrop" id="backdrop"></div>
+    <div class="sidebar" id="sidebar">
       <div class="brand"><h1>HÜKÜM<br>STUDİO</h1><small>${u.yetkiRolu || "Üye"}</small></div>
       <div class="grp-title">Genel</div>
       ${genelHtml}
@@ -274,24 +467,31 @@ function cizUygulama(){
       </div>
     </div>
     <div class="main">
-      <div class="topbar"><h2 id="kanalBaslik" style="margin:0"></h2></div>
+      <div class="topbar"><button class="menuBtn" id="menuBtn">☰</button><h2 id="kanalBaslik" style="margin:0"></h2></div>
       <div class="content" id="icerik"></div>
     </div>
   </div>`;
 
+  const sidebar = document.getElementById("sidebar");
+  const backdrop = document.getElementById("backdrop");
+  function menuAc(){ sidebar.classList.add("acik"); backdrop.classList.add("acik"); }
+  function menuKapat(){ sidebar.classList.remove("acik"); backdrop.classList.remove("acik"); }
+  document.getElementById("menuBtn").onclick = menuAc;
+  backdrop.onclick = menuKapat;
+
   document.querySelectorAll(".chan").forEach(b=>{
-    b.onclick = ()=>{ AKTIF_KANAL = b.dataset.kanal; cizUygulama(); };
+    b.onclick = ()=>{ AKTIF_KANAL = b.dataset.kanal; menuKapat(); cizUygulama(); };
   });
   document.getElementById("cikisBtn").onclick = cikisYap;
-
   cizKanalIcerik();
 }
 
 /* ============================================================
-   6) KANAL İÇERİĞİ YÖNLENDİRME
+   9) KANAL İÇERİĞİ YÖNLENDİRME
    ============================================================ */
 function cizKanalIcerik(){
   const icerik = document.getElementById("icerik");
+  icerik.classList.remove("fade-wrap"); void icerik.offsetWidth; icerik.classList.add("fade-wrap");
   const baslikEl = document.getElementById("kanalBaslik");
   const u = ben();
 
@@ -321,7 +521,7 @@ function cizKanalIcerik(){
 }
 
 /* ============================================================
-   7) MESAJ KANALI (genel sohbet tipi kanallar)
+   10) MESAJ KANALI
    ============================================================ */
 function cizMesajKanali(icerik, kanalId, yazabilir, ssNotu, limit){
   const liste = VERI.mesajlar[kanalId] || [];
@@ -334,18 +534,14 @@ function cizMesajKanali(icerik, kanalId, yazabilir, ssNotu, limit){
         <button id="gonderMesaj">Gönder</button>
       </div>` : `<div class="locked">Bu kanala sadece yetkililer yazabilir.</div>`}
   `;
-  if(yazabilir){
-    document.getElementById("gonderMesaj").onclick = ()=> mesajGonder(kanalId, limit);
-  }
+  if(yazabilir) document.getElementById("gonderMesaj").onclick = ()=> mesajGonder(kanalId, limit);
 }
-
 function mesajHtml(m){
   return `<div class="msg"><div class="meta"><b>${m.yazan}</b> — ${m.tarih}</div>${escapeHtml(m.metin)}</div>`;
 }
 function escapeHtml(s){
   return (s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 }
-
 async function mesajGonder(kanalId, limit){
   const alan = document.getElementById("yeniMesaj");
   const metin = alan.value.trim();
@@ -362,7 +558,7 @@ async function mesajGonder(kanalId, limit){
 }
 
 /* ============================================================
-   8) KURALLAR
+   11) KURALLAR
    ============================================================ */
 function cizKurallar(icerik){
   icerik.innerHTML = `<div class="kutu"><h2>📜 HÜKÜM STUDİO Kuralları</h2>
@@ -370,7 +566,7 @@ function cizKurallar(icerik){
 }
 
 /* ============================================================
-   9) TANITIM — iş kolu seçimi
+   12) TANITIM
    ============================================================ */
 function cizTanitim(icerik,u){
   icerik.innerHTML = `
@@ -378,7 +574,7 @@ function cizTanitim(icerik,u){
       <h2>İş Kollarımız</h2>
       <p style="color:var(--dim)">Sana uygun olan(lar)a tıkla, ilgili kanallar açılsın. Ayrılmak için tekrar tıkla.</p>
     </div>
-    <div class="is-grid">
+    <div class="is-grid stagger">
       ${Object.entries(TAKIMLAR).map(([key,t])=>{
         const katildi = u.roller.includes(key);
         return `<div class="is-card ${katildi?'joined':''}">
@@ -401,7 +597,7 @@ function cizTanitim(icerik,u){
 }
 
 /* ============================================================
-   10) KURUCU GİRİŞİ — tek seferlik gizli doğrulama
+   13) KURUCU GİRİŞİ
    ============================================================ */
 function normalize(s){ return (s||"").trim().toLocaleLowerCase("tr-TR"); }
 function icerirMi(cevap, ...anahtarlar){ const n = normalize(cevap); return anahtarlar.every(a=>n.includes(a)); }
@@ -444,7 +640,7 @@ function cizKurucuGirisi(icerik,u){
 }
 
 /* ============================================================
-   11) KOD DEPOSU
+   14) KOD DEPOSU
    ============================================================ */
 function rastgeleId(){ return Math.random().toString(36).slice(2,9); }
 
@@ -481,7 +677,6 @@ function cizKodDeposu(icerik,u){
     };
   });
 }
-
 function kodKartiHtml(k){
   return `<div class="msg">
     <div class="meta"><b>${k.baslik}</b> — ${k.yazan}, ${k.tarih}</div>
@@ -490,7 +685,7 @@ function kodKartiHtml(k){
 }
 
 /* ============================================================
-   12) PAYLAŞILAN KOD LİNKİ — girişsiz görüntüleme
+   15) PAYLAŞILAN KOD LİNKİ — girişsiz görüntüleme
    ============================================================ */
 async function kodLinkiGosterVarsa(){
   const params = new URLSearchParams(location.search);
@@ -499,12 +694,13 @@ async function kodLinkiGosterVarsa(){
   const veri = await veriOku();
   const kod = (veri.kodlar||[]).find(k=>k.id===id);
   const root = document.getElementById("root");
+  root.className = "fade-wrap";
   if(!kod){
     root.innerHTML = `<div class="center-screen"><div class="card"><h2>Kod bulunamadı</h2></div></div>`;
   } else {
     root.innerHTML = `<div class="center-screen" style="align-items:flex-start;padding-top:60px">
       <div class="card" style="max-width:640px">
-        <div class="seal">HÜKÜM STUDİO — Paylaşılan Kod</div>
+        <div class="seal-small">HÜKÜM STUDİO — Paylaşılan Kod</div>
         <h2>${kod.baslik}</h2>
         <p style="color:var(--dim);font-size:.85em">${kod.yazan} — ${kod.tarih}</p>
         <pre style="white-space:pre-wrap;background:var(--panel2);padding:14px;border-radius:8px;font-family:monospace;overflow-x:auto">${escapeHtml(kod.kod)}</pre>
@@ -516,7 +712,7 @@ async function kodLinkiGosterVarsa(){
 }
 
 /* ============================================================
-   13) ÇALIŞTIR
+   16) ÇALIŞTIR
    ============================================================ */
 (async ()=>{
   const gosterildi = await kodLinkiGosterVarsa();
