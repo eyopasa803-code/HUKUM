@@ -74,7 +74,7 @@ img.shot{max-width:100%;border-radius:14px;margin-top:8px}
 </style></head><body>
 <div id="welcome"><canvas id="spark"></canvas>
 <div class="box" id="authbox">
-<div class="logo">HÜKÜM STUDİO</div><div class="sub">Güç • Otorite • Yerli ve Milli</div>
+<div class="logo">HÜKÜM STUDİO</div><div class="sub">Güç • Otorite • Yerli ve Milli</div><div class="sub" id="stat" style="margin-top:-10px">⏳ Bağlantı kontrol ediliyor…</div>
 <div class="err" id="aerr"></div>
 <div class="tabs"><button id="tl" class="on" onclick="tab(0)">Giriş</button><button id="tr" onclick="tab(1)">Kayıt</button></div>
 <div class="fld"><input id="un" placeholder="Kullanıcı adı" autocomplete="username" maxlength="20"></div>
@@ -91,6 +91,8 @@ img.shot{max-width:100%;border-radius:14px;margin-top:8px}
 <div id="toast"></div>
 
 <script>
+window.addEventListener('error',e=>{const x=document.getElementById('aerr');if(x){x.textContent='⚠ Kod hatası: '+e.message;x.style.display='block'}});
+window.addEventListener('unhandledrejection',e=>{const x=document.getElementById('aerr');if(x){x.textContent='⚠ Hata: '+(e.reason&&e.reason.message||e.reason);x.style.display='block'}});
 /* ====== AYARLAR ====== */
 const BIN='6ab4ff86ffd5d160532a06e6';
 const KEY='$2a$10$KZk6tJKQc1ZgnkKrdRU80ex6YHybL2EZXS1C8.7MMLOJKVHtutajK';
@@ -106,23 +108,38 @@ let DB=null,ME=null,CH=null,mode=0;
 
 /* ====== JSONBIN ====== */
 function norm(d){d=d&&typeof d==='object'?d:{};d.users=d.users||{};d.msgs=d.msgs||{};d.snips=d.snips||[];d.done=d.done||[];d.social=d.social||[];d.about=d.about||'';d.locked=!!d.locked;return d}
-async function load(){
- let r;try{r=await fetch(`https://api.jsonbin.io/v3/b/${BIN}/latest`,{headers:{'X-Master-Key':KEY,'X-Bin-Meta':'false'},cache:'no-store'})}
- catch(e){throw new Error("jsonbin'e ulaşılamadı (internet / engelleyici eklenti olabilir)")}
- if(r.status==401||r.status==403)throw new Error('Key yanlış veya yetkisiz (X-Master-Key). Kodun başındaki KEY satırını kontrol et.');
- if(r.status==404)throw new Error('Bin ID yanlış olabilir (BIN satırını kontrol et).');
+let AUTHH=null;
+async function jb(method,body){
+ const kinds=AUTHH?[AUTHH]:['X-Master-Key','X-Access-Key'];let r;
+ for(const k of kinds){
+  const hd={[k]:KEY};if(body)hd['Content-Type']='application/json';
+  try{r=await fetch('https://api.jsonbin.io/v3/b/'+BIN+(method=='GET'?'/latest':''),{method,headers:hd,body})}
+  catch(e){throw new Error("jsonbin'e ulaşılamadı (internet, VPN veya reklam engelleyici olabilir)")}
+  if(r.status!=401&&r.status!=403){AUTHH=k;break}
+ }
+ if(r.status==401||r.status==403)throw new Error('Key reddedildi ('+r.status+'): key yanlış ya da bu key için okuma/yazma izni yok.');
+ if(r.status==404)throw new Error('Bin bulunamadı (404): Bin ID yanlış olabilir.');
+ if(r.status==422||r.status==400)throw new Error('jsonbin isteği reddetti ('+r.status+'). Bin içeriği geçerli JSON olmalı, örn: {}');
  if(!r.ok)throw new Error('jsonbin hata: '+r.status);
- return norm(await r.json());
+ return r.json();
 }
-async function save(d){
- const body=JSON.stringify(d);
- if(body.length>95000)throw new Error('Veri alanı doldu (jsonbin 100KB sınırı). Eski kod/ekran görüntüsü silin.');
- let r;try{r=await fetch(`https://api.jsonbin.io/v3/b/${BIN}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':KEY},body})}
- catch(e){throw new Error("jsonbin'e ulaşılamadı")}
- if(!r.ok)throw new Error('Kayıt hatası: '+r.status+' (Key yazma yetkisi olmayabilir)');
-}
+async function load(){const j=await jb('GET');return norm(j&&j.metadata&&j.record!==undefined?j.record:j)}
+async function save(d){const body=JSON.stringify(d);if(body.length>95000)throw new Error('Veri alanı doldu (jsonbin 100KB sınırı). Eski kod/ekran görüntüsü silin.');await jb('PUT',body)}
 async function mut(fn){const d=await load();const res=await fn(d);await save(d);DB=d;ME=me();return res}
-async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function sha256(msg){
+ const R=(x,n)=>(x>>>n)|(x<<(32-n)),K=[],H=[];let p=2,c=0;
+ while(c<64){let ok=true;for(let i=2;i*i<=p;i++)if(p%i==0){ok=false;break}
+  if(ok){if(c<8)H[c]=((Math.pow(p,.5)%1)*4294967296)|0;K[c]=((Math.pow(p,1/3)%1)*4294967296)|0;c++}p++}
+ const b=new TextEncoder().encode(msg),l=b.length,n=((l+9+63)>>6)<<6,w=new Uint8Array(n);w.set(b);w[l]=128;
+ const dv=new DataView(w.buffer);dv.setUint32(n-4,(l*8)>>>0);dv.setUint32(n-8,Math.floor(l/536870912));
+ for(let o=0;o<n;o+=64){const W=[];for(let i=0;i<16;i++)W[i]=dv.getUint32(o+i*4)|0;
+  for(let i=16;i<64;i++){const a=W[i-15],d=W[i-2];W[i]=(W[i-16]+(R(a,7)^R(a,18)^(a>>>3))+W[i-7]+(R(d,17)^R(d,19)^(d>>>10)))|0}
+  let [a,b2,c2,d,e,f,g,h]=H;
+  for(let i=0;i<64;i++){const t1=(h+(R(e,6)^R(e,11)^R(e,25))+((e&f)^(~e&g))+K[i]+W[i])|0,t2=((R(a,2)^R(a,13)^R(a,22))+((a&b2)^(a&c2)^(b2&c2)))|0;h=g;g=f;f=e;e=(d+t1)|0;d=c2;c2=b2;b2=a;a=(t1+t2)|0}
+  H[0]=(H[0]+a)|0;H[1]=(H[1]+b2)|0;H[2]=(H[2]+c2)|0;H[3]=(H[3]+d)|0;H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0}
+ return H.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('');
+}
+async function sha(s){try{if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}}catch(e){}return sha256(s)}
 const toast=m=>{const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',3200)};
 const act=async f=>{try{return await f()}catch(e){toast('⚠ '+e.message);console.error(e)}};
 
@@ -265,7 +282,7 @@ $('uc').addEventListener('keydown',e=>{if(e.key=='Enter')auth()});
 setInterval(async()=>{if(!ME||document.hidden)return;const c=chList().find(c=>c.id==CH);if(!c||!(c.t=='chat'||c.t=='feed')||document.activeElement&&document.activeElement.id=='mi'&&$('mi').value)return;try{const d=await load();if(JSON.stringify(d.msgs[CH])!=JSON.stringify(DB.msgs[CH])){DB=d;const l=$('list');if(l){l.innerHTML=listHtml(c,me());l.scrollTop=l.scrollHeight}}else DB=d}catch(e){}},6000);
 (async function(){
  if(location.hash.startsWith('#/k/'))return viewer(location.hash.slice(4));
- try{DB=await load()}catch(e){$('aerr').textContent='⚠ '+e.message;$('aerr').style.display='block';return}
+ try{DB=await load();$('stat').textContent='✅ Bağlantı hazır';$('stat').style.color='#4ade80'}catch(e){$('stat').textContent='❌ Bağlantı yok';$('stat').style.color='#f87171';$('aerr').textContent='⚠ '+e.message;$('aerr').style.display='block';return}
  if(DB.locked)$('fl').style.display='none';
  const s=JSON.parse(localStorage.getItem('hs_me')||'null');
  if(s&&DB.users[uk(s.n)]&&DB.users[uk(s.n)].h==s.h){ME={name:DB.users[uk(s.n)].name};enter()}
